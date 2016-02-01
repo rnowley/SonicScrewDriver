@@ -1,0 +1,12 @@
+{
+    "name": "HelloWorldJava",
+    "Version": "0.0.1",
+    "Description": "A demo project for Restlet.",
+    "SourceFiles": [
+        "HelloServer.java",
+        "restletdemo/HelloServerResource.java"
+    ],
+    "ClassPath": [
+        "./lib/*"
+    ]
+}
