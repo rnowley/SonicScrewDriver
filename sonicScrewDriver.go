@@ -30,7 +30,7 @@ func main() {
 
 	command := project.BuildCommand(proj, arguments)
 	EnsureDestinationDirectoryExists(command)
-	//BuildProject(command)
+	BuildProject(command)
 }
 
 func BuildProject(command *project.Command) {
