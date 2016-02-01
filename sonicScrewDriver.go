@@ -29,7 +29,8 @@ func main() {
 	}
 
 	command := project.BuildCommand(proj, arguments)
-	BuildProject(command)
+	EnsureDestinationDirectoryExists(command)
+	//BuildProject(command)
 }
 
 func BuildProject(command *project.Command) {
@@ -60,4 +61,28 @@ func ParseArguments() project.Arguments {
 	flag.Parse()
 
 	return arguments
+}
+
+func EnsureDestinationDirectoryExists(command *project.Command) {
+
+	if command.DestinationDirectory == "" {
+		command.DestinationDirectory = "./build"
+	}
+
+	_, err := os.Stat(command.DestinationDirectory)
+
+	if err != nil {
+		err = os.MkdirAll(command.DestinationDirectory, 0777)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println("Created directory.")
+		return
+	}
+
+
+
+	fmt.Println("File already exists, nothing to do.")
 }
