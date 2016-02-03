@@ -1,10 +1,12 @@
 package main
 
 import (
-	"./project"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/rnowley/SonicScrewDriver/project"
+	"github.com/rnowley/SonicScrewDriver/project/csharp"
+	"github.com/rnowley/SonicScrewDriver/project/java"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -22,19 +24,25 @@ func main() {
 		os.Exit(1)
 	}
 
-	var proj project.ProjectConfiguration
+	buildLanguage := GetBuildLanguage(file)
 
-	if err := json.Unmarshal(file, &proj); err != nil {
-		panic(err)
+	fmt.Println("Build language: " + buildLanguage)
+
+	var command project.Command
+
+	switch buildLanguage {
+	case "csharp":
+		command = BuildCsharpCommand(file, arguments)
+	case "java":
+		command = BuildJavaCommand(file, arguments)
 	}
 
-	command := project.BuildCommand(proj, arguments)
-	EnsureDestinationDirectoryExists(command)
+	EnsureDestinationDirectoryExists(command.GetDestinationDirectory())
 	BuildProject(command)
 }
 
-func BuildProject(command *project.Command) {
-	binary, lookErr := exec.LookPath(command.CommandName)
+func BuildProject(command project.Command) {
+	binary, lookErr := exec.LookPath(command.GetCommandName())
 
 	if lookErr != nil {
 		panic(lookErr)
@@ -63,16 +71,12 @@ func ParseArguments() project.Arguments {
 	return arguments
 }
 
-func EnsureDestinationDirectoryExists(command *project.Command) {
+func EnsureDestinationDirectoryExists(destinationDirectory string) {
 
-	if command.DestinationDirectory == "" {
-		command.DestinationDirectory = "./build"
-	}
-
-	_, err := os.Stat(command.DestinationDirectory)
+	_, err := os.Stat(destinationDirectory)
 
 	if err != nil {
-		err = os.MkdirAll(command.DestinationDirectory, 0777)
+		err = os.MkdirAll(destinationDirectory, 0777)
 
 		if err != nil {
 			fmt.Println(err)
@@ -82,7 +86,39 @@ func EnsureDestinationDirectoryExists(command *project.Command) {
 		return
 	}
 
-
-
 	fmt.Println("File already exists, nothing to do.")
+}
+
+func GetBuildLanguage(file []byte) string {
+	var projectLanguage project.ProjectLanguage
+
+	if err := json.Unmarshal(file, &projectLanguage); err != nil {
+		panic(err)
+	}
+
+	return projectLanguage.Language
+}
+
+func BuildCsharpCommand(projectFile []byte, arguments project.Arguments) project.Command {
+	var command csharp.CSharpCommand
+
+	var proj csharp.CSharpProject
+
+	if err := json.Unmarshal(projectFile, &proj); err != nil {
+		panic(err)
+	}
+
+	command = csharp.BuildCommand(proj, arguments)
+	return command
+}
+
+func BuildJavaCommand(projectFile []byte, arguments project.Arguments) project.Command {
+	var proj java.JavaProject
+
+	if err := json.Unmarshal(projectFile, &proj); err != nil {
+		panic(err)
+	}
+
+	command := java.BuildCommand(proj, arguments)
+	return command
 }

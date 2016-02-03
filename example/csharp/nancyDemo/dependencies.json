@@ -1,0 +1,6 @@
+{
+    "packages": [
+        { "name": "Nancy", "version": "1.4.1" },
+        { "name":"Nancy.Hosting.Self", "version": "1.4.1" }
+    ]
+}

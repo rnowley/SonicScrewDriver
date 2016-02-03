@@ -2,6 +2,7 @@
     "name": "HelloWorldJava",
     "Version": "0.0.1",
     "Description": "A demo project for testing compiling Java.",
+    "Language": "java",
     "SourceFiles": [
         "ExampleProgram.java",
         "Greeter.java"
