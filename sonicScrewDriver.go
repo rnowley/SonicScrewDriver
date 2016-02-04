@@ -15,7 +15,6 @@ import (
 )
 
 func main() {
-
     arguments, err := ParseArguments()
 
     if err != nil {
@@ -35,16 +34,19 @@ func main() {
 	fmt.Println("Build language: " + buildLanguage)
 
 	var command project.Command
+    var projectBuilder project.ProjectBuilder
 
 	switch buildLanguage {
 	case "csharp":
 		command = BuildCsharpCommand(file, arguments)
 	case "java":
 		command = BuildJavaCommand(file, arguments)
+        projectBuilder = java.New(command)
 	}
 
-	EnsureDestinationDirectoryExists(command.GetDestinationDirectory())
-	BuildProject(command)
+	//EnsureDestinationDirectoryExists(command.GetDestinationDirectory())
+    projectBuilder.ExecutePreBuildTasks()
+	//BuildProject(command)
 }
 
 func BuildProject(command project.Command) {
