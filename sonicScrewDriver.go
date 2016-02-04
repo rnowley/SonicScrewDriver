@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+    "errors"
 	"flag"
 	"fmt"
 	"github.com/rnowley/SonicScrewDriver/project"
@@ -15,7 +16,12 @@ import (
 
 func main() {
 
-	var arguments = ParseArguments()
+    arguments, err := ParseArguments()
+
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
 
 	file, err := ioutil.ReadFile("./project.json")
 
@@ -60,7 +66,7 @@ func BuildProject(command project.Command) {
 
 }
 
-func ParseArguments() project.Arguments {
+func ParseArguments() (project.Arguments, error) {
 	var arguments project.Arguments
 
 	flag.BoolVar(&arguments.Deprecation, "deprecation", false,
@@ -68,7 +74,15 @@ func ParseArguments() project.Arguments {
 
 	flag.Parse()
 
-	return arguments
+    nonFlag := flag.Args()
+    //noFlagCount := len(nonFlag)
+
+    if len(nonFlag) != 1 {
+        return arguments, errors.New("Invalid arguments provided.")
+    }
+    arguments.Mode = nonFlag[0]
+
+	return arguments, nil
 }
 
 func EnsureDestinationDirectoryExists(destinationDirectory string) {

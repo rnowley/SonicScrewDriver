@@ -7,5 +7,10 @@
         "ExampleProgram.java",
         "Greeter.java"
     ],
-    "SourceVersion": "1.8"
+    "SourceVersion": "1.8",
+    "Test": {
+        "SourceFiles": [
+            "GreeterTest.java"
+        ]
+    }
 }

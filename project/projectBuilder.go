@@ -1,6 +1,7 @@
 package project
 
 type ProjectBuilder interface {
-    BuildProject(command Command) BuildStatistics
-    PostBuildTasks(command Command)
+    ExecutePreBuildTasks() error
+    BuildProject() error
+    PostBuildTasks() error
 }
