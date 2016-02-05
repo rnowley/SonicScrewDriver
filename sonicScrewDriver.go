@@ -33,20 +33,22 @@ func main() {
 
 	fmt.Println("Build language: " + buildLanguage)
 
-	var command project.Command
     var projectBuilder project.ProjectBuilder
 
 	switch buildLanguage {
 	case "csharp":
-		command = BuildCsharpCommand(file, arguments)
+        project := UnmarshalCSharpProject(file)
+        command := BuildCsharpCommand(project, arguments)
+        projectBuilder = csharp.New(command, project)
 	case "java":
-		command = BuildJavaCommand(file, arguments)
-        projectBuilder = java.New(command)
+        project := UnmarshalJavaProject(file)
+        command := BuildJavaCommand(project, arguments)
+        projectBuilder = java.New(command, project)
 	}
 
-	//EnsureDestinationDirectoryExists(command.GetDestinationDirectory())
     projectBuilder.ExecutePreBuildTasks()
-	//BuildProject(command)
+    projectBuilder.BuildProject()
+    projectBuilder.ExecutePostBuildTasks()
 }
 
 func BuildProject(command project.Command) {
@@ -115,26 +117,32 @@ func GetBuildLanguage(file []byte) string {
 	return projectLanguage.Language
 }
 
-func BuildCsharpCommand(projectFile []byte, arguments project.Arguments) project.Command {
-	var command csharp.CSharpCommand
-
-	var proj csharp.CSharpProject
-
-	if err := json.Unmarshal(projectFile, &proj); err != nil {
-		panic(err)
-	}
-
-	command = csharp.BuildCommand(proj, arguments)
+func BuildCsharpCommand(proj csharp.CSharpProject, arguments project.Arguments) csharp.CSharpCommand {
+    command := csharp.BuildCommand(proj, arguments)
 	return command
 }
 
-func BuildJavaCommand(projectFile []byte, arguments project.Arguments) project.Command {
-	var proj java.JavaProject
+func BuildJavaCommand(proj java.JavaProject, arguments project.Arguments) java.JavaCommand {
+	command := java.BuildCommand(proj, arguments)
+	return command
+}
+
+func UnmarshalCSharpProject(projectFile []byte) csharp.CSharpProject {
+    var proj csharp.CSharpProject
 
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
 
-	command := java.BuildCommand(proj, arguments)
-	return command
+    return proj
+}
+
+func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
+    var proj java.JavaProject
+
+	if err := json.Unmarshal(projectFile, &proj); err != nil {
+		panic(err)
+	}
+
+    return proj
 }

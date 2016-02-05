@@ -4,8 +4,8 @@
     "Description": "A demo project for testing compiling Java.",
     "Language": "java",
     "SourceFiles": [
-        "ExampleProgram.java",
-        "Greeter.java"
+        "main/ExampleProgram.java",
+        "main/Greeter.java"
     ],
     "SourceVersion": "1.8",
     "Test": {

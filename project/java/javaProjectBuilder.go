@@ -2,18 +2,18 @@ package java
 
 import (
     "fmt"
-    "github.com/rnowley/SonicScrewDriver/project"
     "os"
     "os/exec"
 	"syscall"
 )
 
 type JavaProjectBuilder struct {
-    command project.Command
+    command JavaCommand
+    project JavaProject
 }
 
-func New(command project.Command) JavaProjectBuilder {
-    return JavaProjectBuilder{command}
+func New(command JavaCommand, project JavaProject) JavaProjectBuilder {
+    return JavaProjectBuilder{command, project}
 }
 
 func (builder JavaProjectBuilder) ExecutePreBuildTasks() error {
