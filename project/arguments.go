@@ -1,6 +1,6 @@
 package project
 
 type Arguments struct {
-    Mode string
+	Mode        string
 	Deprecation bool
 }

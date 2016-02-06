@@ -1,28 +1,28 @@
 package java
 
 import (
-    "fmt"
-    "os"
-    "os/exec"
+	"fmt"
+	"os"
+	"os/exec"
 	"syscall"
 )
 
 type JavaProjectBuilder struct {
-    command JavaCommand
-    project JavaProject
+	command JavaCommand
+	project JavaProject
 }
 
 func New(command JavaCommand, project JavaProject) JavaProjectBuilder {
-    return JavaProjectBuilder{command, project}
+	return JavaProjectBuilder{command, project}
 }
 
 func (builder JavaProjectBuilder) ExecutePreBuildTasks() error {
-    err := builder.ensureDestinationDirectoryExists()
-    return err
+	err := builder.ensureDestinationDirectoryExists()
+	return err
 }
 
 func (builder JavaProjectBuilder) BuildProject() error {
-    binary, lookErr := exec.LookPath(builder.command.GetCommandName())
+	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
 	if lookErr != nil {
 		return lookErr
@@ -38,23 +38,24 @@ func (builder JavaProjectBuilder) BuildProject() error {
 		return execErr
 	}
 
-    return nil
+	return nil
 }
 
 func (builder JavaProjectBuilder) ExecutePostBuildTasks() error {
-    return nil
+	fmt.Println("Post build tasks (java)")
+	return nil
 }
 
 func (builder JavaProjectBuilder) ensureDestinationDirectoryExists() error {
-    destinationDirectory := builder.command.GetDestinationDirectory()
-    _, err := os.Stat(destinationDirectory)
+	destinationDirectory := builder.command.GetDestinationDirectory()
+	_, err := os.Stat(destinationDirectory)
 
 	if err != nil {
 		err = os.MkdirAll(destinationDirectory, 0777)
 
 		if err != nil {
 			fmt.Println(err)
-            return err
+			return err
 		}
 
 		fmt.Println("Created directory.")
@@ -62,5 +63,5 @@ func (builder JavaProjectBuilder) ensureDestinationDirectoryExists() error {
 	}
 
 	fmt.Println("File already exists, nothing to do.")
-    return err
+	return err
 }

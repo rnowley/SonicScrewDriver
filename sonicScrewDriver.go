@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-    "errors"
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/rnowley/SonicScrewDriver/project"
@@ -10,17 +10,15 @@ import (
 	"github.com/rnowley/SonicScrewDriver/project/java"
 	"io/ioutil"
 	"os"
-	"os/exec"
-	"syscall"
 )
 
 func main() {
-    arguments, err := ParseArguments()
+	arguments, err := ParseArguments()
 
-    if err != nil {
-        fmt.Println(err)
-        os.Exit(1)
-    }
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	file, err := ioutil.ReadFile("./project.json")
 
@@ -33,41 +31,24 @@ func main() {
 
 	fmt.Println("Build language: " + buildLanguage)
 
-    var projectBuilder project.ProjectBuilder
+	var projectBuilder project.ProjectBuilder
 
 	switch buildLanguage {
 	case "csharp":
-        project := UnmarshalCSharpProject(file)
-        command := BuildCsharpCommand(project, arguments)
-        projectBuilder = csharp.New(command, project)
+		project := UnmarshalCSharpProject(file)
+		command := BuildCsharpCommand(project, arguments)
+		projectBuilder = csharp.New(command, project)
 	case "java":
-        project := UnmarshalJavaProject(file)
-        command := BuildJavaCommand(project, arguments)
-        projectBuilder = java.New(command, project)
+		project := UnmarshalJavaProject(file)
+		command := BuildJavaCommand(project, arguments)
+		projectBuilder = java.New(command, project)
 	}
 
-    projectBuilder.ExecutePreBuildTasks()
-    projectBuilder.BuildProject()
-    projectBuilder.ExecutePostBuildTasks()
-}
-
-func BuildProject(command project.Command) {
-	binary, lookErr := exec.LookPath(command.GetCommandName())
-
-	if lookErr != nil {
-		panic(lookErr)
-	}
-
-	args := command.GenerateArgumentList()
-	fmt.Println(args)
-	env := os.Environ()
-
-	execErr := syscall.Exec(binary, args, env)
-
-	if execErr != nil {
-		panic(execErr)
-	}
-
+	projectBuilder.ExecutePreBuildTasks()
+	fmt.Println("Build project")
+	projectBuilder.BuildProject()
+	fmt.Println("Post build")
+	projectBuilder.ExecutePostBuildTasks()
 }
 
 func ParseArguments() (project.Arguments, error) {
@@ -78,13 +59,13 @@ func ParseArguments() (project.Arguments, error) {
 
 	flag.Parse()
 
-    nonFlag := flag.Args()
-    //noFlagCount := len(nonFlag)
+	nonFlag := flag.Args()
+	//noFlagCount := len(nonFlag)
 
-    if len(nonFlag) != 1 {
-        return arguments, errors.New("Invalid arguments provided.")
-    }
-    arguments.Mode = nonFlag[0]
+	if len(nonFlag) != 1 {
+		return arguments, errors.New("Invalid arguments provided.")
+	}
+	arguments.Mode = nonFlag[0]
 
 	return arguments, nil
 }
@@ -118,7 +99,7 @@ func GetBuildLanguage(file []byte) string {
 }
 
 func BuildCsharpCommand(proj csharp.CSharpProject, arguments project.Arguments) csharp.CSharpCommand {
-    command := csharp.BuildCommand(proj, arguments)
+	command := csharp.BuildCommand(proj, arguments)
 	return command
 }
 
@@ -128,21 +109,21 @@ func BuildJavaCommand(proj java.JavaProject, arguments project.Arguments) java.J
 }
 
 func UnmarshalCSharpProject(projectFile []byte) csharp.CSharpProject {
-    var proj csharp.CSharpProject
+	var proj csharp.CSharpProject
 
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
 
-    return proj
+	return proj
 }
 
 func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
-    var proj java.JavaProject
+	var proj java.JavaProject
 
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
 
-    return proj
+	return proj
 }

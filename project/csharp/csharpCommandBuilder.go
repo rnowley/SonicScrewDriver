@@ -28,8 +28,8 @@ func BuildCommand(configuration CSharpProject, arguments project.Arguments) CSha
 	command.References = ExtractReferences(configuration)
 	command.LibraryPath = ExtractLibraryPath(configuration)
 	command.PackageList = ExtractPackageList(configuration)
-	command.WarningLevel = SetWarningLevel(configuration)
-	command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
+	//command.WarningLevel = SetWarningLevel(configuration)
+	//command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
 
 	return command
 }

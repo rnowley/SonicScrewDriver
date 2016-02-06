@@ -1,5 +1,7 @@
 package csharp
 
+import "strings"
+
 type CSharpCommand struct {
 	CommandName          string
 	DebugFlag            string
@@ -33,37 +35,16 @@ func (command CSharpCommand) GetDestinationDirectory() string {
 }
 
 func (c CSharpCommand) GenerateArgumentList() []string {
-	argumentArray := make([]string, 0)
-	argumentArray = append(argumentArray, c.CommandName)
-
-	if c.DebugFlag != "" {
-		argumentArray = append(argumentArray, c.DebugFlag)
-	}
-
-	if c.OutputFilename != "" {
-		argumentArray = append(argumentArray, c.OutputFilename+GetFileSuffix(c.BuildTarget))
-	}
-
-	argumentArray = append(argumentArray, c.BuildTarget)
-
-	if c.References != "" {
-		argumentArray = append(argumentArray, c.References)
-	}
-
-	if len(c.SourceFiles) != 0 {
-		argumentArray = append(argumentArray, c.SourceFiles...)
-	}
-
-	if len(c.SourceFiles) != 0 {
-		argumentArray = append(argumentArray, c.LibraryPath)
-	}
-
-	if c.WarningLevel != "" {
-		argumentArray = append(argumentArray, c.WarningLevel)
-	}
-
-	if c.WarningsAsErrors != "" {
-		argumentArray = append(argumentArray, c.WarningsAsErrors)
+	argumentArray := []string{
+		c.CommandName,
+		c.DebugFlag,
+		c.OutputFilename + GetFileSuffix(c.BuildTarget),
+		c.BuildTarget,
+		c.LibraryPath,
+		c.WarningLevel,
+		c.WarningsAsErrors,
+		c.References,
+		strings.Join(c.SourceFiles, " "),
 	}
 
 	return argumentArray
