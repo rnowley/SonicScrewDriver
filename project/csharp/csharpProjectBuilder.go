@@ -54,6 +54,7 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 func (builder CSharpProjectBuilder) ExecutePostBuildTasks() error {
 	fmt.Println("Post build tasks")
 	builder.copyReferences()
+	builder.copyResources()
 	return nil
 }
 
@@ -95,8 +96,7 @@ func (builder CSharpProjectBuilder) copyResources() error {
 		destinationDirectory := filepath.Dir(builder.project.Resources[i].Destination)
 
 		utilities.EnsurePathExists(fmt.Sprintf("%s%s", builder.command.GetDestinationDirectory(), destinationDirectory))
-		utilities.CopyFile(fmt.Sprintf("%s%s", builder.command.SourceDirectory, builder.project.Resources[i].Source),
-			fmt.Sprintf("%s%s", builder.command.DestinationDirectory, builder.project.Resources[i].Destination))
+		utilities.CopyFile(fmt.Sprintf("%s%s", builder.command.DestinationDirectory, builder.project.Resources[i].Destination), fmt.Sprintf("%s%s", builder.command.SourceDirectory, builder.project.Resources[i].Source))
 	}
 
 	return nil

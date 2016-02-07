@@ -10,7 +10,8 @@
     "SourceVersion": "1.8",
     "Test": {
         "SourceFiles": [
-            "GreeterTest.java"
-        ]
+            "test/GreeterTest.java"
+        ],
+        "TestFramework": "junit"
     }
 }

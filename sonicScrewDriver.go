@@ -27,13 +27,26 @@ func main() {
 		os.Exit(1)
 	}
 
-	buildLanguage := GetBuildLanguage(file)
+	switch(arguments.Mode) {
+		case "build":
+			err = BuildProject(file, arguments)
+			return
+		case "test":
+			err = RunUnitTests(file, arguments)
+			return
+	}
 
-	fmt.Println("Build language: " + buildLanguage)
+	fmt.Println("Invalid mode: %s.", arguments.Mode)
+}
+
+func BuildProject(file []byte, arguments project.Arguments) error {
+	projectLanguage := GetProjectLanguage(file)
+
+	fmt.Println("Project language: " + projectLanguage)
 
 	var projectBuilder project.ProjectBuilder
 
-	switch buildLanguage {
+	switch projectLanguage {
 	case "csharp":
 		project := UnmarshalCSharpProject(file)
 		command := BuildCsharpCommand(project, arguments)
@@ -49,6 +62,12 @@ func main() {
 	projectBuilder.BuildProject()
 	fmt.Println("Post build")
 	projectBuilder.ExecutePostBuildTasks()
+	return nil
+}
+
+func RunUnitTests(file []byte, arguments project.Arguments) error {
+	fmt.Println("Running unit tests")
+	return nil
 }
 
 func ParseArguments() (project.Arguments, error) {
@@ -88,7 +107,7 @@ func EnsureDestinationDirectoryExists(destinationDirectory string) {
 	fmt.Println("File already exists, nothing to do.")
 }
 
-func GetBuildLanguage(file []byte) string {
+func GetProjectLanguage(file []byte) string {
 	var projectLanguage project.ProjectLanguage
 
 	if err := json.Unmarshal(file, &projectLanguage); err != nil {
