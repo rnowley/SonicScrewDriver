@@ -10,4 +10,5 @@ type JavaProject struct {
 	SourceFiles          []string
 	SourceVersion        string
 	DebuggingInformation []string
+	TestProject          JavaTests
 }

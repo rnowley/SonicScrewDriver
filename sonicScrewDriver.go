@@ -27,13 +27,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	switch(arguments.Mode) {
-		case "build":
-			err = BuildProject(file, arguments)
-			return
-		case "test":
-			err = RunUnitTests(file, arguments)
-			return
+	switch arguments.Mode {
+	case "build":
+		err = BuildProject(file, arguments)
+		return
+	case "test":
+		err = RunUnitTests(file, arguments)
+		return
 	}
 
 	fmt.Println("Invalid mode: %s.", arguments.Mode)

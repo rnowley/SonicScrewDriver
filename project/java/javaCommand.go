@@ -20,6 +20,7 @@ func NewDefaultCommand() JavaCommand {
 	command.CommandName = "javac"
 	command.SourceDirectory = "./src/"
 	command.DestinationDirectory = "./build"
+	command.ClassPath = make([]string, 0, 10)
 	return command
 }
 
