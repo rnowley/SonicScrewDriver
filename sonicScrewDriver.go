@@ -67,6 +67,17 @@ func BuildProject(file []byte, arguments project.Arguments) error {
 
 func RunUnitTests(file []byte, arguments project.Arguments) error {
 	fmt.Println("Running unit tests")
+    project := UnmarshalJavaProject(file)
+    fmt.Println(project)
+    command := BuildTestJavaCommand(project, arguments)
+    projectBuilder := java.New(command, project)
+    fmt.Println(command.GenerateArgumentList())
+
+    projectBuilder.ExecutePreBuildTasks()
+	fmt.Println("Build project")
+	projectBuilder.BuildProject()
+	fmt.Println("Post build")
+	projectBuilder.ExecutePostBuildTasks()
 	return nil
 }
 
@@ -127,6 +138,12 @@ func BuildJavaCommand(proj java.JavaProject, arguments project.Arguments) java.J
 	return command
 }
 
+func BuildTestJavaCommand(proj java.JavaProject, arguments project.Arguments) java.JavaCommand {
+
+    command := java.BuildTestCommand(proj, arguments)
+	return command
+}
+
 func UnmarshalCSharpProject(projectFile []byte) csharp.CSharpProject {
 	var proj csharp.CSharpProject
 
@@ -143,6 +160,6 @@ func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
-
+    fmt.Println(proj)
 	return proj
 }
