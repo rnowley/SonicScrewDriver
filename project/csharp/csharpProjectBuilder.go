@@ -30,14 +30,11 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 	if lookErr != nil {
 		return lookErr
 	}
-	args := []string{binary, "-out:./build/nancySelfHost.exe", "", "-target:exe", "-lib:./lib/Nancy.1.4.1/lib/net40/,./lib/Nancy.Hosting.Self.1.4.1/lib/net40/",
-		"-r:Nancy,Nancy.Hosting.Self", "./src/Program.cs", "", "", ""}
-	//args := builder.command.GenerateArgumentList()
-	//env := os.Environ()
+
+	args := builder.command.GenerateArgumentList()
+
 	fmt.Println(args)
-	cmd := exec.Command(binary, "")
-	//cmd := exec.Command("mcs", "-out:./build/nancySelfHost.exe", "-target:exe", "-lib:./lib/Nancy.1.4.1/lib/net40/,./lib/Nancy.Hosting.Self.1.4.1/lib/net40/", "-r:Nancy,Nancy.Hosting.Self", "./src/Program.cs")
-	cmd.Args = args
+	cmd := exec.Command(binary, args...)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	var stderr bytes.Buffer

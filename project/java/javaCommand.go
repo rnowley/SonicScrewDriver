@@ -5,21 +5,16 @@ import (
 )
 
 type JavaCommand struct {
-	CommandName          string
-	SourceDirectory      string
-	DestinationDirectory string
-	SourceFiles          []string
-	ClassPath            []string
-	Deprecation          bool
-	SourceVersion        string
-	DebuggingInformation string
+	CommandName  string
+	ClassPath    []string
+	JarFile      string
+	MainClass    string
+	RunArguments []string
 }
 
-func NewDefaultCommand() JavaCommand {
+func NewDefaultJavaCommand() JavaCommand {
 	var command JavaCommand
-	command.CommandName = "javac"
-	command.SourceDirectory = "./src/"
-	command.DestinationDirectory = "./build"
+	command.CommandName = "java"
 	command.ClassPath = make([]string, 0, 10)
 	return command
 }
@@ -28,34 +23,26 @@ func (command JavaCommand) GetCommandName() string {
 	return command.CommandName
 }
 
-func (command JavaCommand) GetDestinationDirectory() string {
-	return command.DestinationDirectory
-}
-
 func (c JavaCommand) GenerateArgumentList() []string {
 	argumentArray := make([]string, 0)
-	argumentArray = append(argumentArray, c.CommandName)
-	argumentArray = append(argumentArray, "-d", c.DestinationDirectory)
-
-	if c.DebuggingInformation != "" {
-		argumentArray = append(argumentArray, c.DebuggingInformation)
-	}
-
-	if c.Deprecation {
-		argumentArray = append(argumentArray, "-deprecation")
-	}
-
-	if len(c.SourceFiles) != 0 {
-		argumentArray = append(argumentArray, c.SourceFiles...)
-	}
+	//argumentArray = append(argumentArray, c.CommandName)
 
 	if len(c.ClassPath) != 0 {
 		argumentArray = append(argumentArray, "-cp", strings.Join(c.ClassPath, ":"))
 	}
 
-	if c.SourceVersion != "" {
-		argumentArray = append(argumentArray, "-source", c.SourceVersion)
+	if c.JarFile != "" {
+		argumentArray = append(argumentArray, "-jar", c.JarFile)
+	}
+
+	if c.JarFile == "" && c.MainClass != "" {
+		argumentArray = append(argumentArray, c.MainClass)
+	}
+
+	if len(c.RunArguments) != 0 {
+		argumentArray = append(argumentArray, strings.Join(c.RunArguments, " "))
 	}
 
 	return argumentArray
 }
+

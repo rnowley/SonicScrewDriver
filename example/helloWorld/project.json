@@ -8,10 +8,21 @@
         "main/Greeter.java"
     ],
     "SourceVersion": "1.8",
-    "Test": {
+    "TestProject": {
         "SourceFiles": [
             "test/GreeterTest.java"
         ],
-        "TestFramework": "junit"
+        "DestinationDirectory": "./build",
+        "TestFramework": "junit",
+        "MainClass": "org.junit.runner.JUnitCore",
+        "ClassPath": [
+            "./lib/junit-4.12.jar",
+            "./lib/hamcrest-core-1.3.jar",
+            "./build/"
+        ],
+        "RunArguments": [
+            "GreeterTest"
+        ]
     }
 }
+

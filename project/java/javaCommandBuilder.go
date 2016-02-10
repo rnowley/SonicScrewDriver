@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func BuildCommand(configuration JavaProject, arguments project.Arguments) JavaCommand {
-	command := NewDefaultCommand()
+func BuildCommand(configuration JavaProject, arguments project.Arguments) JavacCommand {
+	command := NewDefaultJavacCommand()
 
 	if configuration.DestinationDirectory != "" {
 		command.DestinationDirectory = configuration.DestinationDirectory

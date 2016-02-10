@@ -6,4 +6,8 @@ type JavaTests struct {
 	SourceDirectory      string
 	ClassPath            []string
 	DestinationDirectory string
+	JarFile              string
+	MainClass            string
+	RunArguments         []string
 }
+

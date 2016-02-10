@@ -54,7 +54,7 @@ func BuildProject(file []byte, arguments project.Arguments) error {
 	case "java":
 		project := UnmarshalJavaProject(file)
 		command := BuildJavaCommand(project, arguments)
-		projectBuilder = java.New(command, project)
+		projectBuilder = java.NewProjectBuilder(command, project)
 	}
 
 	projectBuilder.ExecutePreBuildTasks()
@@ -66,7 +66,35 @@ func BuildProject(file []byte, arguments project.Arguments) error {
 }
 
 func RunUnitTests(file []byte, arguments project.Arguments) error {
-	fmt.Println("Running unit tests")
+	project := UnmarshalJavaProject(file)
+
+	// -----------
+	// Build the project
+	// -----------
+
+	// -----------
+	// Build the unit test project
+	// -----------
+	fmt.Println("Building unit tests")
+
+	command := BuildTestJavacCommand(project, arguments)
+	testProjectBuilder := java.NewProjectBuilder(command, project)
+
+	testProjectBuilder.ExecutePreBuildTasks()
+	fmt.Println("Build project")
+	testProjectBuilder.BuildProject()
+	fmt.Println("Post build")
+	testProjectBuilder.ExecutePostBuildTasks()
+	fmt.Println("Here")
+
+	// -----------
+	// Run the unit test project
+	// -----------
+	fmt.Println("Running tests")
+	runCommand := BuildTestRunCommand(project, arguments)
+	fmt.Println(runCommand)
+	testProjectRunner := java.NewProjectRunner(runCommand, project)
+	testProjectRunner.RunProject()
 	return nil
 }
 
@@ -122,8 +150,19 @@ func BuildCsharpCommand(proj csharp.CSharpProject, arguments project.Arguments) 
 	return command
 }
 
-func BuildJavaCommand(proj java.JavaProject, arguments project.Arguments) java.JavaCommand {
+func BuildJavaCommand(proj java.JavaProject, arguments project.Arguments) java.JavacCommand {
 	command := java.BuildCommand(proj, arguments)
+	return command
+}
+
+func BuildTestJavacCommand(proj java.JavaProject, arguments project.Arguments) java.JavacCommand {
+
+	command := java.BuildTestCommand(proj, arguments)
+	return command
+}
+
+func BuildTestRunCommand(proj java.JavaProject, arguments project.Arguments) java.JavaCommand {
+	command := java.BuildTestRunCommand(proj, arguments)
 	return command
 }
 

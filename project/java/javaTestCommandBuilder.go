@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func BuildTestCommand(configuration JavaProject, arguments project.Arguments) JavaCommand {
-	command := NewDefaultCommand()
+func BuildTestCommand(configuration JavaProject, arguments project.Arguments) JavacCommand {
+	command := NewDefaultJavacCommand()
 
 	command.DestinationDirectory = configuration.TestProject.DestinationDirectory
 
@@ -29,7 +29,7 @@ func BuildTestCommand(configuration JavaProject, arguments project.Arguments) Ja
 
 	command.Deprecation = arguments.Deprecation
 
-	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)
+	command.SourceFiles = ExtractTestSourceFileList(configuration, command.SourceDirectory)
 
 	if configuration.SourceVersion != "" {
 		command.SourceVersion = configuration.SourceVersion
