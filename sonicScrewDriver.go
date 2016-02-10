@@ -75,7 +75,7 @@ func RunUnitTests(file []byte, arguments project.Arguments) error {
 	// -----------
 	// Build the unit test project
 	// -----------
-	fmt.Println("Building unit tests")
+	fmt.Println("Running unit tests")
 
 	command := BuildTestJavacCommand(project, arguments)
 	testProjectBuilder := java.NewProjectBuilder(command, project)
@@ -85,12 +85,12 @@ func RunUnitTests(file []byte, arguments project.Arguments) error {
 	testProjectBuilder.BuildProject()
 	fmt.Println("Post build")
 	testProjectBuilder.ExecutePostBuildTasks()
-	fmt.Println("Here")
+    fmt.Println("Here")
 
 	// -----------
 	// Run the unit test project
 	// -----------
-	fmt.Println("Running tests")
+    fmt.Println("Running tests")
 	runCommand := BuildTestRunCommand(project, arguments)
 	fmt.Println(runCommand)
 	testProjectRunner := java.NewProjectRunner(runCommand, project)
@@ -182,6 +182,6 @@ func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
-
+    fmt.Println(proj)
 	return proj
 }
