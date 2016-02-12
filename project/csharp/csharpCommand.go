@@ -2,6 +2,8 @@ package csharp
 
 import "strings"
 
+// CSharpCommand provides a representation of a call to the CSharp
+// compiler command.
 type CSharpCommand struct {
 	CommandName          string
 	DebugFlag            string
@@ -17,6 +19,7 @@ type CSharpCommand struct {
 	WarningsAsErrors     string
 }
 
+// NewDefaultCommand returns a CSharpCommand with some default values set.
 func NewDefaultCommand() CSharpCommand {
 	var command CSharpCommand
 	command.CommandName = "mcs"
@@ -26,14 +29,20 @@ func NewDefaultCommand() CSharpCommand {
 	return command
 }
 
+// GetCommandName is a method on a CSharpCommand which accesses the name of the command
+// to be run.
 func (command CSharpCommand) GetCommandName() string {
 	return command.CommandName
 }
 
+// GetDestination is a method which returns the the destination directory where the
+// compiler's output is going to be copied to.
 func (command CSharpCommand) GetDestinationDirectory() string {
 	return command.DestinationDirectory
 }
 
+// GenerateArgumentList is a method which returns a slice of strings containing
+// the arguments to use when running the CSharp compiler command.
 func (c CSharpCommand) GenerateArgumentList() []string {
 	argumentArray := []string{
 		c.CommandName,
@@ -50,6 +59,7 @@ func (c CSharpCommand) GenerateArgumentList() []string {
 	return argumentArray
 }
 
+// GetFileSuffix is a function for determining the file suffix of the build  artifact based in the provided build target.
 func GetFileSuffix(buildTarget string) string {
 	suffix := ".exe"
 

@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+// JavacCommand provides a representation of a call to the Java
+// compiler command.
 type JavacCommand struct {
 	CommandName          string
 	SourceDirectory      string
@@ -15,6 +17,7 @@ type JavacCommand struct {
 	DebuggingInformation string
 }
 
+// NewDefaultJavacCommand returns a JavacCommand with some default values set.
 func NewDefaultJavacCommand() JavacCommand {
 	var command JavacCommand
 	command.CommandName = "javac"
@@ -24,17 +27,22 @@ func NewDefaultJavacCommand() JavacCommand {
 	return command
 }
 
+// GetCommandName is a method on a JavacCommand which accesses the name of the command
+// to be run.
 func (command JavacCommand) GetCommandName() string {
 	return command.CommandName
 }
 
+// GetDestination is a method which returns the the destination directory where the
+// compiler's output is going to be copied to.
 func (command JavacCommand) GetDestinationDirectory() string {
 	return command.DestinationDirectory
 }
 
+// GenerateArgumentList is a method which returns a slice of strings containing
+// the arguments to use when running the java compiler command.
 func (c JavacCommand) GenerateArgumentList() []string {
 	argumentArray := make([]string, 0)
-	//argumentArray = append(argumentArray, c.CommandName)
 	argumentArray = append(argumentArray, "-d", c.DestinationDirectory)
 
 	if c.DebuggingInformation != "" {
@@ -59,4 +67,3 @@ func (c JavacCommand) GenerateArgumentList() []string {
 
 	return argumentArray
 }
-

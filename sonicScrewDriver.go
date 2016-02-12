@@ -34,9 +34,10 @@ func main() {
 	case "test":
 		err = RunUnitTests(file, arguments)
 		return
+	default:
+		fmt.Printf("Invalid mode: %s.", arguments.Mode)
 	}
 
-	fmt.Println("Invalid mode: %s.", arguments.Mode)
 }
 
 func BuildProject(file []byte, arguments project.Arguments) error {
@@ -71,11 +72,14 @@ func RunUnitTests(file []byte, arguments project.Arguments) error {
 	// -----------
 	// Build the project
 	// -----------
+	fmt.Println("Building the project")
+
+	BuildProject(file, arguments)
 
 	// -----------
 	// Build the unit test project
 	// -----------
-	fmt.Println("Running unit tests")
+	fmt.Println("Building unit tests")
 
 	command := BuildTestJavacCommand(project, arguments)
 	testProjectBuilder := java.NewProjectBuilder(command, project)
@@ -85,12 +89,12 @@ func RunUnitTests(file []byte, arguments project.Arguments) error {
 	testProjectBuilder.BuildProject()
 	fmt.Println("Post build")
 	testProjectBuilder.ExecutePostBuildTasks()
-    fmt.Println("Here")
+	fmt.Println("Here")
 
 	// -----------
 	// Run the unit test project
 	// -----------
-    fmt.Println("Running tests")
+	fmt.Println("Running unit tests")
 	runCommand := BuildTestRunCommand(project, arguments)
 	fmt.Println(runCommand)
 	testProjectRunner := java.NewProjectRunner(runCommand, project)
@@ -117,24 +121,9 @@ func ParseArguments() (project.Arguments, error) {
 	return arguments, nil
 }
 
-func EnsureDestinationDirectoryExists(destinationDirectory string) {
-
-	_, err := os.Stat(destinationDirectory)
-
-	if err != nil {
-		err = os.MkdirAll(destinationDirectory, 0777)
-
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		fmt.Println("Created directory.")
-		return
-	}
-
-	fmt.Println("File already exists, nothing to do.")
-}
-
+// GetProjectLanguage is a function for retrieving the value that
+// determines the programming language that the project is written
+// in.
 func GetProjectLanguage(file []byte) string {
 	var projectLanguage project.ProjectLanguage
 
@@ -166,6 +155,8 @@ func BuildTestRunCommand(proj java.JavaProject, arguments project.Arguments) jav
 	return command
 }
 
+// UnmarshalCSharpProject is a function that takes in the JSON representation of
+// a CSharp project and transforms this into a CSharpProject object.
 func UnmarshalCSharpProject(projectFile []byte) csharp.CSharpProject {
 	var proj csharp.CSharpProject
 
@@ -176,12 +167,14 @@ func UnmarshalCSharpProject(projectFile []byte) csharp.CSharpProject {
 	return proj
 }
 
+// UnmarshalJavaProject is a function that takes in the JSON representation of
+// a Java project and transforms this into a JavaProject object.
 func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
 	var proj java.JavaProject
 
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
-    fmt.Println(proj)
+	fmt.Println(proj)
 	return proj
 }

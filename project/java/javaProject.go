@@ -1,14 +1,35 @@
 package java
 
+// JavaProject is a struct for holding the information required for
+// building or running a Java project.
 type JavaProject struct {
-	Name                 string
-	Version              string
-	Description          string
-	Language             string
+	// Name is the name of the project.
+	Name string
+
+	// Version is used for holding the project version number.
+	Version string
+
+	// Description holds a description of the project.
+	Description string
+
+	// Language holds the name of the programming language that the project is written in
+	Language string
+
+	// DestinationDirectory contains the directory that build artifacts are going to be placed in.
 	DestinationDirectory string
-	ClassPath            []string
-	SourceFiles          []string
-	SourceVersion        string
+
+	// ClassPath holds a list of items that are part of the class path.
+	ClassPath []string
+
+	// SourceFiles holds a list of all of the files to be compiled into the project.
+	SourceFiles []string
+
+	// SourceVersion holds the value of the source code version accepted by the compiler.
+	SourceVersion string
+
+	// DebuggingInformation holds information about the debugging information to be generated.
 	DebuggingInformation []string
-	TestProject          JavaTests
+
+	// TestProject holds information about the tests for this project.
+	TestProject JavaTests
 }

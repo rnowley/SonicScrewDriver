@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+// BuildCommand is a function for building up a mcs command that can be used for building
+// a CSharp project. This command is built up using the project configuration and the command line
+// arguments passed in.
 func BuildCommand(configuration CSharpProject, arguments project.Arguments) CSharpCommand {
 	command := NewDefaultCommand()
 
@@ -34,6 +37,10 @@ func BuildCommand(configuration CSharpProject, arguments project.Arguments) CSha
 	return command
 }
 
+// ExtractSourceFileList is a function that reads all of the source files to be
+// compiled from the configuration file and returns a slice of source files to be
+// compiled using the mcs command. Each source file has had the base path appended
+// to it when returned from the function.
 func ExtractSourceFileList(configuration CSharpProject, sourceDirectory string) []string {
 	fileCount := len(configuration.SourceFiles)
 	fileList := make([]string, fileCount)
@@ -55,6 +62,8 @@ func ExtractBuildTarget(configuration CSharpProject) string {
 	return "-target:exe"
 }
 
+// ExtractLibraryPath extracts all of the library paths provided in the
+// configuration file and returns them as an argument item for the compiler.
 func ExtractLibraryPath(configuration CSharpProject) string {
 	fileCount := len(configuration.LibraryPath)
 
@@ -65,6 +74,8 @@ func ExtractLibraryPath(configuration CSharpProject) string {
 	return "-lib:" + strings.Join(configuration.LibraryPath, ",")
 }
 
+// ExtractPackageList extracts all of the packages provided in the
+// configuration file and returns them as an argument item for the compiler.
 func ExtractPackageList(configuration CSharpProject) string {
 	fileCount := len(configuration.PackageList)
 
@@ -75,6 +86,8 @@ func ExtractPackageList(configuration CSharpProject) string {
 	return "-pkg:" + strings.Join(configuration.PackageList, ",")
 }
 
+// ExtractReferences extracts all of the references provided in the
+// configuration file and returns them as an argument item for the compiler.
 func ExtractReferences(configuration CSharpProject) string {
 	fileCount := len(configuration.References)
 
@@ -91,6 +104,8 @@ func ExtractReferences(configuration CSharpProject) string {
 	return "-r:" + strings.Join(fileList, ",")
 }
 
+// SetWarningLevel extracts the provided warning level to be used from the
+// configuration file and returned as an argument for the compiler if one is provided.
 func SetWarningLevel(configuration CSharpProject) string {
 
 	if configuration.WarningLevel == "" {
@@ -113,6 +128,8 @@ func SetWarningLevel(configuration CSharpProject) string {
 	return ""
 }
 
+// TreatWarningsAsErrors determines if the treat warnings as errors option is enabled
+// in the configuration file. If no value is provided then the default for the compiler is used.
 func TreatWarningsAsErrors(configuration CSharpProject) string {
 
 	if configuration.WarningsAsErrors == "" {

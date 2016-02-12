@@ -9,20 +9,25 @@ import (
 	"path/filepath"
 )
 
+// CSharpProjectBuilder represents a class for building a CSharp project.
 type CSharpProjectBuilder struct {
 	command CSharpCommand
 	project CSharpProject
 }
 
+// New creates a new instance of a CSharpProjectBuilder.
 func New(command CSharpCommand, project CSharpProject) CSharpProjectBuilder {
 	return CSharpProjectBuilder{command, project}
 }
 
+// ExecutePreBuildTasks is used for executing any actions that need to be
+// performed before building the project.
 func (builder CSharpProjectBuilder) ExecutePreBuildTasks() error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
 }
 
+// BuildProject builds the Java project.
 func (builder CSharpProjectBuilder) BuildProject() error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 	fmt.Println(binary)
@@ -48,6 +53,8 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 	return nil
 }
 
+// ExecutePostBuildTasks performs any tasks that need to be carried out after a
+// successful build.
 func (builder CSharpProjectBuilder) ExecutePostBuildTasks() error {
 	fmt.Println("Post build tasks")
 	builder.copyReferences()
@@ -55,6 +62,8 @@ func (builder CSharpProjectBuilder) ExecutePostBuildTasks() error {
 	return nil
 }
 
+// copyReferences copies the required reference files to the build destination
+// directory.
 func (builder CSharpProjectBuilder) copyReferences() error {
 	referenceCount := len(builder.project.References)
 	fmt.Println(referenceCount)
@@ -82,6 +91,7 @@ func (builder CSharpProjectBuilder) copyReferences() error {
 	return nil
 }
 
+// copyResources copies the required resources to the destination directory for the build.
 func (builder CSharpProjectBuilder) copyResources() error {
 	resourceCount := len(builder.project.Resources)
 
@@ -99,6 +109,8 @@ func (builder CSharpProjectBuilder) copyResources() error {
 	return nil
 }
 
+// ensureDestinationDirectoryExists makes sure the the destination directory
+// specified in the project already exists or if it doesn't then creates it.
 func (builder CSharpProjectBuilder) ensureDestinationDirectoryExists() error {
 	destinationDirectory := builder.command.GetDestinationDirectory()
 	_, err := os.Stat(destinationDirectory)

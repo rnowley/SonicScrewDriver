@@ -1,6 +1,6 @@
 package java
 
-import(
+import (
 	"bytes"
 	"fmt"
 	"os/exec"

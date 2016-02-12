@@ -5,19 +5,22 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	//"io"
 	"strings"
 )
 
+// JavaProjectBuilder represents a class for building a Java project.
 type JavaProjectBuilder struct {
 	command JavacCommand
 	project JavaProject
 }
 
+// NewProjectBuilder creates a new instance of a JavaProjectBuilder.
 func NewProjectBuilder(command JavacCommand, project JavaProject) JavaProjectBuilder {
 	return JavaProjectBuilder{command, project}
 }
 
+// ExecutePreBuildTasks is used for executing any actions that need to be
+// performed before building the project.
 func (builder JavaProjectBuilder) ExecutePreBuildTasks() error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
@@ -39,6 +42,7 @@ func printOutput(outs []byte) {
 	}
 }
 
+// BuildProject builds the Java project.
 func (builder JavaProjectBuilder) BuildProject() error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
@@ -69,11 +73,15 @@ func (builder JavaProjectBuilder) BuildProject() error {
 	return nil
 }
 
+// ExecutePostBuildTasks performs any tasks that need to be carried out after a
+// successful build.
 func (builder JavaProjectBuilder) ExecutePostBuildTasks() error {
 	fmt.Println("Post build tasks (java)")
 	return nil
 }
 
+// ensureDestinationDirectoryExists makes sure the the destination directory
+// specified in the project already exists or if it doesn't then creates it.
 func (builder JavaProjectBuilder) ensureDestinationDirectoryExists() error {
 	destinationDirectory := builder.command.GetDestinationDirectory()
 	_, err := os.Stat(destinationDirectory)

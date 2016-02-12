@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+// BuildCommand is a function for building up a javac command that can be used for building
+// a java project. This command is built up using the project configuration and the command line
+// arguments passed in.
 func BuildCommand(configuration JavaProject, arguments project.Arguments) JavacCommand {
 	command := NewDefaultJavacCommand()
 
@@ -29,6 +32,10 @@ func BuildCommand(configuration JavaProject, arguments project.Arguments) JavacC
 	return command
 }
 
+// ExtractSourceFileList is a function that reads all of the source files to be
+// compiled from the configuration file and returns a slice of source files to be
+// compiled using the javac command. Each source file has had the base path appended
+// to it when returned from the function.
 func ExtractSourceFileList(configuration JavaProject,
 	sourceDirectory string) []string {
 	fileCount := len(configuration.SourceFiles)
@@ -41,6 +48,9 @@ func ExtractSourceFileList(configuration JavaProject,
 	return fileList
 }
 
+// ExtractDebuggingInformation is a function that builds up the debugging information
+// flag for the compiler to determine what debugging information needs to generated
+// with the compiled classes.
 func ExtractDebuggingInformation(configuration JavaProject) string {
 
 	if len(configuration.DebuggingInformation) == 0 {

@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+// JavaCommand provides a representation of a call to the Java
+// command.
 type JavaCommand struct {
 	CommandName  string
 	ClassPath    []string
@@ -12,6 +14,7 @@ type JavaCommand struct {
 	RunArguments []string
 }
 
+// NewDefaultJavaCommand returns a JavaCommand with some default values set.
 func NewDefaultJavaCommand() JavaCommand {
 	var command JavaCommand
 	command.CommandName = "java"
@@ -19,13 +22,16 @@ func NewDefaultJavaCommand() JavaCommand {
 	return command
 }
 
+// GetCommandName is a method which accesses the name of the command
+// to be run.
 func (command JavaCommand) GetCommandName() string {
 	return command.CommandName
 }
 
+// GenerateArgumentList is a method which returns a slice of strings containing
+// the arguments to use when running the java command.
 func (c JavaCommand) GenerateArgumentList() []string {
 	argumentArray := make([]string, 0)
-	//argumentArray = append(argumentArray, c.CommandName)
 
 	if len(c.ClassPath) != 0 {
 		argumentArray = append(argumentArray, "-cp", strings.Join(c.ClassPath, ":"))
@@ -45,4 +51,3 @@ func (c JavaCommand) GenerateArgumentList() []string {
 
 	return argumentArray
 }
-

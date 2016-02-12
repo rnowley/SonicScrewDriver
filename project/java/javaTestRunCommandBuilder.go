@@ -37,4 +37,3 @@ func BuildTestRunCommand(configuration JavaProject, arguments project.Arguments)
 
 	return command
 }
-
