@@ -1,14 +1,13 @@
 package java
 
 import (
-	"github.com/rnowley/SonicScrewDriver/project"
 	"strings"
 )
 
 // BuildCommand is a function for building up a javac command that can be used for building
 // a java project. This command is built up using the project configuration and the command line
 // arguments passed in.
-func BuildCommand(configuration JavaProject, arguments project.Arguments) JavacCommand {
+func GetJavaBuildCommand(configuration JavaProject, deprecation bool) JavacCommand {
 	command := NewDefaultJavacCommand()
 
 	if configuration.DestinationDirectory != "" {
@@ -19,7 +18,7 @@ func BuildCommand(configuration JavaProject, arguments project.Arguments) JavacC
 		command.ClassPath = configuration.ClassPath
 	}
 
-	command.Deprecation = arguments.Deprecation
+	command.Deprecation = deprecation
 
 	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)
 

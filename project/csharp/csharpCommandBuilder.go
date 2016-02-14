@@ -2,15 +2,13 @@ package csharp
 
 import (
 	"fmt"
-	"github.com/rnowley/SonicScrewDriver/project"
 	"strconv"
 	"strings"
 )
 
 // BuildCommand is a function for building up a mcs command that can be used for building
-// a CSharp project. This command is built up using the project configuration and the command line
-// arguments passed in.
-func BuildCommand(configuration CSharpProject, arguments project.Arguments) CSharpCommand {
+// a CSharp project. This command is built up using the project configuration.
+func BuildCommand(configuration CSharpProject) CSharpCommand {
 	command := NewDefaultCommand()
 
 	if configuration.SourceDirectory != "" {

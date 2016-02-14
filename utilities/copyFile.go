@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+// CopyFile copies a file from its destination location to the source location
+// specified in its arguments.
 func CopyFile(destination, source string) error {
 	fmt.Println(destination)
 	s, err := os.Open(source)
@@ -33,6 +35,8 @@ func CopyFile(destination, source string) error {
 	return d.Close()
 }
 
+// EnsurePathExists is used to ensure that all folders on the specified path exist.
+// If they do not then these directories are created.
 func EnsurePathExists(directoryPath string) error {
 	_, err := os.Stat(directoryPath)
 

@@ -1,13 +1,9 @@
 package java
 
-import (
-	"github.com/rnowley/SonicScrewDriver/project"
-)
-
 // http://docs.oracle.com/javase/7/docs/technotes/tools/windows/java.html
 // https://github.com/junit-team/junit/wiki/Getting-started
 
-func BuildTestRunCommand(configuration JavaProject, arguments project.Arguments) JavaCommand {
+func BuildTestRunCommand(configuration JavaProject) JavaCommand {
 	command := NewDefaultJavaCommand()
 
 	classPathCount := len(configuration.ClassPath)

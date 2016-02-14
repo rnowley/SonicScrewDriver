@@ -6,8 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/rnowley/SonicScrewDriver/project"
-	"github.com/rnowley/SonicScrewDriver/project/csharp"
-	"github.com/rnowley/SonicScrewDriver/project/java"
 	"io/ioutil"
 	"os"
 )
@@ -29,34 +27,23 @@ func main() {
 
 	switch arguments.Mode {
 	case "build":
-		err = BuildProject(file, arguments)
+		err = BuildProject(file, arguments.Mode, arguments)
 		return
-	case "test":
-		err = RunUnitTests(file, arguments)
+	case "build-test":
+		err = BuildUnitTests(file, arguments.Mode, arguments)
 		return
+		case "build-all":
+		err = BuildAll(file, arguments.Mode, arguments)
 	default:
 		fmt.Printf("Invalid mode: %s.", arguments.Mode)
 	}
 
 }
 
-func BuildProject(file []byte, arguments project.Arguments) error {
-	projectLanguage := GetProjectLanguage(file)
-
-	fmt.Println("Project language: " + projectLanguage)
-
-	var projectBuilder project.ProjectBuilder
-
-	switch projectLanguage {
-	case "csharp":
-		project := UnmarshalCSharpProject(file)
-		command := BuildCsharpCommand(project, arguments)
-		projectBuilder = csharp.New(command, project)
-	case "java":
-		project := UnmarshalJavaProject(file)
-		command := BuildJavaCommand(project, arguments)
-		projectBuilder = java.NewProjectBuilder(command, project)
-	}
+// BuildProject builds a project of the type determined by the project file, mode and
+// the provided arguments.
+func BuildProject(file []byte, mode string, arguments project.Arguments) error {
+	projectBuilder, _ := project.GetProjectBuilder(file, mode, arguments)
 
 	projectBuilder.ExecutePreBuildTasks()
 	fmt.Println("Build project")
@@ -66,42 +53,41 @@ func BuildProject(file []byte, arguments project.Arguments) error {
 	return nil
 }
 
-func RunUnitTests(file []byte, arguments project.Arguments) error {
-	project := UnmarshalJavaProject(file)
-
-	// -----------
-	// Build the project
-	// -----------
-	fmt.Println("Building the project")
-
-	BuildProject(file, arguments)
+// BuildUnitTests builds the unit test project. This operation depends on the build project
+// having been executed previously.
+func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error {
 
 	// -----------
 	// Build the unit test project
 	// -----------
 	fmt.Println("Building unit tests")
 
-	command := BuildTestJavacCommand(project, arguments)
-	testProjectBuilder := java.NewProjectBuilder(command, project)
+	BuildProject(file, "build-test", arguments)
 
-	testProjectBuilder.ExecutePreBuildTasks()
-	fmt.Println("Build project")
-	testProjectBuilder.BuildProject()
-	fmt.Println("Post build")
-	testProjectBuilder.ExecutePostBuildTasks()
-	fmt.Println("Here")
-
-	// -----------
-	// Run the unit test project
-	// -----------
-	fmt.Println("Running unit tests")
-	runCommand := BuildTestRunCommand(project, arguments)
-	fmt.Println(runCommand)
-	testProjectRunner := java.NewProjectRunner(runCommand, project)
-	testProjectRunner.RunProject()
 	return nil
 }
 
+// BuildUnitTests builds the unit test project. This operation depends on the build project
+// having been executed previously.
+func BuildAll(file []byte, mode string, arguments project.Arguments) error {
+	// -----------
+	// Build the project
+	// -----------
+	fmt.Println("Building project")
+
+	BuildProject(file, "build", arguments)
+
+	// -----------
+	// Build the unit test project
+	// -----------
+	fmt.Println("Building unit tests")
+
+	BuildProject(file, "build-test", arguments)
+
+	return nil
+}
+
+// ParseArguments parses the arguments passed in through the command line.
 func ParseArguments() (project.Arguments, error) {
 	var arguments project.Arguments
 
@@ -132,49 +118,4 @@ func GetProjectLanguage(file []byte) string {
 	}
 
 	return projectLanguage.Language
-}
-
-func BuildCsharpCommand(proj csharp.CSharpProject, arguments project.Arguments) csharp.CSharpCommand {
-	command := csharp.BuildCommand(proj, arguments)
-	return command
-}
-
-func BuildJavaCommand(proj java.JavaProject, arguments project.Arguments) java.JavacCommand {
-	command := java.BuildCommand(proj, arguments)
-	return command
-}
-
-func BuildTestJavacCommand(proj java.JavaProject, arguments project.Arguments) java.JavacCommand {
-
-	command := java.BuildTestCommand(proj, arguments)
-	return command
-}
-
-func BuildTestRunCommand(proj java.JavaProject, arguments project.Arguments) java.JavaCommand {
-	command := java.BuildTestRunCommand(proj, arguments)
-	return command
-}
-
-// UnmarshalCSharpProject is a function that takes in the JSON representation of
-// a CSharp project and transforms this into a CSharpProject object.
-func UnmarshalCSharpProject(projectFile []byte) csharp.CSharpProject {
-	var proj csharp.CSharpProject
-
-	if err := json.Unmarshal(projectFile, &proj); err != nil {
-		panic(err)
-	}
-
-	return proj
-}
-
-// UnmarshalJavaProject is a function that takes in the JSON representation of
-// a Java project and transforms this into a JavaProject object.
-func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
-	var proj java.JavaProject
-
-	if err := json.Unmarshal(projectFile, &proj); err != nil {
-		panic(err)
-	}
-	fmt.Println(proj)
-	return proj
 }
