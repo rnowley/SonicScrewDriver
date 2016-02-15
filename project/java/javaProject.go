@@ -30,6 +30,16 @@ type JavaProject struct {
 	// DebuggingInformation holds information about the debugging information to be generated.
 	DebuggingInformation []string
 
+	// The jar file to be executed
+	JarFile string
+
+	// The main class to executed.
+	MainClass string
+
+	// The arguments to be passed to the jar file or class file to
+	// be executed.
+	RunArguments []string
+
 	// TestProject holds information about the tests for this project.
 	TestProject JavaTests
 }

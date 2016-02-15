@@ -7,6 +7,10 @@
         "main/ExampleProgram.java",
         "main/Greeter.java"
     ],
+    "MainClass": "ExampleProgram",
+    "ClassPath": [
+        "./build/"
+     ],
     "SourceVersion": "1.8",
     "TestProject": {
         "SourceFiles": [
