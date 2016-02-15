@@ -32,8 +32,10 @@ func main() {
 	case "build-test":
 		err = BuildUnitTests(file, arguments.Mode, arguments)
 		return
-		case "build-all":
+	case "build-all":
 		err = BuildAll(file, arguments.Mode, arguments)
+		case "run-tests":
+		err = RunUnitTests(file, arguments.Mode, arguments)
 	default:
 		fmt.Printf("Invalid mode: %s.", arguments.Mode)
 	}
@@ -84,6 +86,16 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 
 	BuildProject(file, "build-test", arguments)
 
+	return nil
+}
+
+// BuildUnitTests builds the unit test project. This operation depends on the build project
+// having been executed previously.
+func RunUnitTests(file []byte, mode string, arguments project.Arguments) error {
+	projectRunner, _ := project.GetProjectRunner(file, mode, arguments)
+
+	fmt.Println("Running project")
+	projectRunner.RunProject()
 	return nil
 }
 

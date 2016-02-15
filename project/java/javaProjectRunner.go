@@ -16,7 +16,9 @@ func NewProjectRunner(command JavaCommand, project JavaProject) JavaProjectRunne
 }
 
 func (runner JavaProjectRunner) RunProject() error {
+	fmt.Println("Inside ProjectRunner.RunProject")
 	binary, lookErr := exec.LookPath(runner.command.GetCommandName())
+	fmt.Printf("Cmd to run: %s", binary)
 
 	if lookErr != nil {
 		return lookErr

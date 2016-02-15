@@ -3,7 +3,7 @@ package java
 // http://docs.oracle.com/javase/7/docs/technotes/tools/windows/java.html
 // https://github.com/junit-team/junit/wiki/Getting-started
 
-func BuildTestRunCommand(configuration JavaProject) JavaCommand {
+func GetJavaRunTestCommand(configuration JavaProject) JavaCommand {
 	command := NewDefaultJavaCommand()
 
 	classPathCount := len(configuration.ClassPath)
