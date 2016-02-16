@@ -34,9 +34,10 @@ func getJavaProjectRunner(configurationFile []byte, mode string, arguments Argum
 	var command java.JavaCommand
 
 	switch mode {
+	case "run":
+		command = java.GetJavaRunCommand(proj)
 	case "run-tests":
 		command = java.GetJavaRunTestCommand(proj)
-		fmt.Printf("Command: %s", command)
 	default:
 		return projectRunner, fmt.Errorf("getJavaProjectRunner: the %s 'mode' is not supported", mode)
 	}
