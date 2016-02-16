@@ -12,5 +12,28 @@
     "sourceDirectory": "./src/",
     "destinationDirectory": "./build/",
     "warningLevel": "4",
-    "warningsAsErrors": "false"
+    "warningsAsErrors": "false",
+	"TestProject": {
+		"References": [
+			{
+            	"name": "nunit.framework",
+            	"path": "./lib/NUnit.3.0.1/lib/net45/"
+        	},
+			{
+            	"name": "helloWorld.exe",
+            	"path": "./build/"
+        	}
+		],
+		"destinationDirectory": "./build/",
+		"outputFilename": "helloWorldTest",
+		"SourceFiles": [
+			"test/GreeterTests.cs"
+		],
+		"LibraryPath": [
+			"./lib/NUnit.3.0.1/lib/net45/",
+			"./build/"
+		],
+		"TestFramework": "nunit",
+		"TestRunner": "nunit3-console.exe"
+	}
 }

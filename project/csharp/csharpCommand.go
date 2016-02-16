@@ -1,7 +1,5 @@
 package csharp
 
-import "strings"
-
 // CSharpCommand provides a representation of a call to the CSharp
 // compiler command.
 type CSharpCommand struct {
@@ -44,16 +42,29 @@ func (command CSharpCommand) GetDestinationDirectory() string {
 // GenerateArgumentList is a method which returns a slice of strings containing
 // the arguments to use when running the CSharp compiler command.
 func (c CSharpCommand) GenerateArgumentList() []string {
-	argumentArray := []string{
-		c.CommandName,
-		c.DebugFlag,
-		c.OutputFilename + GetFileSuffix(c.BuildTarget),
-		c.BuildTarget,
-		c.LibraryPath,
-		c.WarningLevel,
-		c.WarningsAsErrors,
-		c.References,
-		strings.Join(c.SourceFiles, " "),
+	argumentArray := make([]string, 0)
+	argumentArray = append(argumentArray, c.DebugFlag)
+	argumentArray = append(argumentArray, c.OutputFilename+GetFileSuffix(c.BuildTarget))
+	argumentArray = append(argumentArray, c.BuildTarget)
+
+	if c.LibraryPath != "" {
+		argumentArray = append(argumentArray, c.LibraryPath)
+	}
+
+	if c.WarningLevel != "" {
+		argumentArray = append(argumentArray, c.WarningLevel)
+	}
+
+	if c.WarningsAsErrors != "" {
+		argumentArray = append(argumentArray, c.WarningsAsErrors)
+	}
+
+	if c.References != "" {
+		argumentArray = append(argumentArray, c.References)
+	}
+
+	if len(c.SourceFiles) != 0 {
+		argumentArray = append(argumentArray, c.SourceFiles...)
 	}
 
 	return argumentArray

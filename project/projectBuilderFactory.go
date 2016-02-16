@@ -17,7 +17,7 @@ func GetProjectBuilder(configurationFile []byte, mode string, arguments Argument
 
 	switch projectLanguage {
 	case "csharp":
-		projectBuilder, _ = getCSharpProjectBuilder(configurationFile)
+		projectBuilder, _ = getCSharpProjectBuilder(configurationFile, mode)
 		return projectBuilder, nil
 	case "java":
 		projectBuilder, _ = getJavaProjectBuilder(configurationFile, mode, arguments)
@@ -28,35 +28,25 @@ func GetProjectBuilder(configurationFile []byte, mode string, arguments Argument
 
 }
 
-// GetProjectLanguage is a function for retrieving the value that
-// determines the programming language that the project is written
-// in.
-/*func GetProjectLanguage(file []byte) string {
-	var projectLanguage ProjectLanguage
-
-	if err := json.Unmarshal(file, &projectLanguage); err != nil {
-		panic(err)
-	}
-
-	return projectLanguage.Language
-}*/
-
-func buildCSharpCommand(proj csharp.CSharpProject) csharp.CSharpCommand {
-	command := csharp.BuildCommand(proj)
-	return command
-}
-
-func getCSharpProjectBuilder(configurationFile []byte) (ProjectBuilder, error) {
+func getCSharpProjectBuilder(configurationFile []byte, mode string) (ProjectBuilder, error) {
 	var proj csharp.CSharpProject
 	var projectBuilder csharp.CSharpProjectBuilder
 
-	proj, err := unmarshalCSharpProject(configurationFile)
+	proj, _ = UnmarshalCSharpProject(configurationFile)
 
-	if err != nil {
-		return projectBuilder, err
+	var command csharp.CSharpCommand
+
+	switch mode {
+	case "build":
+		command = csharp.GetCSharpBuildCommand(proj)
+	case "build-test":
+		command = csharp.GetCSharpTestBuildCommand(proj)
+	default:
+		return projectBuilder, fmt.Errorf("getCSharpProjectBuilder: the %s 'mode' is not supported", mode)
 	}
 
-	command := buildCSharpCommand(proj)
+	fmt.Println(command)
+	fmt.Println(proj)
 	projectBuilder = csharp.New(command, proj)
 
 	return projectBuilder, nil

@@ -34,7 +34,7 @@ func main() {
 		return
 	case "build-all":
 		err = BuildAll(file, arguments.Mode, arguments)
-		case "run-tests":
+	case "run-tests":
 		err = RunUnitTests(file, arguments.Mode, arguments)
 	default:
 		fmt.Printf("Invalid mode: %s.", arguments.Mode)

@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 // CSharpProjectBuilder represents a class for building a CSharp project.
@@ -30,7 +31,6 @@ func (builder CSharpProjectBuilder) ExecutePreBuildTasks() error {
 // BuildProject builds the Java project.
 func (builder CSharpProjectBuilder) BuildProject() error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
-	fmt.Println(binary)
 
 	if lookErr != nil {
 		return lookErr
@@ -38,19 +38,39 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 
 	args := builder.command.GenerateArgumentList()
 
-	fmt.Println(args)
 	cmd := exec.Command(binary, args...)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr
-	err := cmd.Run()
-	fmt.Printf("**%s\n", out.String())
-	if err != nil {
-		return err
-	}
+
+	// Stdout buffer
+	cmdOutput := &bytes.Buffer{}
+	cmdError := &bytes.Buffer{}
+	// Attach buffer to command
+	cmd.Stdout = cmdOutput
+	cmd.Stderr = cmdError
+
+	// Execute command
+	//printCommand(cmd)
+	err := cmd.Run() // will wait for command to return
+	printError(err)
+	printOutput(cmdOutput.Bytes())
+	printOutput(cmdError.Bytes())
 
 	return nil
+}
+
+func printCommand(cmd *exec.Cmd) {
+	fmt.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
+}
+
+func printError(err error) {
+	if err != nil {
+		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
+	}
+}
+
+func printOutput(outs []byte) {
+	if len(outs) > 0 {
+		fmt.Printf("==> Output: %s\n", string(outs))
+	}
 }
 
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a

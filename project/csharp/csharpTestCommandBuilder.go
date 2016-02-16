@@ -8,7 +8,7 @@ import (
 
 // BuildCommand is a function for building up a mcs command that can be used for building
 // a CSharp project. This command is built up using the project configuration.
-func GetCSharpBuildCommand(configuration CSharpProject) CSharpCommand {
+func GetCSharpTestBuildCommand(configuration CSharpProject) CSharpCommand {
 	command := NewDefaultCommand()
 
 	if configuration.SourceDirectory != "" {
@@ -16,19 +16,18 @@ func GetCSharpBuildCommand(configuration CSharpProject) CSharpCommand {
 	}
 
 	if configuration.DestinationDirectory != "" {
-		command.DestinationDirectory = configuration.DestinationDirectory
+		command.DestinationDirectory = configuration.TestProject.DestinationDirectory
 	}
 
-	if configuration.OutputFilename != "" {
-		command.OutputFilename = fmt.Sprintf("-out:%s%s", command.DestinationDirectory, configuration.OutputFilename)
+	if configuration.TestProject.OutputFilename != "" {
+		command.OutputFilename = fmt.Sprintf("-out:%s%s", command.DestinationDirectory, configuration.TestProject.OutputFilename)
 	}
 
-	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)
-	command.BuildTarget = ExtractBuildTarget(configuration)
-	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)
-	command.References = ExtractReferences(configuration)
-	command.LibraryPath = ExtractLibraryPath(configuration)
-	command.PackageList = ExtractPackageList(configuration)
+	command.BuildTarget = ExtractTestBuildTarget(configuration)
+	command.SourceFiles = ExtractTestSourceFileList(configuration, command.SourceDirectory)
+	command.References = ExtractTestReferences(configuration)
+	command.LibraryPath = ExtractTestLibraryPath(configuration)
+	command.PackageList = ExtractTestPackageList(configuration)
 	//command.WarningLevel = SetWarningLevel(configuration)
 	//command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
 
@@ -39,42 +38,36 @@ func GetCSharpBuildCommand(configuration CSharpProject) CSharpCommand {
 // compiled from the configuration file and returns a slice of source files to be
 // compiled using the mcs command. Each source file has had the base path appended
 // to it when returned from the function.
-func ExtractSourceFileList(configuration CSharpProject, sourceDirectory string) []string {
-	fileCount := len(configuration.SourceFiles)
+func ExtractTestSourceFileList(configuration CSharpProject, sourceDirectory string) []string {
+	fileCount := len(configuration.TestProject.SourceFiles)
 	fileList := make([]string, fileCount)
 
 	for i := 0; i < fileCount; i++ {
-		fileList[i] = sourceDirectory + configuration.SourceFiles[i]
+		fileList[i] = sourceDirectory + configuration.TestProject.SourceFiles[i]
 	}
 
 	return fileList
 }
 
-func ExtractBuildTarget(configuration CSharpProject) string {
-
-	switch configuration.BuildTarget {
-	case "exe", "library", "module", "winexe":
-		return fmt.Sprintf("-target:%s", configuration.BuildTarget)
-	}
-
-	return "-target:exe"
+func ExtractTestBuildTarget(configuration CSharpProject) string {
+	return "-target:library"
 }
 
 // ExtractLibraryPath extracts all of the library paths provided in the
 // configuration file and returns them as an argument item for the compiler.
-func ExtractLibraryPath(configuration CSharpProject) string {
-	fileCount := len(configuration.LibraryPath)
+func ExtractTestLibraryPath(configuration CSharpProject) string {
+	fileCount := len(configuration.TestProject.LibraryPath)
 
 	if fileCount == 0 {
 		return ""
 	}
 
-	return "-lib:" + strings.Join(configuration.LibraryPath, ",")
+	return "-lib:" + strings.Join(configuration.TestProject.LibraryPath, ",")
 }
 
 // ExtractPackageList extracts all of the packages provided in the
 // configuration file and returns them as an argument item for the compiler.
-func ExtractPackageList(configuration CSharpProject) string {
+func ExtractTestPackageList(configuration CSharpProject) string {
 	fileCount := len(configuration.PackageList)
 
 	if fileCount == 0 {
@@ -86,17 +79,25 @@ func ExtractPackageList(configuration CSharpProject) string {
 
 // ExtractReferences extracts all of the references provided in the
 // configuration file and returns them as an argument item for the compiler.
-func ExtractReferences(configuration CSharpProject) string {
+func ExtractTestReferences(configuration CSharpProject) string {
 	fileCount := len(configuration.References)
 
-	if fileCount == 0 {
+	/*if fileCount == 0 {
 		return ""
-	}
+	}*/
 
 	fileList := make([]string, fileCount)
 
 	for i := 0; i < fileCount; i++ {
-		fileList[i] = configuration.References[i].Name
+		fileList = append(fileList, configuration.References[i].Name)
+		//fileList[i] = configuration.References[i].Name
+	}
+
+	fileCount = len(configuration.TestProject.References)
+
+	for i := 0; i < fileCount; i++ {
+		fileList = append(fileList, configuration.TestProject.References[i].Name)
+		//fileList[i] = configuration.References[i].Name
 	}
 
 	return "-r:" + strings.Join(fileList, ",")
@@ -104,7 +105,7 @@ func ExtractReferences(configuration CSharpProject) string {
 
 // SetWarningLevel extracts the provided warning level to be used from the
 // configuration file and returned as an argument for the compiler if one is provided.
-func SetWarningLevel(configuration CSharpProject) string {
+func SetTestWarningLevel(configuration CSharpProject) string {
 
 	if configuration.WarningLevel == "" {
 		return ""
@@ -128,7 +129,7 @@ func SetWarningLevel(configuration CSharpProject) string {
 
 // TreatWarningsAsErrors determines if the treat warnings as errors option is enabled
 // in the configuration file. If no value is provided then the default for the compiler is used.
-func TreatWarningsAsErrors(configuration CSharpProject) string {
+func TestTreatWarningsAsErrors(configuration CSharpProject) string {
 
 	if configuration.WarningsAsErrors == "" {
 		return ""

@@ -46,4 +46,6 @@ type CSharpProject struct {
 
 	// Used to indicate whether or not to treat warnings as errors.
 	WarningsAsErrors string
+
+	TestProject CSharpTests
 }

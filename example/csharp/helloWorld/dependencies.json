@@ -1,0 +1,6 @@
+{
+    "packages": [
+		{ "name": "NUnit", "version": "3.0.1" },
+        { "name": "NUnit.Runners", "version": "3.0.1" }
+    ]
+}
