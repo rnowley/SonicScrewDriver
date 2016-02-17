@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/rnowley/SonicScrewDriver/project/java"
+	"github.com/rnowley/SonicScrewDriver/project/csharp"
 )
 
 // GetProjectRunner is a factory function that returns an object that implements the
@@ -14,6 +15,9 @@ func GetProjectRunner(configurationFile []byte, mode string, arguments Arguments
 	var projectRunner ProjectRunner
 
 	switch projectLanguage {
+		case "csharp":
+		projectRunner, _ = getCSharpProjectRunner(configurationFile, mode, arguments)
+		return projectRunner, nil
 	case "java":
 		projectRunner, _ = getJavaProjectRunner(configurationFile, mode, arguments)
 		return projectRunner, nil
@@ -23,7 +27,29 @@ func GetProjectRunner(configurationFile []byte, mode string, arguments Arguments
 
 }
 
-// getJavaProjectRunner retrieves a JavaProjectRunner the is configured to the
+// getCSharpProjectRunner retrieves a CSharpProjectRunner that is configured to the
+// specifications passed in in the configuration file, mode and arguments.
+func getCSharpProjectRunner(configurationFile []byte, mode string, arguments Arguments) (ProjectRunner, error) {
+	var proj csharp.CSharpProject
+	var projectRunner csharp.CSharpProjectRunner
+
+	proj, _ = UnmarshalCSharpProject(configurationFile)
+
+	var command csharp.MonoCommand
+
+	switch mode {
+		case "run-tests":
+			command = csharp.GetCSharpRunTestCommand(proj)
+		default:
+			return projectRunner, fmt.Errorf("getCSharpProjectRunner: the %s 'mode' is not supported", mode)
+	}
+
+	projectRunner = csharp.NewProjectRunner(command, proj)
+
+	return projectRunner, nil
+}
+
+// getJavaProjectRunner retrieves a JavaProjectRunner that is configured to the
 // specifications passed in in the configuration file, mode and arguments.
 func getJavaProjectRunner(configurationFile []byte, mode string, arguments Arguments) (ProjectRunner, error) {
 	var proj java.JavaProject

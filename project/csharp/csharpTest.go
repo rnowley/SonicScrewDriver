@@ -18,4 +18,6 @@ type CSharpTests struct {
 
 	LibraryPath []string
 	PackageList []string
+	TestRunner string
+	RunArguments []string
 }
