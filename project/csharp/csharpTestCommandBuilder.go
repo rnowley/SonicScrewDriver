@@ -30,6 +30,7 @@ func GetCSharpTestBuildCommand(configuration CSharpProject) CSharpCommand {
 	command.PackageList = ExtractTestPackageList(configuration)
 	//command.WarningLevel = SetWarningLevel(configuration)
 	//command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
+	command.ReferencesPaths = ExtractTestReferencePaths(configuration)
 
 	return command
 }
@@ -101,6 +102,29 @@ func ExtractTestReferences(configuration CSharpProject) string {
 	}
 
 	return "-r:" + strings.Join(fileList, ",")
+}
+
+func ExtractTestReferencePaths(configuration CSharpProject) []Reference {
+	referenceCount := len(configuration.References)
+	referenceList := make([]Reference, referenceCount)
+
+	for i := 0; i < referenceCount; i++ {
+		referenceList = append(referenceList, configuration.References[i])
+	}
+
+	referenceCount = len(configuration.TestProject.References)
+
+	if referenceCount == 0 {
+		return referenceList
+	}
+
+	for i := 0; i < referenceCount; i++ {
+		referenceList = append(referenceList, configuration.TestProject.References[i])
+	}
+
+	fmt.Println(referenceList)
+
+	return referenceList
 }
 
 // SetWarningLevel extracts the provided warning level to be used from the

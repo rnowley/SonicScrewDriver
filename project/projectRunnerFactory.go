@@ -3,8 +3,8 @@ package project
 import (
 	"fmt"
 
-	"github.com/rnowley/SonicScrewDriver/project/java"
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
+	"github.com/rnowley/SonicScrewDriver/project/java"
 )
 
 // GetProjectRunner is a factory function that returns an object that implements the
@@ -15,7 +15,7 @@ func GetProjectRunner(configurationFile []byte, mode string, arguments Arguments
 	var projectRunner ProjectRunner
 
 	switch projectLanguage {
-		case "csharp":
+	case "csharp":
 		projectRunner, _ = getCSharpProjectRunner(configurationFile, mode, arguments)
 		return projectRunner, nil
 	case "java":
@@ -38,10 +38,10 @@ func getCSharpProjectRunner(configurationFile []byte, mode string, arguments Arg
 	var command csharp.MonoCommand
 
 	switch mode {
-		case "run-tests":
-			command = csharp.GetCSharpRunTestCommand(proj)
-		default:
-			return projectRunner, fmt.Errorf("getCSharpProjectRunner: the %s 'mode' is not supported", mode)
+	case "run-tests":
+		command = csharp.GetCSharpRunTestCommand(proj)
+	default:
+		return projectRunner, fmt.Errorf("getCSharpProjectRunner: the %s 'mode' is not supported", mode)
 	}
 
 	projectRunner = csharp.NewProjectRunner(command, proj)

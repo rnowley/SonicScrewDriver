@@ -5,9 +5,9 @@ import "strings"
 // MonoCommand provides a representation of a call to the mono
 // command.
 type MonoCommand struct {
-	CommandName string
+	CommandName    string
 	ExecutableName string
-	RunArguments []string
+	RunArguments   []string
 }
 
 // NewDefaultMonoCommand returns a MonoCommand with some default values set.

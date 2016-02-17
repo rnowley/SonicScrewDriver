@@ -15,7 +15,6 @@ func NewProjectRunner(command MonoCommand, project CSharpProject) CSharpProjectR
 	return CSharpProjectRunner{command, project}
 }
 
-
 func (runner CSharpProjectRunner) RunProject() error {
 	fmt.Println("Inside ProjectRunner.RunProject")
 	binary, lookErr := exec.LookPath(runner.command.GetCommandName())

@@ -15,6 +15,7 @@ type CSharpCommand struct {
 	PackageList          string
 	WarningLevel         string
 	WarningsAsErrors     string
+	ReferencesPaths      []Reference
 }
 
 // NewDefaultCommand returns a CSharpCommand with some default values set.
@@ -75,9 +76,9 @@ func GetFileSuffix(buildTarget string) string {
 	suffix := ".exe"
 
 	switch buildTarget {
-	case "target:exe":
+	case "-target:exe":
 		suffix = ".exe"
-	case "target:library":
+	case "-target:library":
 		suffix = ".dll"
 	case "-target:module":
 		suffix = ".netmodule"

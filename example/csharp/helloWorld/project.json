@@ -20,8 +20,7 @@
             	"path": "./lib/NUnit.3.0.1/lib/net45/"
         	},
 			{
-            	"name": "helloWorld.exe",
-            	"path": "./build/"
+            	"name": "./build/helloWorld.exe"
         	}
 		],
 		"destinationDirectory": "./build/",
@@ -34,9 +33,9 @@
 			"./build/"
 		],
 		"TestFramework": "nunit",
-		"TestRunner": "nunit3-console.exe",
+		"TestRunner": "./lib/NUnit.Console.3.0.1/tools/nunit3-console.exe",
 		"RunArguments": [
-			"helloWorldTest.exe"
+			"./build/helloWorldTest.dll"
 		]
 	}
 }

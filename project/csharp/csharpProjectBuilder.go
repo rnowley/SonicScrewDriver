@@ -28,7 +28,7 @@ func (builder CSharpProjectBuilder) ExecutePreBuildTasks() error {
 	return err
 }
 
-// BuildProject builds the Java project.
+// BuildProject builds the CSharp project.
 func (builder CSharpProjectBuilder) BuildProject() error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
@@ -85,8 +85,7 @@ func (builder CSharpProjectBuilder) ExecutePostBuildTasks() error {
 // copyReferences copies the required reference files to the build destination
 // directory.
 func (builder CSharpProjectBuilder) copyReferences() error {
-	referenceCount := len(builder.project.References)
-	fmt.Println(referenceCount)
+	referenceCount := len(builder.command.ReferencesPaths)
 
 	if referenceCount == 0 {
 		return nil
@@ -96,12 +95,12 @@ func (builder CSharpProjectBuilder) copyReferences() error {
 
 	for i := 0; i < referenceCount; i++ {
 
-		if builder.project.References[i].Path == "" {
+		if builder.command.ReferencesPaths[i].Path == "" {
 			continue
 		}
 
-		path := builder.project.References[i].Path
-		referenceName := builder.project.References[i].Name
+		path := builder.command.ReferencesPaths[i].Path
+		referenceName := builder.command.ReferencesPaths[i].Name
 		fileExtension := ".dll"
 
 		utilities.CopyFile(fmt.Sprintf("%s%s%s", destinationDirectory, referenceName, fileExtension),

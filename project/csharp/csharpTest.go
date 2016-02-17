@@ -16,8 +16,8 @@ type CSharpTests struct {
 
 	References []Reference
 
-	LibraryPath []string
-	PackageList []string
-	TestRunner string
+	LibraryPath  []string
+	PackageList  []string
+	TestRunner   string
 	RunArguments []string
 }

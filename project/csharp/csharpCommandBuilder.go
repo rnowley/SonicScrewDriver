@@ -29,6 +29,7 @@ func GetCSharpBuildCommand(configuration CSharpProject) CSharpCommand {
 	command.References = ExtractReferences(configuration)
 	command.LibraryPath = ExtractLibraryPath(configuration)
 	command.PackageList = ExtractPackageList(configuration)
+	command.ReferencesPaths = ExtractReferencePaths(configuration)
 	//command.WarningLevel = SetWarningLevel(configuration)
 	//command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
 
@@ -100,6 +101,21 @@ func ExtractReferences(configuration CSharpProject) string {
 	}
 
 	return "-r:" + strings.Join(fileList, ",")
+}
+
+func ExtractReferencePaths(configuration CSharpProject) []Reference {
+	referenceCount := len(configuration.References)
+	referenceList := make([]Reference, referenceCount)
+
+	if referenceCount == 0 {
+		return referenceList
+	}
+
+	for i := 0; i < referenceCount; i++ {
+		referenceList = append(referenceList, configuration.References[i])
+	}
+
+	return referenceList
 }
 
 // SetWarningLevel extracts the provided warning level to be used from the
