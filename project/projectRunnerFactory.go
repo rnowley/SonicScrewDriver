@@ -38,6 +38,8 @@ func getCSharpProjectRunner(configurationFile []byte, mode string, arguments Arg
 	var command csharp.MonoCommand
 
 	switch mode {
+	case "run":
+		command = csharp.GetCSharpRunCommand(proj)
 	case "run-tests":
 		command = csharp.GetCSharpRunTestCommand(proj)
 	default:

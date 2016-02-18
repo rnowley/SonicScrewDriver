@@ -2,6 +2,7 @@ package csharp
 
 // CSharpProject is a struct for holding the information required for
 // building or running a CSharp project.
+// RunArguments lists any arguments that need to be passed through to project when it is run.
 type CSharpProject struct {
 	// The name of the project.
 	Name string
@@ -46,6 +47,8 @@ type CSharpProject struct {
 
 	// Used to indicate whether or not to treat warnings as errors.
 	WarningsAsErrors string
+
+	RunArguments []string
 
 	TestProject CSharpTests
 }
