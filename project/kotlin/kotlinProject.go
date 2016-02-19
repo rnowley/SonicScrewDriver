@@ -12,4 +12,5 @@ type KotlinProject struct {
 	KotlinHome      string
 	ClassPath       []string
 	SourceFiles     []string
+	BuildTarget     string
 }

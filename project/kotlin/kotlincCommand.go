@@ -7,11 +7,13 @@ import (
 // KotlincCommand provides a representation of a call to the Kotlin
 // compiler command.
 type KotlincCommand struct {
-	ClassPath       []string
-	CommandName     string
-	DestinationDirectory     string
-	SourceDirectory string
-	SourceFiles     []string
+	BuildTarget          string
+	ClassPath            []string
+	CommandName          string
+	DestinationDirectory string
+	IncludeRuntime       bool
+	SourceDirectory      string
+	SourceFiles          []string
 }
 
 // NewDefaultKotlincCommand returns a KotlincCommand with some default values set.
@@ -39,6 +41,10 @@ func (command KotlincCommand) GenerateArgumentList() []string {
 
 	if len(command.ClassPath) != 0 {
 		argumentArray = append(argumentArray, "-cp", strings.Join(command.ClassPath, ":"))
+	}
+
+	if command.BuildTarget == "executable" {
+		argumentArray = append(argumentArray, "-include-runtime")
 	}
 
 	if len(command.SourceFiles) != 0 {
