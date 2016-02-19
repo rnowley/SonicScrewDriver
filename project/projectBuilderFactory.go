@@ -1,11 +1,11 @@
 package project
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
 	"github.com/rnowley/SonicScrewDriver/project/java"
+	"github.com/rnowley/SonicScrewDriver/project/kotlin"
 )
 
 // GetProjectBuilder is a factory function that returns an object that implements the
@@ -21,6 +21,9 @@ func GetProjectBuilder(configurationFile []byte, mode string, arguments Argument
 		return projectBuilder, nil
 	case "java":
 		projectBuilder, _ = getJavaProjectBuilder(configurationFile, mode, arguments)
+		return projectBuilder, nil
+	case "kotlin":
+		projectBuilder, _ = getKotlinProjectBuilder(configurationFile, mode, arguments)
 		return projectBuilder, nil
 	default:
 		return projectBuilder, fmt.Errorf("GetProjectBuilder: the %s language is not supported", projectLanguage)
@@ -56,7 +59,7 @@ func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Argu
 	var proj java.JavaProject
 	var projectBuilder java.JavaProjectBuilder
 
-	proj = unmarshalJavaProject(configurationFile)
+	proj = UnmarshalJavaProject(configurationFile)
 
 	var command java.JavacCommand
 
@@ -74,26 +77,22 @@ func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Argu
 	return projectBuilder, nil
 }
 
-// UnmarshalCSharpProject is a function that takes in the JSON representation of
-// a CSharp project and transforms this into a CSharpProject object.
-func unmarshalCSharpProject(projectFile []byte) (csharp.CSharpProject, error) {
-	var proj csharp.CSharpProject
+func getKotlinProjectBuilder(configurationFile []byte, mode string, arguments Arguments) (ProjectBuilder, error) {
+	var proj kotlin.KotlinProject
+	var projectBuilder kotlin.KotlinProjectBuilder
 
-	if err := json.Unmarshal(projectFile, &proj); err != nil {
-		return proj, err
+	proj = UnmarshalKotlinProject(configurationFile)
+
+	var command kotlin.KotlincCommand
+
+	switch mode {
+	case "build":
+		command = kotlin.GetKotlincBuildCommand(proj)
+	default:
+		return projectBuilder, fmt.Errorf("getKotlinProjectBuilder: the %s 'mode' is not supported", mode)
 	}
 
-	return proj, nil
-}
+	projectBuilder = kotlin.NewProjectBuilder(command, proj)
 
-// UnmarshalJavaProject is a function that takes in the JSON representation of
-// a Java project and transforms this into a JavaProject object.
-func unmarshalJavaProject(projectFile []byte) java.JavaProject {
-	var proj java.JavaProject
-
-	if err := json.Unmarshal(projectFile, &proj); err != nil {
-		panic(err)
-	}
-	fmt.Println(proj)
-	return proj
+	return projectBuilder, nil
 }

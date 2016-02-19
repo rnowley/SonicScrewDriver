@@ -1,0 +1,32 @@
+{
+    "Name": "HelloWorld",
+    "Version": "0.0.1",
+    "Description": "A demo project for testing compiling Kotlin.",
+    "Language": "kotlin",
+	"Destination": "./build/",
+    "SourceFiles": [
+        "main/hello.kt"
+    ],
+    "ClassPath": [
+        "./build/"
+     ],
+    "BuildTarget": "executable",
+    "TestProject": {
+        "SourceFiles": [
+            "test/GreeterTest.java"
+        ],
+        "DestinationDirectory": "./build",
+        "TestFramework": "junit",
+        "MainClass": "org.junit.runner.JUnitCore",
+        "ClassPath": [
+            "./lib/junit-4.12.jar",
+            "./lib/hamcrest-core-1.3.jar",
+            "./build/"
+        ],
+        "RunArguments": [
+            "GreeterTest"
+        ]
+    }
+}
+
+
