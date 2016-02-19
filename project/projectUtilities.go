@@ -6,6 +6,7 @@ import (
 
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
 	"github.com/rnowley/SonicScrewDriver/project/java"
+	"github.com/rnowley/SonicScrewDriver/project/kotlin"
 )
 
 // GetProjectLanguage is a function for retrieving the value that
@@ -41,6 +42,20 @@ func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
 	if err := json.Unmarshal(projectFile, &proj); err != nil {
 		panic(err)
 	}
+
+	fmt.Println(proj)
+	return proj
+}
+
+// UnmarshalKotlinProject is a function that takes in the JSON representation of
+// a Kotlin project and transforms this into a KotlinProject object.
+func UnmarshalKotlinProject(projectFile []byte) kotlin.KotlinProject {
+	var proj kotlin.KotlinProject
+
+	if err := json.Unmarshal(projectFile, &proj); err != nil {
+		panic(err)
+	}
+
 	fmt.Println(proj)
 	return proj
 }
