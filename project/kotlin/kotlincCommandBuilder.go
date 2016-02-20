@@ -6,12 +6,18 @@ package kotlin
 func GetKotlincBuildCommand(configuration KotlinProject) KotlincCommand {
 	command := NewDefaultKotlincCommand()
 
+	command.BuildTarget = configuration.BuildTarget
+
 	if len(configuration.ClassPath) != 0 {
 		command.ClassPath = configuration.ClassPath
 	}
 
-	if configuration.Destination != "" {
-		command.DestinationDirectory = configuration.Destination
+	if configuration.DestinationDirectory != "" {
+		command.DestinationDirectory = configuration.DestinationDirectory
+	}
+
+	if configuration.OutputFilename != "" {
+		command.OutputFilename = configuration.OutputFilename
 	}
 
 	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)

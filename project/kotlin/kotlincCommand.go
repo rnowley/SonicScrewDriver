@@ -1,6 +1,7 @@
 package kotlin
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -11,6 +12,7 @@ type KotlincCommand struct {
 	ClassPath            []string
 	CommandName          string
 	DestinationDirectory string
+	OutputFilename       string
 	IncludeRuntime       bool
 	SourceDirectory      string
 	SourceFiles          []string
@@ -21,6 +23,8 @@ func NewDefaultKotlincCommand() KotlincCommand {
 	var command KotlincCommand
 	command.ClassPath = make([]string, 0, 10)
 	command.CommandName = "kotlinc"
+	command.DestinationDirectory = "./build/"
+	command.OutputFilename = "out.jar"
 	command.SourceDirectory = "./src/"
 	command.SourceFiles = make([]string, 0, 10)
 
@@ -37,7 +41,7 @@ func (command KotlincCommand) GetCommandName() string {
 // the arguments to use when running the kotlinc compiler command.
 func (command KotlincCommand) GenerateArgumentList() []string {
 	argumentArray := make([]string, 0)
-	argumentArray = append(argumentArray, "-d", command.DestinationDirectory)
+	argumentArray = append(argumentArray, "-d", fmt.Sprintf("%s%s", command.DestinationDirectory, command.OutputFilename))
 
 	if len(command.ClassPath) != 0 {
 		argumentArray = append(argumentArray, "-cp", strings.Join(command.ClassPath, ":"))
