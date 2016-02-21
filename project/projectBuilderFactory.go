@@ -88,6 +88,8 @@ func getKotlinProjectBuilder(configurationFile []byte, mode string, arguments Ar
 	switch mode {
 	case "build":
 		command = kotlin.GetKotlincBuildCommand(proj)
+	case "build-test":
+		command = kotlin.GetKotlincTestBuildCommand(proj)
 	default:
 		return projectBuilder, fmt.Errorf("getKotlinProjectBuilder: the %s 'mode' is not supported", mode)
 	}

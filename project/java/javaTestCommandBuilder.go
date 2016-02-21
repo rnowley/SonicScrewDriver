@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// BuildCommand is a function for building up a javac command that can be used for building
+// GetJavaTestBuildCommand is a function for building up a javac command that can be used for building
 // a java test project. This command is built up using the project configuration and the command line
 // arguments passed in.
 func GetJavaTestBuildCommand(configuration JavaProject, deprecation bool) JavacCommand {
@@ -45,7 +45,7 @@ func GetJavaTestBuildCommand(configuration JavaProject, deprecation bool) JavacC
 
 // ExtractSourceFileList is a function that reads all of the test project source files to be
 // compiled from the configuration file and returns a slice of source files to be
-// compiled using the javac command. Each source file has had the base path appended
+// compiled using the javac command. Each source file has had the base path prepended
 // to it when returned from the function.
 func ExtractTestSourceFileList(configuration JavaProject,
 	sourceDirectory string) []string {

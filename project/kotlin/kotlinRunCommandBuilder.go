@@ -1,5 +1,7 @@
 package kotlin
 
+import "fmt"
+
 // GetKotlinRunCommand creates a new KotlinCommand based on the configuration
 // passed in as the argument to this function.
 func GetKotlinRunCommand(configuration KotlinProject) KotlinCommand {
@@ -16,7 +18,7 @@ func GetKotlinRunCommand(configuration KotlinProject) KotlinCommand {
 	}
 
 	if configuration.JarFile != "" {
-		command.JarFile = configuration.JarFile
+		command.JarFile = fmt.Sprintf("%s%s", configuration.DestinationDirectory, configuration.JarFile)
 	}
 
 	argumentCount := len(configuration.RunArguments)

@@ -16,4 +16,5 @@ type KotlinProject struct {
 	SourceFiles          []string
 	BuildTarget          string
 	RunArguments         []string
+	TestProject          KotlinTests
 }

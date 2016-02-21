@@ -5,6 +5,7 @@ import (
 
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
 	"github.com/rnowley/SonicScrewDriver/project/java"
+	"github.com/rnowley/SonicScrewDriver/project/kotlin"
 )
 
 // GetProjectRunner is a factory function that returns an object that implements the
@@ -20,6 +21,9 @@ func GetProjectRunner(configurationFile []byte, mode string, arguments Arguments
 		return projectRunner, nil
 	case "java":
 		projectRunner, _ = getJavaProjectRunner(configurationFile, mode, arguments)
+		return projectRunner, nil
+	case "kotlin":
+		projectRunner, _ = getKotlinProjectRunner(configurationFile, mode, arguments)
 		return projectRunner, nil
 	default:
 		return projectRunner, fmt.Errorf("GetProjectRunner: the %s language is not supported", projectLanguage)
@@ -73,4 +77,26 @@ func getJavaProjectRunner(configurationFile []byte, mode string, arguments Argum
 	projectRunner = java.NewProjectRunner(command, proj)
 
 	return projectRunner, nil
+}
+
+func getKotlinProjectRunner(configurationFile []byte, mode string, arguments Arguments) (ProjectRunner, error) {
+	var proj kotlin.KotlinProject
+	var projectRunner kotlin.KotlinProjectRunner
+	var command kotlin.KotlinCommand
+
+	proj = UnmarshalKotlinProject(configurationFile)
+
+	switch mode {
+	case "run":
+		command = kotlin.GetKotlinRunCommand(proj)
+	case "run-tests":
+		return projectRunner, fmt.Errorf("getKotlinProjectRunner: the %s mode has not been implemented", mode)
+	default:
+		return projectRunner, fmt.Errorf("getKotlinProjectRunner: the %s 'mode' is not supported", mode)
+	}
+
+	projectRunner = kotlin.NewKotlinProjectRunner(command, proj)
+
+	return projectRunner, nil
+
 }
