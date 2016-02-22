@@ -90,7 +90,7 @@ func getKotlinProjectRunner(configurationFile []byte, mode string, arguments Arg
 	case "run":
 		command = kotlin.GetKotlinRunCommand(proj)
 	case "run-tests":
-		return projectRunner, fmt.Errorf("getKotlinProjectRunner: the %s mode has not been implemented", mode)
+		command = kotlin.GetKotlinRunTestCommand(proj)
 	default:
 		return projectRunner, fmt.Errorf("getKotlinProjectRunner: the %s 'mode' is not supported", mode)
 	}

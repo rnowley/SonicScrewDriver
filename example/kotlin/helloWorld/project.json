@@ -3,7 +3,8 @@
     "Version": "0.0.1",
     "Description": "A demo project for testing compiling Kotlin.",
     "Language": "kotlin",
-	"Destination": "./build/",
+	"DestinationDirectory": "./build/",
+	"OutputFilename": "out.jar",
     "SourceFiles": [
         "main/hello.kt"
     ],
@@ -20,16 +21,16 @@
         ],
         "DestinationDirectory": "./build/",
         "TestFramework": "junit",
-        "MainClass": "org.junit.runner.JUnitCore",
+        "TestRunner": "org.junit.runner.JUnitCore",
+		"OutputFilename": "outTest.jar",
         "ClassPath": [
             "./lib/junit-4.12.jar",
             "./lib/hamcrest-core-1.3.jar",
 			"./lib/kotlin-test-1.0.0.jar",
-			"./lib/kotlin-test-junit-1.0.0.jar",
-            "./build/out.jar"
+			"./lib/kotlin-test-junit-1.0.0.jar"
         ],
         "RunArguments": [
-            "GreeterTest"
+            "hello.GreeterTest"
         ]
     }
 }

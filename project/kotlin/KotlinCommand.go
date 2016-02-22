@@ -8,6 +8,7 @@ type KotlinCommand struct {
 	ClassPath    []string
 	CommandName  string
 	JarFile      string
+	MainClass    string
 	RunArguments []string
 }
 
@@ -37,7 +38,11 @@ func (command KotlinCommand) GenerateArgumentList() []string {
 		argumentArray = append(argumentArray, "-cp", strings.Join(command.ClassPath, ":"))
 	}
 
-	argumentArray = append(argumentArray, "-jar", command.JarFile)
+	if command.JarFile != "" {
+		argumentArray = append(argumentArray, "-jar", command.JarFile)
+	} else {
+		argumentArray = append(argumentArray, command.MainClass)
+	}
 
 	if len(command.RunArguments) != 0 {
 		argumentArray = append(argumentArray, strings.Join(command.RunArguments, " "))
