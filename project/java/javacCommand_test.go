@@ -46,7 +46,7 @@ func TestNewDefaultJavacCommand(t *testing.T) {
 
 }
 
-func TestJavacGetCommandName(t *testing.T) {
+func TestGetCommandName(t *testing.T) {
 	command := NewDefaultJavacCommand()
 
 	commandName := command.GetCommandName()
@@ -61,7 +61,7 @@ func TestJavacGetCommandName(t *testing.T) {
 
 }
 
-func TestJavacGenerateArgumentListForDefaultInstance(t *testing.T) {
+func TestGenerateArgumentListForDefaultInstance(t *testing.T) {
 	command := NewDefaultJavacCommand()
 
 	argumentList := command.GenerateArgumentList()
@@ -76,7 +76,7 @@ func TestJavacGenerateArgumentListForDefaultInstance(t *testing.T) {
 	}
 }
 
-func TestJavacGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
+func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	const expected = "-d ./build/ -deprecation " +
 		"a.java b.java c.java " +
 		"-cp .:./lib/a.jar:./lib/x/b.jar " +
