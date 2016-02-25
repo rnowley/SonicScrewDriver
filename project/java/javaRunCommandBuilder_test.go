@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestGetJavaRunCommnd(t *testing.T) {
+func TestGetJavaRunCommand(t *testing.T) {
 	// Arrange
 	var configuration JavaProject
 	configuration.ClassPath = []string{"./lib/a.jar", "./lib/b.jar"}

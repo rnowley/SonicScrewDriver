@@ -32,7 +32,8 @@ func GetJavaTestBuildCommand(configuration JavaProject, deprecation bool) JavacC
 
 	command.Deprecation = deprecation
 
-	command.SourceFiles = ExtractTestSourceFileList(configuration, command.SourceDirectory)
+	command.SourceFiles = ExtractTestSourceFileList(configuration,
+		configuration.TestProject.SourceDirectory)
 
 	if configuration.SourceVersion != "" {
 		command.SourceVersion = configuration.SourceVersion
