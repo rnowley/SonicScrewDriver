@@ -38,26 +38,10 @@ func (runner JavaProjectRunner) RunProject() error {
 	cmd.Stderr = cmdError
 
 	// Execute command
-	//printCommand(cmd)
 	err := cmd.Run() // will wait for command to return
 	printError(err)
 	printOutput(cmdOutput.Bytes())
 	printOutput(cmdError.Bytes())
-
-	//cmd := exec.Command(binary, "")
-	//cmd.Args = args
-	/*var out bytes.Buffer
-	cmd.Stdout = &out
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr*/
-	//err := cmd.Run()
-
-	//f err != nil {
-	//	return err
-	//}
-
-	/*fmt.Println(out.String())
-	fmt.Println(stderr.String())*/
 
 	return nil
 }

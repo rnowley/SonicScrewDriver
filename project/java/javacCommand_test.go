@@ -93,7 +93,7 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 
 	if argumentString != expected {
 		t.Error(
-			"For", "command.GetCommandName",
+			"For", "TestGenerateArgumentListForInstanceWithAllFieldsSet",
 			"expected", expected, "got",
 			argumentString,
 		)

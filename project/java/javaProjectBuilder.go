@@ -64,7 +64,6 @@ func (builder JavaProjectBuilder) BuildProject() error {
 	cmd.Stderr = cmdError
 
 	// Execute command
-	//printCommand(cmd)
 	err := cmd.Run() // will wait for command to return
 	printError(err)
 	printOutput(cmdOutput.Bytes())

@@ -24,7 +24,7 @@ func NewDefaultCommand() CSharpCommand {
 	command.CommandName = "mcs"
 	command.DebugFlag = "-debug"
 	command.SourceDirectory = "./src/"
-	command.DestinationDirectory = "./build"
+	command.DestinationDirectory = "./build/"
 	return command
 }
 
@@ -45,7 +45,8 @@ func (command CSharpCommand) GetDestinationDirectory() string {
 func (c CSharpCommand) GenerateArgumentList() []string {
 	argumentArray := make([]string, 0)
 	argumentArray = append(argumentArray, c.DebugFlag)
-	argumentArray = append(argumentArray, c.OutputFilename+GetFileSuffix(c.BuildTarget))
+	argumentArray = append(argumentArray,
+		c.OutputFilename+GetFileSuffix(c.BuildTarget))
 	argumentArray = append(argumentArray, c.BuildTarget)
 
 	if c.LibraryPath != "" {
@@ -73,7 +74,7 @@ func (c CSharpCommand) GenerateArgumentList() []string {
 
 // GetFileSuffix is a function for determining the file suffix of the build  artifact based in the provided build target.
 func GetFileSuffix(buildTarget string) string {
-	suffix := ".exe"
+	var suffix string
 
 	switch buildTarget {
 	case "-target:exe":
@@ -83,6 +84,8 @@ func GetFileSuffix(buildTarget string) string {
 	case "-target:module":
 		suffix = ".netmodule"
 	case "-target:winexe":
+		suffix = ".exe"
+	default:
 		suffix = ".exe"
 	}
 
