@@ -56,9 +56,10 @@ func ExtractBuildTarget(configuration CSharpProject) string {
 	switch configuration.BuildTarget {
 	case "exe", "library", "module", "winexe":
 		return fmt.Sprintf("-target:%s", configuration.BuildTarget)
+	default:
+		return "-target:exe"
 	}
 
-	return "-target:exe"
 }
 
 // ExtractLibraryPath extracts all of the library paths provided in the

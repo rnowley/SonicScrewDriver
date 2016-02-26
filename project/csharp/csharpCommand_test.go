@@ -1,7 +1,7 @@
 package csharp
 
 import (
-	//"strings"
+	"strings"
 	"testing"
 )
 
@@ -86,21 +86,37 @@ func TestGetDestinationDirectory(t *testing.T) {
 			commandToTest.GetDestinationDirectory(),
 		)
 	}
+
 }
 
 func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	// Arrange
 
 	commandToTest := NewDefaultCommand()
-	commandToTest.OutputFilename = "-out:./src/test.exe"
+	commandToTest.OutputFilename = "-out:./build/test"
 	commandToTest.SourceFiles = []string{"a.cs", "b.cs", "c.cs"}
 	commandToTest.BuildTarget = "-target:exe"
-	commandToTest.LibraryPath = "-lib:"
+	commandToTest.LibraryPath = "-lib:lib1,lib2"
 	commandToTest.References = "-r:reference1,reference2"
+
 	// Act
+
+	argumentList := commandToTest.GenerateArgumentList()
+	actual := strings.Join(argumentList, " ")
 
 	// Assert
 
+	expected := "-debug -out:./build/test.exe -target:exe " +
+		"-lib:lib1,lib2 -r:reference1,reference2 " +
+		"a.cs b.cs c.cs"
+
+	if actual != expected {
+		t.Error(
+			"For", "TestGenerateArgumentListForInstanceWithAllFieldsSet",
+			"expected", expected, "got",
+			actual,
+		)
+	}
 }
 
 func TestGetFileSuffixTargetNotProvided(t *testing.T) {
