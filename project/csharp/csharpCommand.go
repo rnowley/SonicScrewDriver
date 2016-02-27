@@ -15,7 +15,7 @@ type CSharpCommand struct {
 	PackageList          string
 	WarningLevel         string
 	WarningsAsErrors     string
-	ReferencesPaths      []Reference
+	ReferencePaths       []Reference
 }
 
 // NewDefaultCommand returns a CSharpCommand with some default values set.

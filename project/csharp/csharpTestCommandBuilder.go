@@ -30,7 +30,7 @@ func GetCSharpTestBuildCommand(configuration CSharpProject) CSharpCommand {
 	command.PackageList = ExtractTestPackageList(configuration)
 	//command.WarningLevel = SetWarningLevel(configuration)
 	//command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
-	command.ReferencesPaths = ExtractTestReferencePaths(configuration)
+	command.ReferencePaths = ExtractTestReferencePaths(configuration)
 
 	return command
 }

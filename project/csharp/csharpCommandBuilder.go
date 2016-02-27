@@ -25,11 +25,10 @@ func GetCSharpBuildCommand(configuration CSharpProject) CSharpCommand {
 
 	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)
 	command.BuildTarget = ExtractBuildTarget(configuration)
-	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)
 	command.References = ExtractReferences(configuration)
 	command.LibraryPath = ExtractLibraryPath(configuration)
 	command.PackageList = ExtractPackageList(configuration)
-	command.ReferencesPaths = ExtractReferencePaths(configuration)
+	command.ReferencePaths = ExtractReferencePaths(configuration)
 	//command.WarningLevel = SetWarningLevel(configuration)
 	//command.WarningsAsErrors = TreatWarningsAsErrors(configuration)
 
@@ -106,7 +105,7 @@ func ExtractReferences(configuration CSharpProject) string {
 
 func ExtractReferencePaths(configuration CSharpProject) []Reference {
 	referenceCount := len(configuration.References)
-	referenceList := make([]Reference, referenceCount)
+	referenceList := make([]Reference, 0)
 
 	if referenceCount == 0 {
 		return referenceList

@@ -85,7 +85,7 @@ func (builder CSharpProjectBuilder) ExecutePostBuildTasks() error {
 // copyReferences copies the required reference files to the build destination
 // directory.
 func (builder CSharpProjectBuilder) copyReferences() error {
-	referenceCount := len(builder.command.ReferencesPaths)
+	referenceCount := len(builder.command.ReferencePaths)
 
 	if referenceCount == 0 {
 		return nil
@@ -95,12 +95,12 @@ func (builder CSharpProjectBuilder) copyReferences() error {
 
 	for i := 0; i < referenceCount; i++ {
 
-		if builder.command.ReferencesPaths[i].Path == "" {
+		if builder.command.ReferencePaths[i].Path == "" {
 			continue
 		}
 
-		path := builder.command.ReferencesPaths[i].Path
-		referenceName := builder.command.ReferencesPaths[i].Name
+		path := builder.command.ReferencePaths[i].Path
+		referenceName := builder.command.ReferencePaths[i].Name
 		fileExtension := ".dll"
 
 		utilities.CopyFile(fmt.Sprintf("%s%s%s", destinationDirectory, referenceName, fileExtension),
