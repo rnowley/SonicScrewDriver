@@ -135,3 +135,283 @@ func TestGetCSharpBuildCommand(t *testing.T) {
 		)
 	}
 }
+
+func TestCSharpExtractSourceFileListNoFiles(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	fileList := ExtractSourceFileList(configuration, "./src/")
+
+	// Assert
+	const expectedSourceFiles = ""
+	actualSourceFiles := strings.Join(fileList, " ")
+
+	if actualSourceFiles != expectedSourceFiles {
+		t.Error(
+			"For", "TestCSharpExtractSourceFileListNoFiles",
+			"expected", expectedSourceFiles, "got",
+			actualSourceFiles,
+		)
+	}
+}
+
+func TestCSharpExtractSourceFileListOneFile(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.SourceFiles = []string{"dir1/a.cs"}
+
+	// Act
+	fileList := ExtractSourceFileList(configuration, "./src/")
+
+	// Assert
+	const expectedSourceFiles = "./src/dir1/a.cs"
+	actualSourceFiles := strings.Join(fileList, " ")
+
+	if actualSourceFiles != expectedSourceFiles {
+		t.Error(
+			"For", "TestCSharpExtractSourceFileListNoFiles",
+			"expected", expectedSourceFiles, "got",
+			actualSourceFiles,
+		)
+	}
+}
+
+func TestCSharpExtractSourceFileListThreeFiles(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.SourceFiles = []string{"dir1/a.cs", "dir1/b.cs", "dir2/c.cs"}
+
+	// Act
+	fileList := ExtractSourceFileList(configuration, "./src/")
+
+	// Assert
+	const expectedSourceFiles = "./src/dir1/a.cs ./src/dir1/b.cs ./src/dir2/c.cs"
+	actualSourceFiles := strings.Join(fileList, " ")
+
+	if actualSourceFiles != expectedSourceFiles {
+		t.Error(
+			"For", "TestCSharpExtractSourceFileListNoFiles",
+			"expected", expectedSourceFiles, "got",
+			actualSourceFiles,
+		)
+	}
+}
+
+func TestCSharpExtractBuildTargetInvalid(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.BuildTarget = "invalid"
+
+	// Act
+	actualBuildTarget := ExtractBuildTarget(configuration)
+
+	// Assert
+	const expectedBuildTarget = "-target:exe"
+
+	if actualBuildTarget != expectedBuildTarget {
+		t.Error(
+			"For", "TestCSharpExtractBuildTargetInvalid",
+			"expected", expectedBuildTarget, "got",
+			actualBuildTarget,
+		)
+	}
+}
+
+func TestCSharpExtractBuildTargetExe(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.BuildTarget = "exe"
+
+	// Act
+	actualBuildTarget := ExtractBuildTarget(configuration)
+
+	// Assert
+	const expectedBuildTarget = "-target:exe"
+
+	if actualBuildTarget != expectedBuildTarget {
+		t.Error(
+			"For", "TestCSharpExtractBuildTargetExe",
+			"expected", expectedBuildTarget, "got",
+			actualBuildTarget,
+		)
+	}
+}
+
+func TestCSharpExtractBuildTargetLibrary(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.BuildTarget = "library"
+
+	// Act
+	actualBuildTarget := ExtractBuildTarget(configuration)
+
+	// Assert
+	const expectedBuildTarget = "-target:library"
+
+	if actualBuildTarget != expectedBuildTarget {
+		t.Error(
+			"For", "TestCSharpExtractBuildTargetLibrary",
+			"expected", expectedBuildTarget, "got",
+			actualBuildTarget,
+		)
+	}
+}
+
+func TestCSharpExtractBuildTargetModule(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.BuildTarget = "module"
+
+	// Act
+	actualBuildTarget := ExtractBuildTarget(configuration)
+
+	// Assert
+	const expectedBuildTarget = "-target:module"
+
+	if actualBuildTarget != expectedBuildTarget {
+		t.Error(
+			"For", "TestCSharpExtractBuildTargetModule",
+			"expected", expectedBuildTarget, "got",
+			actualBuildTarget,
+		)
+	}
+}
+
+func TestCSharpExtractBuildTargetWinexe(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.BuildTarget = "winexe"
+
+	// Act
+	actualBuildTarget := ExtractBuildTarget(configuration)
+
+	// Assert
+	const expectedBuildTarget = "-target:winexe"
+
+	if actualBuildTarget != expectedBuildTarget {
+		t.Error(
+			"For", "TestCSharpExtractBuildTargetWinexe",
+			"expected", expectedBuildTarget, "got",
+			actualBuildTarget,
+		)
+	}
+}
+
+func TestCSharpExtractLibraryPathNoLibraryPaths(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualLibraryPaths := ExtractLibraryPath(configuration)
+
+	// Assert
+	const expectedLibraryPaths = ""
+
+	if actualLibraryPaths != expectedLibraryPaths {
+		t.Error(
+			"For", "TestCSharpExtractLibraryPathNoLibraryPaths",
+			"expected", expectedLibraryPaths, "got",
+			actualLibraryPaths,
+		)
+	}
+}
+
+func TestCSharpExtractLibraryPathOneLibrary(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.LibraryPath = []string{"./lib/lib1/"}
+
+	// Act
+	actualLibraryPaths := ExtractLibraryPath(configuration)
+
+	// Assert
+	const expectedLibraryPaths = "-lib:./lib/lib1/"
+
+	if actualLibraryPaths != expectedLibraryPaths {
+		t.Error(
+			"For", "TestCSharpExtractLibraryPathOneLibrary",
+			"expected", expectedLibraryPaths, "got",
+			actualLibraryPaths,
+		)
+	}
+}
+
+func TestCSharpExtractLibraryPathThreeLibraries(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.LibraryPath = []string{"./lib/lib1/", "./lib/lib2/", "./lib/lib3/"}
+
+	// Act
+	actualLibraryPaths := ExtractLibraryPath(configuration)
+
+	// Assert
+	const expectedLibraryPaths = "-lib:./lib/lib1/,./lib/lib2/,./lib/lib3/"
+
+	if actualLibraryPaths != expectedLibraryPaths {
+		t.Error(
+			"For", "TestCSharpExtractLibraryPathThreeLibraries",
+			"expected", expectedLibraryPaths, "got",
+			actualLibraryPaths,
+		)
+	}
+}
+
+func TestCSharpExtractPackageListNoPackages(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualPackageList := ExtractPackageList(configuration)
+
+	// Assert
+	const expectedPackageList = ""
+
+	if actualPackageList != expectedPackageList {
+		t.Error(
+			"For", "TestCSharpExtractPackageListNoPackages",
+			"expected", expectedPackageList, "got",
+			actualPackageList,
+		)
+	}
+}
+
+func TestCSharpExtractPackageListOnePackage(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.PackageList = []string{"package1"}
+
+	// Act
+	actualPackageList := ExtractPackageList(configuration)
+
+	// Assert
+	const expectedPackageList = "-pkg:package1"
+
+	if actualPackageList != expectedPackageList {
+		t.Error(
+			"For", "TestCSharpExtractPackageListOnePackage",
+			"expected", expectedPackageList, "got",
+			actualPackageList,
+		)
+	}
+}
+
+func TestCSharpExtractPackageListThreePackages(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.PackageList = []string{"package1", "package2", "package3"}
+
+	// Act
+	actualPackageList := ExtractPackageList(configuration)
+
+	// Assert
+	const expectedPackageList = "-pkg:package1,package2,package3"
+
+	if actualPackageList != expectedPackageList {
+		t.Error(
+			"For", "TestCSharpExtractPackageListThreePackages",
+			"expected", expectedPackageList, "got",
+			actualPackageList,
+		)
+	}
+}
