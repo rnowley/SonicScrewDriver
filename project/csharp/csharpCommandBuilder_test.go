@@ -415,3 +415,143 @@ func TestCSharpExtractPackageListThreePackages(t *testing.T) {
 		)
 	}
 }
+
+func TestCSharpExtractReferencesNoReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualReferences := ExtractReferences(configuration)
+
+	// Assert
+	const expectedReferences = ""
+
+	if actualReferences != expectedReferences {
+		t.Error(
+			"For", "TestCSharpExtractReferencesNoReferences",
+			"expected", expectedReferences, "got",
+			actualReferences,
+		)
+	}
+}
+
+func TestCSharpExtractReferencesOneReference(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"}}
+
+	// Act
+	actualReferences := ExtractReferences(configuration)
+
+	// Assert
+	const expectedReferences = "-r:reference1"
+
+	if actualReferences != expectedReferences {
+		t.Error(
+			"For", "TestCSharpExtractReferencesOneReference",
+			"expected", expectedReferences, "got",
+			actualReferences,
+		)
+	}
+}
+
+func TestCSharpExtractReferencesThreeReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"},
+		Reference{Name: "reference2", Path: "./lib/reference2/"},
+		Reference{Name: "reference3", Path: "./lib/reference3/"}}
+
+	// Act
+	actualReferences := ExtractReferences(configuration)
+
+	// Assert
+	const expectedReferences = "-r:reference1,reference2,reference3"
+
+	if actualReferences != expectedReferences {
+		t.Error(
+			"For", "TestCSharpExtractReferencesThreeReferences",
+			"expected", expectedReferences, "got",
+			actualReferences,
+		)
+	}
+}
+
+func TestCSharpExtractReferencePathsNoReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualReferencesCount := len(ExtractReferencePaths(configuration))
+
+	// Assert
+	const expectedReferencesCount = 0
+
+	if actualReferencesCount != expectedReferencesCount {
+		t.Error(
+			"For", "TestCSharpExtractReferencesNoReferences",
+			"expected", expectedReferencesCount, "got",
+			actualReferencesCount,
+		)
+	}
+}
+
+func TestCSharpExtractReferencePathsOneReference(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"}}
+
+	// Act
+	actualReferences := ExtractReferencePaths(configuration)
+
+	// Assert
+
+	if actualReferences[0].Name != "reference1" ||
+		actualReferences[0].Path != "./lib/reference1/" {
+		t.Error(
+			"For", "TestCSharpExtractReferencePathsOneReference",
+			"expected", "reference1, "+"./lib/reference1/", "got",
+			actualReferences[0].Name+", "+actualReferences[0].Path,
+		)
+	}
+}
+
+func TestCSharpExtractReferencePathsThreeReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"},
+		Reference{Name: "reference2", Path: "./lib/reference2/"},
+		Reference{Name: "reference3", Path: "./lib/reference3/"}}
+
+	// Act
+	actualReferences := ExtractReferencePaths(configuration)
+
+	// Assert
+
+	if actualReferences[0].Name != "reference1" ||
+		actualReferences[0].Path != "./lib/reference1/" {
+		t.Error(
+			"For", "TestCSharpExtractReferencePathsThreeReferences",
+			"expected", "reference1, "+"./lib/reference1/", "got",
+			actualReferences[0].Name+", "+actualReferences[0].Path,
+		)
+	}
+
+	if actualReferences[1].Name != "reference2" ||
+		actualReferences[1].Path != "./lib/reference2/" {
+		t.Error(
+			"For", "TestCSharpExtractReferencePathsThreeReferences",
+			"expected", "reference2, "+"./lib/reference2/", "got",
+			actualReferences[1].Name+", "+actualReferences[1].Path,
+		)
+	}
+
+	if actualReferences[2].Name != "reference3" ||
+		actualReferences[2].Path != "./lib/reference3/" {
+		t.Error(
+			"For", "TestCSharpExtractReferencePathsThreeReferences",
+			"expected", "reference3, "+"./lib/reference3/", "got",
+			actualReferences[2].Name+", "+actualReferences[2].Path,
+		)
+	}
+}
