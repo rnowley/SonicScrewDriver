@@ -69,13 +69,13 @@ func ExtractTestLibraryPath(configuration CSharpProject) string {
 // ExtractPackageList extracts all of the packages provided in the
 // configuration file and returns them as an argument item for the compiler.
 func ExtractTestPackageList(configuration CSharpProject) string {
-	fileCount := len(configuration.PackageList)
+	fileCount := len(configuration.TestProject.PackageList)
 
 	if fileCount == 0 {
 		return ""
 	}
 
-	return "-pkg:" + strings.Join(configuration.PackageList, ",")
+	return "-pkg:" + strings.Join(configuration.TestProject.PackageList, ",")
 }
 
 // ExtractReferences extracts all of the references provided in the
@@ -83,22 +83,16 @@ func ExtractTestPackageList(configuration CSharpProject) string {
 func ExtractTestReferences(configuration CSharpProject) string {
 	fileCount := len(configuration.References)
 
-	/*if fileCount == 0 {
-		return ""
-	}*/
-
-	fileList := make([]string, fileCount)
+	fileList := make([]string, 0)
 
 	for i := 0; i < fileCount; i++ {
 		fileList = append(fileList, configuration.References[i].Name)
-		//fileList[i] = configuration.References[i].Name
 	}
 
 	fileCount = len(configuration.TestProject.References)
 
 	for i := 0; i < fileCount; i++ {
 		fileList = append(fileList, configuration.TestProject.References[i].Name)
-		//fileList[i] = configuration.References[i].Name
 	}
 
 	return "-r:" + strings.Join(fileList, ",")
@@ -106,7 +100,7 @@ func ExtractTestReferences(configuration CSharpProject) string {
 
 func ExtractTestReferencePaths(configuration CSharpProject) []Reference {
 	referenceCount := len(configuration.References)
-	referenceList := make([]Reference, referenceCount)
+	referenceList := make([]Reference, 0)
 
 	for i := 0; i < referenceCount; i++ {
 		referenceList = append(referenceList, configuration.References[i])

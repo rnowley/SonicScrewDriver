@@ -1,7 +1,6 @@
 package csharp
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
@@ -114,7 +113,6 @@ func TestGetCSharpBuildCommand(t *testing.T) {
 		)
 	}
 
-	fmt.Println(commandToTest.ReferencePaths)
 	actualReferencePaths := commandToTest.ReferencePaths
 
 	if actualReferencePaths[0].Name != "Library.x" ||
