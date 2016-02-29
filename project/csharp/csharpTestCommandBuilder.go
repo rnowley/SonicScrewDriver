@@ -95,6 +95,10 @@ func ExtractTestReferences(configuration CSharpProject) string {
 		fileList = append(fileList, configuration.TestProject.References[i].Name)
 	}
 
+	if len(fileList) == 0 {
+		return ""
+	}
+
 	return "-r:" + strings.Join(fileList, ",")
 }
 

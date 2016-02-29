@@ -393,3 +393,202 @@ func TestExtractTestLibraryPathThreeLibraries(t *testing.T) {
 		)
 	}
 }
+
+func TestCSharpExtractTestPackageListNoPackages(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualPackageList := ExtractTestPackageList(configuration)
+
+	// Assert
+	const expectedPackageList = ""
+
+	if actualPackageList != expectedPackageList {
+		t.Error(
+			"For", "TestCSharpExtractTestPackageListListNoPackages",
+			"expected", expectedPackageList, "got",
+			actualPackageList,
+		)
+	}
+}
+
+func TestCSharpExtractTestPackageListOnePackage(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.TestProject.PackageList = []string{"package1"}
+
+	// Act
+	actualPackageList := ExtractTestPackageList(configuration)
+
+	// Assert
+	const expectedPackageList = "-pkg:package1"
+
+	if actualPackageList != expectedPackageList {
+		t.Error(
+			"For", "TestCSharpExtractTestPackageListOnePackage",
+			"expected", expectedPackageList, "got",
+			actualPackageList,
+		)
+	}
+}
+
+func TestCSharpExtractTestPackageListListThreePackages(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.TestProject.PackageList = []string{"package1", "package2", "package3"}
+
+	// Act
+	actualPackageList := ExtractTestPackageList(configuration)
+
+	// Assert
+	const expectedPackageList = "-pkg:package1,package2,package3"
+
+	if actualPackageList != expectedPackageList {
+		t.Error(
+			"For", "TestCSharpExtractTestPackageListListThreePackages",
+			"expected", expectedPackageList, "got",
+			actualPackageList,
+		)
+	}
+}
+
+func TestCSharpExtractTestReferencesNoReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualReferences := ExtractTestReferences(configuration)
+
+	// Assert
+	const expectedReferences = ""
+
+	if actualReferences != expectedReferences {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencesNoReferences",
+			"expected", expectedReferences, "got",
+			actualReferences,
+		)
+	}
+}
+
+func TestCSharpExtractTestReferencesOneReference(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.TestProject.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"}}
+
+	// Act
+	actualReferences := ExtractTestReferences(configuration)
+
+	// Assert
+	const expectedReferences = "-r:reference1"
+
+	if actualReferences != expectedReferences {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencesOneReference",
+			"expected", expectedReferences, "got",
+			actualReferences,
+		)
+	}
+}
+
+func TestCSharpExtractTestReferencesThreeReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.TestProject.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"},
+		Reference{Name: "reference2", Path: "./lib/reference2/"},
+		Reference{Name: "reference3", Path: "./lib/reference3/"}}
+
+	// Act
+	actualReferences := ExtractTestReferences(configuration)
+
+	// Assert
+	const expectedReferences = "-r:reference1,reference2,reference3"
+
+	if actualReferences != expectedReferences {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencesThreeReferences",
+			"expected", expectedReferences, "got",
+			actualReferences,
+		)
+	}
+}
+
+func TestCSharpExtractTestReferencePathsNoReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+
+	// Act
+	actualReferencesCount := len(ExtractTestReferencePaths(configuration))
+
+	// Assert
+	const expectedReferencesCount = 0
+
+	if actualReferencesCount != expectedReferencesCount {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencePathsNoReferences",
+			"expected", expectedReferencesCount, "got",
+			actualReferencesCount,
+		)
+	}
+}
+
+func TestCSharpExtractTestReferencePathsOneReference(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.TestProject.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"}}
+
+	// Act
+	actualReferences := ExtractTestReferencePaths(configuration)
+
+	// Assert
+
+	if actualReferences[0].Name != "reference1" ||
+		actualReferences[0].Path != "./lib/reference1/" {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencePathsOneReference",
+			"expected", "reference1, "+"./lib/reference1/", "got",
+			actualReferences[0].Name+", "+actualReferences[0].Path,
+		)
+	}
+}
+
+func TestCSharpExtractTestReferencePathsThreeReferences(t *testing.T) {
+	// Arrange
+	var configuration CSharpProject
+	configuration.TestProject.References = []Reference{Reference{Name: "reference1", Path: "./lib/reference1/"},
+		Reference{Name: "reference2", Path: "./lib/reference2/"},
+		Reference{Name: "reference3", Path: "./lib/reference3/"}}
+
+	// Act
+	actualReferences := ExtractTestReferencePaths(configuration)
+
+	// Assert
+
+	if actualReferences[0].Name != "reference1" ||
+		actualReferences[0].Path != "./lib/reference1/" {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencePathsThreeReferences",
+			"expected", "reference1, "+"./lib/reference1/", "got",
+			actualReferences[0].Name+", "+actualReferences[0].Path,
+		)
+	}
+
+	if actualReferences[1].Name != "reference2" ||
+		actualReferences[1].Path != "./lib/reference2/" {
+		t.Error(
+			"For", "TestCSharpExtractTestReferencePathsThreeReferences",
+			"expected", "reference2, "+"./lib/reference2/", "got",
+			actualReferences[1].Name+", "+actualReferences[1].Path,
+		)
+	}
+
+	if actualReferences[2].Name != "reference3" ||
+		actualReferences[2].Path != "./lib/reference3/" {
+		t.Error(
+			"For", "TestCSharpExtractReferencePathsThreeReferences",
+			"expected", "reference3, "+"./lib/reference3/", "got",
+			actualReferences[2].Name+", "+actualReferences[2].Path,
+		)
+	}
+}
