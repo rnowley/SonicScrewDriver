@@ -17,7 +17,7 @@ type KotlinCommand struct {
 func NewDefaultKotlinCommand() KotlinCommand {
 	var command KotlinCommand
 	command.CommandName = "java"
-	command.ClassPath = make([]string, 0, 10)
+	command.ClassPath = make([]string, 0)
 	command.JarFile = "./build/out.jar"
 
 	return command

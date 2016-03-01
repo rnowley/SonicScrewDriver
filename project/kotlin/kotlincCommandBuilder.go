@@ -12,6 +12,10 @@ func GetKotlincBuildCommand(configuration KotlinProject) KotlincCommand {
 		command.ClassPath = configuration.ClassPath
 	}
 
+	if configuration.SourceDirectory != "" {
+		command.SourceDirectory = configuration.SourceDirectory
+	}
+
 	if configuration.DestinationDirectory != "" {
 		command.DestinationDirectory = configuration.DestinationDirectory
 	}

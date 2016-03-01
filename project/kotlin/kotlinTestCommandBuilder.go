@@ -15,6 +15,10 @@ func GetKotlincTestBuildCommand(configuration KotlinProject) KotlincCommand {
 		command.DestinationDirectory =
 			configuration.TestProject.DestinationDirectory
 	}
+	
+	if configuration.TestProject.SourceDirectory != "" {
+		command.SourceDirectory = configuration.TestProject.SourceDirectory
+	}
 
 	if configuration.TestProject.OutputFilename == "" {
 		command.OutputFilename = "outTest.jar"
