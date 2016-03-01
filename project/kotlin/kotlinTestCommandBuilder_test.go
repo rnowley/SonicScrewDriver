@@ -92,3 +92,72 @@ func TestGetKotlinTestBuildCommand(t *testing.T) {
 	}
 
 }
+
+func TestExtractKotlinTestSourceFileListNoSourceFiles(t *testing.T) {
+	// Arrange
+
+	var configuration KotlinProject
+	configuration.TestProject.SourceFiles = []string{}
+
+	// Act
+	fileList := ExtractTestSourceFileList(configuration, "./src/test/")
+
+	// Assert
+	const expectedSourceFileList = ""
+	actualSourceFileList := strings.Join(fileList, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "TestExtractKotlinTestSourceFileListNoSourceFiles",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
+		)
+	}
+
+}
+
+func TestExtractKotlinTestSourceFileListOneSourceFile(t *testing.T) {
+	// Arrange
+
+	var configuration KotlinProject
+	configuration.TestProject.SourceFiles = []string{"testA.kt"}
+
+	// Act
+	fileList := ExtractTestSourceFileList(configuration, "./src/test/")
+
+	// Assert
+	const expectedSourceFileList = "./src/test/testA.kt"
+	actualSourceFileList := strings.Join(fileList, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "TestExtractKotlinTestSourceFileListNoSourceFiles",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
+		)
+	}
+
+}
+
+func TestExtractKotlinTestSourceFileListThreeSourceFiles(t *testing.T) {
+	// Arrange
+
+	var configuration KotlinProject
+	configuration.TestProject.SourceFiles = []string{"testA.kt", "testB.kt", "testC.kt"}
+
+	// Act
+	fileList := ExtractTestSourceFileList(configuration, "./src/test/")
+
+	// Assert
+	const expectedSourceFileList = "./src/test/testA.kt ./src/test/testB.kt ./src/test/testC.kt"
+	actualSourceFileList := strings.Join(fileList, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "TestExtractKotlinTestSourceFileListNoSourceFiles",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
+		)
+	}
+
+}
