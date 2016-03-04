@@ -43,5 +43,9 @@ func (runner JavaProjectRunner) RunProject() error {
 	printOutput(cmdOutput.Bytes())
 	printOutput(cmdError.Bytes())
 
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

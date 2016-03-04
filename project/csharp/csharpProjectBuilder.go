@@ -54,6 +54,10 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 	printOutput(cmdOutput.Bytes())
 	printOutput(cmdError.Bytes())
 
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

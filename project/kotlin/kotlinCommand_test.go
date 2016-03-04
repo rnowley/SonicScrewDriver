@@ -99,8 +99,7 @@ func TestKotlinGenerateArgumentListForInstanceWithAllFieldsSetJarFile(t *testing
 
 	// Assert
 
-	const expectedArgumentString =
-		"-cp .:./lib/a.jar:./lib/x/b.jar -jar testout.jar " +
+	const expectedArgumentString = "-cp .:./lib/a.jar:./lib/x/b.jar -jar testout.jar " +
 		"arg1 arg2"
 
 	if actualArgumentString != expectedArgumentString {
@@ -128,8 +127,7 @@ func TestKotlinGenerateArgumentListForInstanceWithAllFieldsSetMainClass(t *testi
 
 	// Assert
 
-	const expectedArgumentString =
-		"-cp .:./lib/a.jar:./lib/x/b.jar testout " +
+	const expectedArgumentString = "-cp .:./lib/a.jar:./lib/x/b.jar testout " +
 		"arg1 arg2"
 
 	if actualArgumentString != expectedArgumentString {
@@ -157,8 +155,7 @@ func TestKotlinGenerateArgumentListForInstanceWithAllFieldsSetJarFileAndMainClas
 
 	// Assert
 
-	const expectedArgumentString =
-		"-cp .:./lib/a.jar:./lib/x/b.jar -jar testout.jar " +
+	const expectedArgumentString = "-cp .:./lib/a.jar:./lib/x/b.jar -jar testout.jar " +
 		"arg1 arg2"
 
 	if actualArgumentString != expectedArgumentString {

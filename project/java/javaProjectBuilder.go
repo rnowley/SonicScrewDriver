@@ -69,6 +69,11 @@ func (builder JavaProjectBuilder) BuildProject() error {
 	printOutput(cmdOutput.Bytes())
 	printOutput(cmdError.Bytes())
 
+	if err != nil {
+		fmt.Println("***Error***")
+		return err
+	}
+
 	return nil
 }
 

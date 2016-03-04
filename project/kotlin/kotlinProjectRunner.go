@@ -41,5 +41,9 @@ func (runner KotlinProjectRunner) RunProject() error {
 	printOutput(cmdOutput.Bytes())
 	printOutput(cmdError.Bytes())
 
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

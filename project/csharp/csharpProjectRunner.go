@@ -44,20 +44,9 @@ func (runner CSharpProjectRunner) RunProject() error {
 	printOutput(cmdOutput.Bytes())
 	printOutput(cmdError.Bytes())
 
-	//cmd := exec.Command(binary, "")
-	//cmd.Args = args
-	/*var out bytes.Buffer
-	cmd.Stdout = &out
-	var stderr bytes.Buffer
-	cmd.Stderr = &stderr*/
-	//err := cmd.Run()
-
-	//f err != nil {
-	//	return err
-	//}
-
-	/*fmt.Println(out.String())
-	fmt.Println(stderr.String())*/
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
