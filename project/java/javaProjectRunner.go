@@ -40,8 +40,8 @@ func (runner JavaProjectRunner) RunProject() error {
 	// Execute command
 	err := cmd.Run() // will wait for command to return
 	printError(err)
-	printOutput(cmdOutput.Bytes())
-	printOutput(cmdError.Bytes())
+	printOutput(cmdOutput.Bytes(), err != nil)
+	printOutput(cmdError.Bytes(), err != nil)
 
 	if err != nil {
 		return err

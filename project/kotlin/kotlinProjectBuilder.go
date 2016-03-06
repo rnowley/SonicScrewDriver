@@ -3,6 +3,7 @@ package kotlin
 import (
 	"bytes"
 	"fmt"
+	"github.com/fatih/color"
 	"os"
 	"os/exec"
 	"strings"
@@ -31,15 +32,28 @@ func printCommand(cmd *exec.Cmd) {
 }
 
 func printError(err error) {
+
 	if err != nil {
-		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
+		output := color.RedString("%s\n", err.Error())
+		os.Stderr.WriteString(output)
 	}
+
 }
 
-func printOutput(outs []byte) {
+func printOutput(outs []byte, commandError bool) {
+
 	if len(outs) > 0 {
-		fmt.Printf("==> Output: %s\n", string(outs))
+		var output string
+
+		if commandError {
+			output = color.RedString("%s",  string(outs))
+		} else {
+			output = color.YellowString("%s", string(outs))
+		}
+
+		fmt.Println(output)
 	}
+
 }
 
 // BuildProject builds the Kotlin project.
@@ -67,8 +81,8 @@ func (builder KotlinProjectBuilder) BuildProject() error {
 	//printCommand(cmd)
 	err := cmd.Run() // will wait for command to return
 	printError(err)
-	printOutput(cmdOutput.Bytes())
-	printOutput(cmdError.Bytes())
+	printOutput(cmdOutput.Bytes(), err != nil)
+	printOutput(cmdError.Bytes(), err != nil)
 
 	if err != nil {
 		return err

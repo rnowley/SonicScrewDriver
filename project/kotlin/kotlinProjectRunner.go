@@ -38,8 +38,8 @@ func (runner KotlinProjectRunner) RunProject() error {
 	// Execute the command.
 	err := cmd.Run()
 	printError(err)
-	printOutput(cmdOutput.Bytes())
-	printOutput(cmdError.Bytes())
+	printOutput(cmdOutput.Bytes(), err != nil)
+	printOutput(cmdError.Bytes(), err != nil)
 
 	if err != nil {
 		return err
