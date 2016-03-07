@@ -6,7 +6,6 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
-	"strings"
 )
 
 // KotlinProjectBuilder represents a class for building a Kotlin project.
@@ -25,10 +24,6 @@ func NewProjectBuilder(command KotlincCommand, project KotlinProject) KotlinProj
 func (builder KotlinProjectBuilder) ExecutePreBuildTasks() error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
-}
-
-func printCommand(cmd *exec.Cmd) {
-	fmt.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
 }
 
 func printError(err error) {
@@ -65,7 +60,7 @@ func (builder KotlinProjectBuilder) BuildProject() error {
 	}
 
 	args := builder.command.GenerateArgumentList()
-	//fmt.Println(args)
+	fmt.Println(builder.command)
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)
@@ -78,7 +73,6 @@ func (builder KotlinProjectBuilder) BuildProject() error {
 	cmd.Stderr = cmdError
 
 	// Execute command
-	//printCommand(cmd)
 	err := cmd.Run() // will wait for command to return
 	printError(err)
 	printOutput(cmdOutput.Bytes(), err != nil)
@@ -94,7 +88,6 @@ func (builder KotlinProjectBuilder) BuildProject() error {
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a
 // successful build.
 func (builder KotlinProjectBuilder) ExecutePostBuildTasks() error {
-	fmt.Println("Post build tasks (Kotlin)")
 	return nil
 }
 
@@ -116,6 +109,6 @@ func (builder KotlinProjectBuilder) ensureDestinationDirectoryExists() error {
 		return nil
 	}
 
-	fmt.Println("File already exists, nothing to do.")
+	fmt.Println("Destination directory already exists, nothing to do.")
 	return err
 }

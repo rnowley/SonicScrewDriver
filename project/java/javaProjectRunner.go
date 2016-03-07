@@ -16,16 +16,14 @@ func NewProjectRunner(command JavaCommand, project JavaProject) JavaProjectRunne
 }
 
 func (runner JavaProjectRunner) RunProject() error {
-	fmt.Println("Inside ProjectRunner.RunProject")
 	binary, lookErr := exec.LookPath(runner.command.GetCommandName())
-	fmt.Printf("Cmd to run: %s", binary)
 
 	if lookErr != nil {
 		return lookErr
 	}
 
 	args := runner.command.GenerateArgumentList()
-	fmt.Println(args)
+	fmt.Println(runner.command)
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)

@@ -16,16 +16,14 @@ func NewProjectRunner(command MonoCommand, project CSharpProject) CSharpProjectR
 }
 
 func (runner CSharpProjectRunner) RunProject() error {
-	fmt.Println("Inside ProjectRunner.RunProject")
 	binary, lookErr := exec.LookPath(runner.command.GetCommandName())
-	fmt.Printf("Cmd to run: %s", binary)
 
 	if lookErr != nil {
 		return lookErr
 	}
 
 	args := runner.command.GenerateArgumentList()
-	fmt.Println(args)
+	fmt.Println(runner.command)
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)
@@ -38,7 +36,6 @@ func (runner CSharpProjectRunner) RunProject() error {
 	cmd.Stderr = cmdError
 
 	// Execute command
-	//printCommand(cmd)
 	err := cmd.Run() // will wait for command to return
 	printError(err)
 	printOutput(cmdOutput.Bytes(), err != nil)

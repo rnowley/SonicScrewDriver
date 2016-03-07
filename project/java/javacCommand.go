@@ -1,6 +1,7 @@
 package java
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -66,4 +67,9 @@ func (c JavacCommand) GenerateArgumentList() []string {
 	}
 
 	return argumentArray
+}
+
+func (command JavacCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
 }

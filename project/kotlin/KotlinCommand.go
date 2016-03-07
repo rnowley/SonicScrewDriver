@@ -1,6 +1,9 @@
 package kotlin
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // KotlinCommand contains all of the information required to
 // call the Java command.
@@ -49,4 +52,9 @@ func (command KotlinCommand) GenerateArgumentList() []string {
 	}
 
 	return argumentArray
+}
+
+func (command KotlinCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
 }

@@ -1,7 +1,6 @@
 package java
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -51,11 +50,9 @@ func GetJavaTestBuildCommand(configuration JavaProject, deprecation bool) JavacC
 func ExtractTestSourceFileList(configuration JavaProject,
 	sourceDirectory string) []string {
 	fileCount := len(configuration.TestProject.SourceFiles)
-	fmt.Printf("Source file count: %d", fileCount)
 	fileList := make([]string, fileCount)
 
 	for i := 0; i < fileCount; i++ {
-		fmt.Println(configuration.TestProject.SourceFiles[i])
 		fileList[i] = sourceDirectory + configuration.TestProject.SourceFiles[i]
 	}
 

@@ -1,5 +1,9 @@
 package csharp
 
+import (
+	"fmt"
+	"strings"
+)
 // CSharpCommand provides a representation of a call to the CSharp
 // compiler command.
 type CSharpCommand struct {
@@ -90,4 +94,9 @@ func GetFileSuffix(buildTarget string) string {
 	}
 
 	return suffix
+}
+
+func (command CSharpCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
 }

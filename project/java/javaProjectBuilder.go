@@ -6,7 +6,6 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
-	"strings"
 )
 
 // JavaProjectBuilder represents a class for building a Java project.
@@ -25,10 +24,6 @@ func NewProjectBuilder(command JavacCommand, project JavaProject) JavaProjectBui
 func (builder JavaProjectBuilder) ExecutePreBuildTasks() error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
-}
-
-func printCommand(cmd *exec.Cmd) {
-	fmt.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
 }
 
 func printError(err error) {
@@ -65,7 +60,7 @@ func (builder JavaProjectBuilder) BuildProject() error {
 	}
 
 	args := builder.command.GenerateArgumentList()
-	//fmt.Println(args)
+	fmt.Println(builder.command)
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)
@@ -84,7 +79,6 @@ func (builder JavaProjectBuilder) BuildProject() error {
 	printOutput(cmdError.Bytes(), err != nil)
 
 	if err != nil {
-		fmt.Println("***Error***")
 		return err
 	}
 
@@ -94,7 +88,6 @@ func (builder JavaProjectBuilder) BuildProject() error {
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a
 // successful build.
 func (builder JavaProjectBuilder) ExecutePostBuildTasks() error {
-	fmt.Println("Post build tasks (java)")
 	return nil
 }
 
@@ -116,6 +109,6 @@ func (builder JavaProjectBuilder) ensureDestinationDirectoryExists() error {
 		return nil
 	}
 
-	fmt.Println("File already exists, nothing to do.")
+	fmt.Println("Destination directory already exists, nothing to do.")
 	return err
 }

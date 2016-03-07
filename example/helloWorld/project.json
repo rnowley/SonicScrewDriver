@@ -16,7 +16,8 @@
         "SourceFiles": [
             "test/GreeterTest.java"
         ],
-        "DestinationDirectory": "./build",
+        "DestinationDirectory": "./build/",
+		"SourceDirectory": "./src/",
         "TestFramework": "junit",
         "MainClass": "org.junit.runner.JUnitCore",
         "ClassPath": [
@@ -29,4 +30,3 @@
         ]
     }
 }
-

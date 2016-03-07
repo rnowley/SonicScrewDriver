@@ -120,8 +120,6 @@ func ExtractTestReferencePaths(configuration CSharpProject) []Reference {
 		referenceList = append(referenceList, configuration.TestProject.References[i])
 	}
 
-	fmt.Println(referenceList)
-
 	return referenceList
 }
 

@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 )
 
 // CSharpProjectBuilder represents a class for building a CSharp project.
@@ -38,6 +37,7 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 	}
 
 	args := builder.command.GenerateArgumentList()
+	fmt.Println(builder.command)
 
 	cmd := exec.Command(binary, args...)
 
@@ -49,7 +49,6 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 	cmd.Stderr = cmdError
 
 	// Execute command
-	//printCommand(cmd)
 	err := cmd.Run() // will wait for command to return
 	printError(err)
 	printOutput(cmdOutput.Bytes(), err != nil)
@@ -60,10 +59,6 @@ func (builder CSharpProjectBuilder) BuildProject() error {
 	}
 
 	return nil
-}
-
-func printCommand(cmd *exec.Cmd) {
-	fmt.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
 }
 
 func printError(err error) {
@@ -164,6 +159,6 @@ func (builder CSharpProjectBuilder) ensureDestinationDirectoryExists() error {
 		return nil
 	}
 
-	fmt.Println("File already exists, nothing to do.")
+	fmt.Println("Destination directory already exists, nothing to do.")
 	return err
 }

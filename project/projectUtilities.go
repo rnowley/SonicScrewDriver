@@ -2,7 +2,6 @@ package project
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
 	"github.com/rnowley/SonicScrewDriver/project/java"
@@ -43,7 +42,6 @@ func UnmarshalJavaProject(projectFile []byte) java.JavaProject {
 		panic(err)
 	}
 
-	fmt.Println(proj)
 	return proj
 }
 
@@ -56,6 +54,5 @@ func UnmarshalKotlinProject(projectFile []byte) kotlin.KotlinProject {
 		panic(err)
 	}
 
-	fmt.Println(proj)
 	return proj
 }

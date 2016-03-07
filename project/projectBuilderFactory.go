@@ -48,8 +48,6 @@ func getCSharpProjectBuilder(configurationFile []byte, mode string) (ProjectBuil
 		return projectBuilder, fmt.Errorf("getCSharpProjectBuilder: the %s 'mode' is not supported", mode)
 	}
 
-	fmt.Println(command)
-	fmt.Println(proj)
 	projectBuilder = csharp.New(command, proj)
 
 	return projectBuilder, nil

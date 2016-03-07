@@ -60,13 +60,13 @@ func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 	}
 
 	fmt.Println("Build project")
+	fmt.Println("-------------")
 	err = projectBuilder.BuildProject()
 
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("Post build")
 	err = projectBuilder.ExecutePostBuildTasks()
 
 	if err != nil {
@@ -84,6 +84,7 @@ func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error
 	// Build the unit test project
 	// -----------
 	fmt.Println("Building unit tests")
+	fmt.Println("-------------------")
 
 	err := BuildProject(file, "build-test", arguments)
 
@@ -101,6 +102,7 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 	// Build the project
 	// -----------
 	fmt.Println("Building project")
+	fmt.Println("----------------")
 
 	err := BuildProject(file, "build", arguments)
 
@@ -112,6 +114,7 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 	// Build the unit test project
 	// -----------
 	fmt.Println("Building unit tests")
+	fmt.Println("-------------------")
 
 	err = BuildProject(file, "build-test", arguments)
 
@@ -127,7 +130,8 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 func RunUnitTests(file []byte, mode string, arguments project.Arguments) error {
 	projectRunner, _ := project.GetProjectRunner(file, mode, arguments)
 
-	fmt.Println("Running project")
+	fmt.Println("Running Unit Tests")
+	fmt.Println("------------------")
 	err := projectRunner.RunProject()
 
 	if err != nil {
@@ -143,6 +147,7 @@ func RunProject(file []byte, mode string, arguments project.Arguments) error {
 	projectRunner, _ := project.GetProjectRunner(file, mode, arguments)
 
 	fmt.Println("Running project")
+	fmt.Println("---------------")
 	err := projectRunner.RunProject()
 
 	if err != nil {

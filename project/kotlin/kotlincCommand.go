@@ -63,3 +63,8 @@ func (command KotlincCommand) GenerateArgumentList() []string {
 func (command KotlincCommand) GetDestinationDirectory() string {
 	return command.DestinationDirectory
 }
+
+func (command KotlincCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
+}

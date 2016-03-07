@@ -1,6 +1,9 @@
 package csharp
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // MonoCommand provides a representation of a call to the mono
 // command.
@@ -35,4 +38,9 @@ func (command MonoCommand) GenerateArgumentList() []string {
 	}
 
 	return argumentArray
+}
+
+func (command MonoCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
 }

@@ -2,6 +2,7 @@ package kotlin
 
 import (
 	"bytes"
+	"fmt"
 	"os/exec"
 )
 
@@ -23,6 +24,7 @@ func (runner KotlinProjectRunner) RunProject() error {
 	}
 
 	args := runner.command.GenerateArgumentList()
+	fmt.Println(runner.command)
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)
