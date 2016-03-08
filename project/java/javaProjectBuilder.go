@@ -21,7 +21,7 @@ func NewProjectBuilder(command JavacCommand, project JavaProject) JavaProjectBui
 
 // ExecutePreBuildTasks is used for executing any actions that need to be
 // performed before building the project.
-func (builder JavaProjectBuilder) ExecutePreBuildTasks() error {
+func (builder JavaProjectBuilder) ExecutePreBuildTasks(verbose bool) error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
 }
@@ -52,7 +52,7 @@ func printOutput(outs []byte, commandError bool) {
 }
 
 // BuildProject builds the Java project.
-func (builder JavaProjectBuilder) BuildProject() error {
+func (builder JavaProjectBuilder) BuildProject(verbose bool) error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
 	if lookErr != nil {
@@ -87,7 +87,7 @@ func (builder JavaProjectBuilder) BuildProject() error {
 
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a
 // successful build.
-func (builder JavaProjectBuilder) ExecutePostBuildTasks() error {
+func (builder JavaProjectBuilder) ExecutePostBuildTasks(verbose bool) error {
 	return nil
 }
 

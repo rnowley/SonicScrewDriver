@@ -21,7 +21,7 @@ func NewProjectBuilder(command KotlincCommand, project KotlinProject) KotlinProj
 
 // ExecutePreBuildTasks is used for executing any actions that need to be
 // performed before building the project.
-func (builder KotlinProjectBuilder) ExecutePreBuildTasks() error {
+func (builder KotlinProjectBuilder) ExecutePreBuildTasks(verbose bool) error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
 }
@@ -52,7 +52,7 @@ func printOutput(outs []byte, commandError bool) {
 }
 
 // BuildProject builds the Kotlin project.
-func (builder KotlinProjectBuilder) BuildProject() error {
+func (builder KotlinProjectBuilder) BuildProject(verbose bool) error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
 	if lookErr != nil {
@@ -87,7 +87,7 @@ func (builder KotlinProjectBuilder) BuildProject() error {
 
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a
 // successful build.
-func (builder KotlinProjectBuilder) ExecutePostBuildTasks() error {
+func (builder KotlinProjectBuilder) ExecutePostBuildTasks(verbose bool) error {
 	return nil
 }
 

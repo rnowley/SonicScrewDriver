@@ -6,12 +6,12 @@ type ProjectBuilder interface {
 
 	// ExecutePreBuildTasks is where you implement actions that need to take place
 	// before the build starts.
-	ExecutePreBuildTasks() error
+	ExecutePreBuildTasks(verbose bool) error
 
 	// BuildProject is where you implement actions related to the build itself.
-	BuildProject() error
+	BuildProject(verbose bool) error
 
 	// ExecutePostBuildTasks is where you implement actions that need to take place
 	// after the build has completed.
-	ExecutePostBuildTasks() error
+	ExecutePostBuildTasks(verbose bool) error
 }

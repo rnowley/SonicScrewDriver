@@ -53,7 +53,7 @@ func main() {
 func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 	projectBuilder, _ := project.GetProjectBuilder(file, mode, arguments)
 
-	err := projectBuilder.ExecutePreBuildTasks()
+	err := projectBuilder.ExecutePreBuildTasks(arguments.Verbose)
 
 	if err != nil {
 		return err
@@ -61,13 +61,13 @@ func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 
 	fmt.Println("Build project")
 	fmt.Println("-------------")
-	err = projectBuilder.BuildProject()
+	err = projectBuilder.BuildProject(arguments.Verbose)
 
 	if err != nil {
 		return err
 	}
 
-	err = projectBuilder.ExecutePostBuildTasks()
+	err = projectBuilder.ExecutePostBuildTasks(arguments.Verbose)
 
 	if err != nil {
 		return err
@@ -163,11 +163,12 @@ func ParseArguments() (project.Arguments, error) {
 
 	flag.BoolVar(&arguments.Deprecation, "deprecation", false,
 		"Indicates that we wish to show each use or overrides of deprecated class members.")
+	flag.BoolVar(&arguments.Verbose, "verbose", false,
+		"Indicates that we wish to show detailed information of the build process.")
 
 	flag.Parse()
 
-	nonFlag := flag.Args()
-	//noFlagCount := len(nonFlag)
+	nonFlag := flag.Args() // Holds all arguments that are not used with a flag.
 
 	if len(nonFlag) != 1 {
 		return arguments, errors.New("Invalid arguments provided.")

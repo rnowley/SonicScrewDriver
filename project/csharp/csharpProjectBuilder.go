@@ -23,13 +23,13 @@ func New(command CSharpCommand, project CSharpProject) CSharpProjectBuilder {
 
 // ExecutePreBuildTasks is used for executing any actions that need to be
 // performed before building the project.
-func (builder CSharpProjectBuilder) ExecutePreBuildTasks() error {
+func (builder CSharpProjectBuilder) ExecutePreBuildTasks(verbose bool) error {
 	err := builder.ensureDestinationDirectoryExists()
 	return err
 }
 
 // BuildProject builds the CSharp project.
-func (builder CSharpProjectBuilder) BuildProject() error {
+func (builder CSharpProjectBuilder) BuildProject(verbose bool) error {
 	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
 	if lookErr != nil {
@@ -88,7 +88,7 @@ func printOutput(outs []byte, commandError bool) {
 
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a
 // successful build.
-func (builder CSharpProjectBuilder) ExecutePostBuildTasks() error {
+func (builder CSharpProjectBuilder) ExecutePostBuildTasks(verbose bool) error {
 	fmt.Println("Post build tasks")
 	builder.copyReferences()
 	builder.copyResources()
