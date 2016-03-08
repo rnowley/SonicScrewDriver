@@ -43,6 +43,9 @@ type JavaProject struct {
 	// The lint warnings to be enabled for compilation.
 	LintWarnings []string
 
+	// Sets the source file encoding.
+	Encoding string
+
 	// TestProject holds information about the tests for this project.
 	TestProject JavaTests
 }

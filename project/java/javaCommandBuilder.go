@@ -30,6 +30,8 @@ func GetJavaBuildCommand(configuration JavaProject, deprecation bool) JavacComma
 
 	command.LintWarnings = ExtractLintWarnings(configuration)
 
+	command.Encoding = configuration.Encoding
+
 	return command
 }
 
@@ -66,6 +68,8 @@ func ExtractDebuggingInformation(configuration JavaProject) string {
 	return "-g:" + strings.Join(configuration.DebuggingInformation, ",")
 }
 
+// ExtractLintWarnings builds up the list of lint warnings to be used
+// when building a project.
 func ExtractLintWarnings(configuration JavaProject) string {
 
 	if len(configuration.LintWarnings) == 0 {

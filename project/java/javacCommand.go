@@ -17,6 +17,7 @@ type JavacCommand struct {
 	SourceVersion        string
 	DebuggingInformation string
 	LintWarnings         string
+	Encoding             string
 }
 
 // NewDefaultJavacCommand returns a JavacCommand with some default values set.
@@ -69,6 +70,10 @@ func (c JavacCommand) GenerateArgumentList() []string {
 
 	if c.LintWarnings != "" {
 		argumentArray = append(argumentArray, c.LintWarnings)
+	}
+
+	if c.Encoding != "" {
+		argumentArray = append(argumentArray, "-encoding", c.Encoding)
 	}
 
 	return argumentArray

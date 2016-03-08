@@ -20,6 +20,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 	configuration.JarFile = "test.jar"
 	configuration.RunArguments = []string{"arg1", "arg2"}
 	configuration.DebuggingInformation = []string{"all"}
+	configuration.Encoding = "UTF-8"
 
 	// Act
 	var commandToTest = GetJavaBuildCommand(configuration, true)
@@ -94,6 +95,16 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 			"For", "commandToTest.DebuggingInformation",
 			"expected", expectedDebuggingInformation, "got",
 			commandToTest.DebuggingInformation,
+		)
+	}
+
+	const expectedEncoding = "UTF-8"
+
+	if commandToTest.Encoding != expectedEncoding {
+		t.Error(
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
+			"expected", expectedEncoding, "got",
+			commandToTest.Encoding,
 		)
 	}
 
