@@ -277,3 +277,69 @@ func TestExtractDebuggingInformationThreeValuesProvided(t *testing.T) {
 	}
 
 }
+
+func TestLintWarningsNoneProvided(t *testing.T) {
+	// Arrange
+
+	var configuration JavaProject
+	configuration.LintWarnings = []string{}
+
+	// Act
+	actualLintWarnings := ExtractLintWarnings(configuration)
+
+	// Assert
+	const expectedLintWarnings = ""
+
+	if actualLintWarnings != expectedLintWarnings {
+		t.Error(
+			"For", "TestLintWarningsNoneProvided",
+			"expected", expectedLintWarnings,
+			"got", actualLintWarnings,
+		)
+	}
+
+}
+
+func TestLintWarningsOneValueProvided(t *testing.T) {
+	// Arrange
+
+	var configuration JavaProject
+	configuration.LintWarnings = []string{"all"}
+
+	// Act
+	actualLintWarnings := ExtractLintWarnings(configuration)
+
+	// Assert
+	const expectedLintWarnings = "-Xlint"
+
+	if actualLintWarnings != expectedLintWarnings {
+		t.Error(
+			"For", "TestLintWarningsOneValueProvided",
+			"expected", expectedLintWarnings,
+			"got", actualLintWarnings,
+		)
+	}
+
+}
+
+func TestTestLintWarningsThreeValuesProvided(t *testing.T) {
+	// Arrange
+
+	var configuration JavaProject
+	configuration.LintWarnings = []string{"all", "-cast", "-fallthrough"}
+
+	// Act
+	actualLintWarnings := ExtractLintWarnings(configuration)
+
+	// Assert
+	const expectedLintWarnings = "-Xlint:all,-cast,-fallthrough"
+
+	if actualLintWarnings != expectedLintWarnings {
+		t.Error(
+			"For", "TestTestLintWarningsThreeValuesProvided",
+			"expected", expectedLintWarnings,
+			"got", actualLintWarnings,
+		)
+	}
+
+}

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 )
+
 // CSharpCommand provides a representation of a call to the CSharp
 // compiler command.
 type CSharpCommand struct {

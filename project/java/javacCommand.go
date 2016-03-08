@@ -16,6 +16,7 @@ type JavacCommand struct {
 	Deprecation          bool
 	SourceVersion        string
 	DebuggingInformation string
+	LintWarnings         string
 }
 
 // NewDefaultJavacCommand returns a JavacCommand with some default values set.
@@ -64,6 +65,10 @@ func (c JavacCommand) GenerateArgumentList() []string {
 
 	if c.SourceVersion != "" {
 		argumentArray = append(argumentArray, "-source", c.SourceVersion)
+	}
+
+	if c.LintWarnings != "" {
+		argumentArray = append(argumentArray, c.LintWarnings)
 	}
 
 	return argumentArray

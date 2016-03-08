@@ -12,6 +12,9 @@
         "./build/"
      ],
     "SourceVersion": "1.8",
+	"LintWarnings": [
+		"all"
+	],
     "TestProject": {
         "SourceFiles": [
             "test/GreeterTest.java"

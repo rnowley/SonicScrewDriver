@@ -40,6 +40,9 @@ type JavaProject struct {
 	// be executed.
 	RunArguments []string
 
+	// The lint warnings to be enabled for compilation.
+	LintWarnings []string
+
 	// TestProject holds information about the tests for this project.
 	TestProject JavaTests
 }

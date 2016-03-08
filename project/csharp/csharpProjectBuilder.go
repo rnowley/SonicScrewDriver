@@ -76,7 +76,7 @@ func printOutput(outs []byte, commandError bool) {
 		var output string
 
 		if commandError {
-			output = color.RedString("%s",  string(outs))
+			output = color.RedString("%s", string(outs))
 		} else {
 			output = color.YellowString("%s", string(outs))
 		}
