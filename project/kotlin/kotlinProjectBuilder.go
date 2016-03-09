@@ -22,7 +22,19 @@ func NewProjectBuilder(command KotlincCommand, project KotlinProject) KotlinProj
 // ExecutePreBuildTasks is used for executing any actions that need to be
 // performed before building the project.
 func (builder KotlinProjectBuilder) ExecutePreBuildTasks(verbose bool) error {
-	err := builder.ensureDestinationDirectoryExists()
+
+	if verbose {
+		fmt.Println("==========")
+		fmt.Println("Pre-build tasks")
+		fmt.Println("==========\n")
+	}
+
+	err := builder.ensureDestinationDirectoryExists(verbose)
+
+	if verbose {
+		fmt.Println("\n==========")
+	}
+
 	return err
 }
 
@@ -60,7 +72,12 @@ func (builder KotlinProjectBuilder) BuildProject(verbose bool) error {
 	}
 
 	args := builder.command.GenerateArgumentList()
-	fmt.Println(builder.command)
+
+	if verbose {
+		fmt.Println("Executing command:")
+		fmt.Println(builder.command)
+		fmt.Println("\nCompiler output:\n")
+	}
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)
@@ -78,6 +95,10 @@ func (builder KotlinProjectBuilder) BuildProject(verbose bool) error {
 	printOutput(cmdOutput.Bytes(), err != nil)
 	printOutput(cmdError.Bytes(), err != nil)
 
+	if verbose {
+		fmt.Println("==========\n")
+	}
+
 	if err != nil {
 		return err
 	}
@@ -93,7 +114,14 @@ func (builder KotlinProjectBuilder) ExecutePostBuildTasks(verbose bool) error {
 
 // ensureDestinationDirectoryExists makes sure the the destination directory
 // specified in the project already exists or if it doesn't then creates it.
-func (builder KotlinProjectBuilder) ensureDestinationDirectoryExists() error {
+func (builder KotlinProjectBuilder) ensureDestinationDirectoryExists(verbose bool) error {
+
+	if verbose {
+		fmt.Println("----------")
+		fmt.Println("Task: Ensure destination directory exists.")
+		fmt.Println("----------\n")
+	}
+
 	destinationDirectory := builder.command.GetDestinationDirectory()
 	_, err := os.Stat(destinationDirectory)
 
@@ -105,10 +133,16 @@ func (builder KotlinProjectBuilder) ensureDestinationDirectoryExists() error {
 			return err
 		}
 
-		fmt.Println("Created directory.")
+		if verbose {
+			fmt.Print("Created directory []%s.\n", destinationDirectory)
+		}
+
 		return nil
 	}
 
-	fmt.Println("Destination directory already exists, nothing to do.")
+	if verbose {
+		fmt.Printf("Destination directory [%s] already exists, nothing to do.\n", destinationDirectory)
+	}
+
 	return err
 }

@@ -61,9 +61,11 @@ func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Argu
 
 	var command java.JavacCommand
 
+	fmt.Println("Verbose: %s", arguments.Verbose)
+
 	switch mode {
 	case "build":
-		command = java.GetJavaBuildCommand(proj, arguments.Deprecation)
+		command = java.GetJavaBuildCommand(proj, arguments.Deprecation, arguments.Verbose)
 	case "build-test":
 		command = java.GetJavaTestBuildCommand(proj, arguments.Deprecation)
 	default:
@@ -85,9 +87,9 @@ func getKotlinProjectBuilder(configurationFile []byte, mode string, arguments Ar
 
 	switch mode {
 	case "build":
-		command = kotlin.GetKotlincBuildCommand(proj)
+		command = kotlin.GetKotlincBuildCommand(proj, arguments.Verbose)
 	case "build-test":
-		command = kotlin.GetKotlincTestBuildCommand(proj)
+		command = kotlin.GetKotlincTestBuildCommand(proj, arguments.Verbose)
 	default:
 		return projectBuilder, fmt.Errorf("getKotlinProjectBuilder: the %s 'mode' is not supported", mode)
 	}

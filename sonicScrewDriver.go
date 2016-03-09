@@ -59,8 +59,11 @@ func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 		return err
 	}
 
-	fmt.Println("Build project")
-	fmt.Println("-------------")
+	if arguments.Verbose {
+		fmt.Println("Build project")
+		fmt.Println("==========")
+	}
+
 	err = projectBuilder.BuildProject(arguments.Verbose)
 
 	if err != nil {
@@ -83,8 +86,10 @@ func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error
 	// -----------
 	// Build the unit test project
 	// -----------
-	fmt.Println("Building unit tests")
-	fmt.Println("-------------------")
+	if arguments.Verbose {
+		fmt.Println("Building unit tests")
+		fmt.Println("==========")
+	}
 
 	err := BuildProject(file, "build-test", arguments)
 
@@ -101,8 +106,10 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 	// -----------
 	// Build the project
 	// -----------
-	fmt.Println("Building project")
-	fmt.Println("----------------")
+	if arguments.Verbose {
+		fmt.Println("Building project")
+		fmt.Println("==========\n")
+	}
 
 	err := BuildProject(file, "build", arguments)
 
@@ -113,8 +120,11 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 	// -----------
 	// Build the unit test project
 	// -----------
-	fmt.Println("Building unit tests")
-	fmt.Println("-------------------")
+	if arguments.Verbose {
+		fmt.Println("==========")
+		fmt.Println("Building unit tests")
+		fmt.Println("==========")
+	}
 
 	err = BuildProject(file, "build-test", arguments)
 

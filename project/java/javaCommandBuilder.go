@@ -7,7 +7,7 @@ import (
 // BuildCommand is a function for building up a javac command that can be used for building
 // a java project. This command is built up using the project configuration and the command line
 // arguments passed in.
-func GetJavaBuildCommand(configuration JavaProject, deprecation bool) JavacCommand {
+func GetJavaBuildCommand(configuration JavaProject, deprecation bool, verbose bool) JavacCommand {
 	command := NewDefaultJavacCommand()
 
 	if configuration.DestinationDirectory != "" {
@@ -26,11 +26,13 @@ func GetJavaBuildCommand(configuration JavaProject, deprecation bool) JavacComma
 		command.SourceVersion = configuration.SourceVersion
 	}
 
+	command.Encoding = configuration.Encoding
+
 	command.DebuggingInformation = ExtractDebuggingInformation(configuration)
 
 	command.LintWarnings = ExtractLintWarnings(configuration)
 
-	command.Encoding = configuration.Encoding
+	command.Verbose = verbose
 
 	return command
 }
@@ -68,8 +70,6 @@ func ExtractDebuggingInformation(configuration JavaProject) string {
 	return "-g:" + strings.Join(configuration.DebuggingInformation, ",")
 }
 
-// ExtractLintWarnings builds up the list of lint warnings to be used
-// when building a project.
 func ExtractLintWarnings(configuration JavaProject) string {
 
 	if len(configuration.LintWarnings) == 0 {

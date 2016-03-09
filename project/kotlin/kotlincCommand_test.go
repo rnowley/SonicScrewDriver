@@ -121,6 +121,7 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	command.DestinationDirectory = "./testbuild/"
 	command.OutputFilename = "testout.jar"
 	command.SourceFiles = []string{"a.kt", "b.kt", "c.kt"}
+	command.Verbose = true
 
 	// Act
 
@@ -130,7 +131,7 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	// Assert
 
 	const expectedArgumentString = "-d ./testbuild/testout.jar " +
-		"-cp .:./lib/a.jar:./lib/x/b.jar -include-runtime " +
+		"-cp .:./lib/a.jar:./lib/x/b.jar -include-runtime -verbose " +
 		"a.kt b.kt c.kt"
 
 	if actualArgumentString != expectedArgumentString {

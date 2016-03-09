@@ -3,7 +3,7 @@ package kotlin
 // GetKotlncBuildCommand is a function for building up a kotlinc command that can be used for building
 // a kotlin project. This command is built up using the project configuration and the command line
 // arguments passed in.
-func GetKotlincBuildCommand(configuration KotlinProject) KotlincCommand {
+func GetKotlincBuildCommand(configuration KotlinProject, verbose bool) KotlincCommand {
 	command := NewDefaultKotlincCommand()
 
 	command.BuildTarget = configuration.BuildTarget
@@ -22,6 +22,10 @@ func GetKotlincBuildCommand(configuration KotlinProject) KotlincCommand {
 
 	if configuration.OutputFilename != "" {
 		command.OutputFilename = configuration.OutputFilename
+	}
+
+	if verbose {
+		command.Verbose = verbose
 	}
 
 	command.SourceFiles = ExtractSourceFileList(configuration, command.SourceDirectory)

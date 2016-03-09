@@ -23,7 +23,7 @@ func TestGetKotlincBuildCommand(t *testing.T) {
 	configuration.RunArguments = []string{"arg1", "arg2"}
 
 	// Act
-	var commandToTest = GetKotlincBuildCommand(configuration)
+	var commandToTest = GetKotlincBuildCommand(configuration, true)
 
 	// Assert
 	const expectedDestinationDirectory = "./build/"
@@ -64,6 +64,16 @@ func TestGetKotlincBuildCommand(t *testing.T) {
 			"For", "GetArgumentList",
 			"expected", expectedOutputFilename, "got",
 			commandToTest.OutputFilename,
+		)
+	}
+
+	const expectedVerbose = true
+
+	if commandToTest.Verbose != expectedVerbose {
+		t.Error(
+			"For", "GetArgumentList",
+			"expected", expectedVerbose, "got",
+			commandToTest.Verbose,
 		)
 	}
 

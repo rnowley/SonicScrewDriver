@@ -9,7 +9,6 @@ import (
 // CopyFile copies a file from its destination location to the source location
 // specified in its arguments.
 func CopyFile(destination, source string) error {
-	fmt.Println(destination)
 	s, err := os.Open(source)
 
 	if err != nil {
@@ -31,7 +30,6 @@ func CopyFile(destination, source string) error {
 		return err
 	}
 
-	fmt.Println("Finished copy")
 	return d.Close()
 }
 
@@ -48,10 +46,8 @@ func EnsurePathExists(directoryPath string) error {
 			return err
 		}
 
-		fmt.Println("Created path.")
 		return nil
 	}
 
-	fmt.Println(err)
 	return err
 }

@@ -16,6 +16,7 @@ type KotlincCommand struct {
 	IncludeRuntime       bool
 	SourceDirectory      string
 	SourceFiles          []string
+	Verbose              bool
 }
 
 // NewDefaultKotlincCommand returns a KotlincCommand with some default values set.
@@ -49,6 +50,10 @@ func (command KotlincCommand) GenerateArgumentList() []string {
 
 	if command.BuildTarget == "executable" {
 		argumentArray = append(argumentArray, "-include-runtime")
+	}
+
+	if command.Verbose {
+		argumentArray = append(argumentArray, "-verbose")
 	}
 
 	if len(command.SourceFiles) != 0 {

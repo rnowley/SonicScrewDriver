@@ -34,7 +34,7 @@ func TestGetKotlinTestBuildCommand(t *testing.T) {
 	configuration.TestProject = testConfiguration
 
 	// Act
-	commandToTest := GetKotlincTestBuildCommand(configuration)
+	commandToTest := GetKotlincTestBuildCommand(configuration, false)
 
 	// Assert
 

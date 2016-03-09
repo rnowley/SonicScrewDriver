@@ -6,10 +6,14 @@ import "fmt"
 // command that can be used for building a Kotlin test project.
 // This command is built up using the project configuration that is passed in
 // as a parmater to this function.
-func GetKotlincTestBuildCommand(configuration KotlinProject) KotlincCommand {
+func GetKotlincTestBuildCommand(configuration KotlinProject, verbose bool) KotlincCommand {
 	command := NewDefaultKotlincCommand()
 
 	command.BuildTarget = configuration.BuildTarget
+
+	if verbose {
+		command.Verbose = verbose
+	}
 
 	if configuration.TestProject.DestinationDirectory != "" {
 		command.DestinationDirectory =
