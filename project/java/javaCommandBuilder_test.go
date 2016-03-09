@@ -20,6 +20,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 	configuration.JarFile = "test.jar"
 	configuration.RunArguments = []string{"arg1", "arg2"}
 	configuration.DebuggingInformation = []string{"all"}
+	configuration.Target = "1.8"
 
 	// Act
 	var commandToTest = GetJavaBuildCommand(configuration, true, false)
@@ -29,7 +30,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if commandToTest.DestinationDirectory != expectedDestinationDirectory {
 		t.Error(
-			"For", "GetArgumentList",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedDestinationDirectory, "got",
 			commandToTest.DestinationDirectory,
 		)
@@ -39,7 +40,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if commandToTest.SourceDirectory != expectedSourceDirectory {
 		t.Error(
-			"For", "GetArgumentList",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedSourceDirectory, "got",
 			commandToTest.SourceDirectory,
 		)
@@ -50,7 +51,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if actualClassPath != expectedClassPath {
 		t.Error(
-			"For", "GetArgumentList",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedClassPath, "got",
 			actualClassPath,
 		)
@@ -60,7 +61,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if commandToTest.Deprecation != expectedDeprecation {
 		t.Error(
-			"For", "GetArgumentList",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedDeprecation, "got",
 			commandToTest.Deprecation,
 		)
@@ -71,7 +72,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if actualSourceFileList != expectedSourceFileList {
 		t.Error(
-			"For", "commandToTest.SourceFiles",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedSourceFileList, "got",
 			actualSourceFileList,
 		)
@@ -81,7 +82,7 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if commandToTest.SourceVersion != expectedSourceVersion {
 		t.Error(
-			"For", "commandToTest,SourceVersion",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedSourceVersion, "got",
 			commandToTest.SourceVersion,
 		)
@@ -91,9 +92,19 @@ func TestGetJavaBuildCommandDeprecatedTrue(t *testing.T) {
 
 	if commandToTest.DebuggingInformation != expectedDebuggingInformation {
 		t.Error(
-			"For", "commandToTest.DebuggingInformation",
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
 			"expected", expectedDebuggingInformation, "got",
 			commandToTest.DebuggingInformation,
+		)
+	}
+
+	const expectedTarget = "1.8"
+
+	if commandToTest.Target != expectedTarget {
+		t.Error(
+			"For", "TestGetJavaBuildCommandDeprecatedTrue",
+			"expected", expectedTarget, "got",
+			commandToTest.Target,
 		)
 	}
 

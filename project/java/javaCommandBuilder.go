@@ -34,6 +34,8 @@ func GetJavaBuildCommand(configuration JavaProject, deprecation bool, verbose bo
 
 	command.Verbose = verbose
 
+	command.Target = configuration.Target
+
 	return command
 }
 

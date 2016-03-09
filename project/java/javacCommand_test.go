@@ -80,7 +80,8 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	const expected = "-d ./build/ -deprecation " +
 		"a.java b.java c.java " +
 		"-cp .:./lib/a.jar:./lib/x/b.jar " +
-		"-source 1.7 all -encoding UTF-8 -verbose"
+		"-source 1.7 all -encoding UTF-8 -verbose " +
+		"-target 1.8"
 
 	command := NewDefaultJavacCommand()
 	command.SourceFiles = []string{"a.java", "b.java", "c.java"}
@@ -90,6 +91,7 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	command.LintWarnings = "all"
 	command.Encoding = "UTF-8"
 	command.Verbose = true
+	command.Target = "1.8"
 
 	argumentList := command.GenerateArgumentList()
 	argumentString := strings.Join(argumentList, " ")

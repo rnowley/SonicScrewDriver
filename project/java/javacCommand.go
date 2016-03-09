@@ -19,6 +19,7 @@ type JavacCommand struct {
 	LintWarnings         string
 	Encoding             string
 	Verbose              bool
+	Target               string
 }
 
 // NewDefaultJavacCommand returns a JavacCommand with some default values set.
@@ -79,6 +80,10 @@ func (c JavacCommand) GenerateArgumentList() []string {
 
 	if c.Verbose {
 		argumentArray = append(argumentArray, "-verbose")
+	}
+
+	if c.Target != "" {
+		argumentArray = append(argumentArray, "-target", c.Target)
 	}
 
 	return argumentArray

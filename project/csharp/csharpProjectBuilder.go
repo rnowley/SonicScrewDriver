@@ -161,7 +161,7 @@ func (builder CSharpProjectBuilder) copyReferences(verbose bool) error {
 
 		if verbose {
 			fmt.Printf("Copying %s%s%s to %s%s%s\n", path, referenceName,
-				fileExtension,  destinationDirectory, referenceName,
+				fileExtension, destinationDirectory, referenceName,
 				fileExtension)
 		}
 	}
@@ -192,7 +192,7 @@ func (builder CSharpProjectBuilder) copyResources(verbose bool) error {
 		if verbose {
 			fmt.Printf("Copying %s%s to %s%s", builder.command.SourceDirectory,
 				builder.project.Resources[i].Source, builder.command.DestinationDirectory,
-					   builder.project.Resources[i].Destination)
+				builder.project.Resources[i].Destination)
 		}
 	}
 

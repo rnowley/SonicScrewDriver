@@ -20,6 +20,7 @@ func TestGetJavaTestBuildCommandDeprecationFalse(t *testing.T) {
 	configuration.JarFile = "test.jar"
 	configuration.RunArguments = []string{"arg1", "arg2"}
 	configuration.DebuggingInformation = []string{"all"}
+	configuration.Target = "1.8"
 
 	var testConfiguration JavaTests
 	testConfiguration.SourceFiles = []string{"testA.java", "testB.java"}
@@ -40,7 +41,7 @@ func TestGetJavaTestBuildCommandDeprecationFalse(t *testing.T) {
 
 	if commandToTest.DestinationDirectory != expectedDestinationDirectory {
 		t.Error(
-			"For", "GetJavaTestBuildCommand",
+			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
 			"expected", expectedDestinationDirectory, "got",
 			commandToTest.DestinationDirectory,
 		)
@@ -52,7 +53,7 @@ func TestGetJavaTestBuildCommandDeprecationFalse(t *testing.T) {
 
 	if actualClassPath != expectedClassPath {
 		t.Error(
-			"For", "GetJavaTestBuildCommand",
+			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
 			"expected", expectedClassPath, "got",
 			actualClassPath,
 		)
@@ -62,9 +63,19 @@ func TestGetJavaTestBuildCommandDeprecationFalse(t *testing.T) {
 
 	if commandToTest.Deprecation != expectedDeprecationValue {
 		t.Error(
-			"For", "GetJavaTestBuildCommand",
+			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
 			"expected", expectedDeprecationValue, "got",
 			commandToTest.Deprecation,
+		)
+	}
+
+	const expectedTarget = "1.8"
+
+	if commandToTest.Target != expectedTarget {
+		t.Error(
+			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
+			"expected", expectedTarget, "got",
+			commandToTest.Target,
 		)
 	}
 
@@ -73,7 +84,7 @@ func TestGetJavaTestBuildCommandDeprecationFalse(t *testing.T) {
 
 	if actualSourceFileList != expectedSourceFileList {
 		t.Error(
-			"For", "GetJavaTestBuildCommand",
+			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
 			"expected", expectedSourceFileList, "got",
 			actualSourceFileList,
 		)

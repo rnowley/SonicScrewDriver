@@ -46,6 +46,9 @@ type JavaProject struct {
 	// Sets the source file encoding.
 	Encoding string
 
+	// Sets the specific version of the Java VM to target.
+	Target string
+
 	// TestProject holds information about the tests for this project.
 	TestProject JavaTests
 }

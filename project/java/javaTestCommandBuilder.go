@@ -40,6 +40,8 @@ func GetJavaTestBuildCommand(configuration JavaProject, deprecation bool) JavacC
 
 	command.DebuggingInformation = ExtractDebuggingInformation(configuration)
 
+	command.Target = configuration.Target
+
 	return command
 }
 
