@@ -51,4 +51,7 @@ type JavaProject struct {
 
 	// TestProject holds information about the tests for this project.
 	TestProject JavaTests
+
+	// Holds information for generating documentation.
+	DocumentationProject JavaDocumentation
 }
