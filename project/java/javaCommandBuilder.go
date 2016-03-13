@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// BuildCommand is a function for building up a javac command that can be used for building
+// GetJavaBuildCommand is a function for building up a javac command that can be used for building
 // a java project. This command is built up using the project configuration and the command line
 // arguments passed in.
 func GetJavaBuildCommand(configuration JavaProject, deprecation bool, verbose bool) JavacCommand {

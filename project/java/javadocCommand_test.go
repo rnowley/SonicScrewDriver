@@ -89,12 +89,12 @@ func TestJavadocGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 
 	command := NewDefaultJavadocCommand()
 	command.DestinationDirectory = "./doctest/"
-	command.SourcePath = []string{"./src/a", "./src/b"}
-	command.ClassPath = []string{"./lib/y", "./lib/x"}
+	command.SourcePath = "./src/a;./src/b"
+	command.ClassPath = "./lib/y;./lib/x"
 	command.LinkSource = true
 	command.AccessLevel = "private"
 	command.WindowTitle = "Test Title"
-	command.LintWarnings = []string {"syntax", "accessibility"}
+	command.LintWarnings = []string{"syntax", "accessibility"}
 	command.Verbose = true
 	command.DocTitle = "Test Title"
 	command.Header = "Test header"

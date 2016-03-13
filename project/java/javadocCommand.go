@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"strings"
 )
+
 // JavadocCommand provides information for running the
 // javadoc command.
 type JavadocCommand struct {
 	CommandName          string
 	DestinationDirectory string
-	SourcePath           []string
-	ClassPath            []string
+	SourcePath           string
+	ClassPath            string
 	LinkSource           bool
 	AccessLevel          string
 	LintWarnings         []string
@@ -26,8 +27,6 @@ func NewDefaultJavadocCommand() JavadocCommand {
 	var command JavadocCommand
 	command.CommandName = "javadoc"
 	command.DestinationDirectory = "./doc/"
-	command.SourcePath = make([]string, 0, 10)
-	command.ClassPath = make([]string, 0, 10)
 	command.LintWarnings = make([]string, 0)
 	return command
 }
@@ -49,11 +48,11 @@ func (command JavadocCommand) GenerateArgumentList() []string {
 	argumentArray = append(argumentArray, "-d", command.DestinationDirectory)
 
 	if len(command.SourcePath) != 0 {
-		argumentArray = append(argumentArray, "-sourcepath", strings.Join(command.SourcePath, ";"))
+		argumentArray = append(argumentArray, "-sourcepath", command.SourcePath)
 	}
 
 	if len(command.ClassPath) != 0 {
-		argumentArray = append(argumentArray, "-classpath", strings.Join(command.ClassPath, ";"))
+		argumentArray = append(argumentArray, "-classpath", command.ClassPath)
 	}
 
 	if command.LinkSource {

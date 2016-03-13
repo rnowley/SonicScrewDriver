@@ -28,7 +28,7 @@ func main() {
 	switch arguments.Mode {
 	case "build":
 		err = BuildProject(file, arguments.Mode, arguments)
-	case "build-test":
+	case "build-tests":
 		err = BuildUnitTests(file, arguments.Mode, arguments)
 	case "build-all":
 		err = BuildAll(file, arguments.Mode, arguments)
