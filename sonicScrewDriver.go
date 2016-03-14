@@ -36,6 +36,8 @@ func main() {
 		err = RunProject(file, arguments.Mode, arguments)
 	case "run-tests":
 		err = RunUnitTests(file, arguments.Mode, arguments)
+	case "docs":
+		err = BuildDocumentation(file, arguments.Mode, arguments)
 	default:
 		fmt.Printf("Invalid mode: %s.", arguments.Mode)
 	}
@@ -71,6 +73,26 @@ func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 	}
 
 	err = projectBuilder.ExecutePostBuildTasks(arguments.Verbose)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func BuildDocumentation(file []byte, mode string, arguments project.Arguments) error {
+	documentationBuilder, _ := project.GetDocumentationBuilder(file, mode, arguments)
+
+	// -----------
+	// Generate documentation for the project.
+	// -----------
+	if arguments.Verbose {
+		fmt.Println("Generating documentation")
+		fmt.Println("==========")
+	}
+
+	err := documentationBuilder.BuildDocumentation(arguments.Verbose)
 
 	if err != nil {
 		return err

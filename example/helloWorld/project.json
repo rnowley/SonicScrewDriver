@@ -39,8 +39,8 @@
 		],
 		"DestinationDirectory": "./doc/html",
 		"SourcePath": [
-			"main/ExampleProgram.java",
-			"main/Greeter.java"
+			"./src/main/ExampleProgram.java",
+			"./src/main/Greeter.java"
 		],
 		"LinkSource": true
 	}

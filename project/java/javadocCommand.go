@@ -10,7 +10,7 @@ import (
 type JavadocCommand struct {
 	CommandName          string
 	DestinationDirectory string
-	SourcePath           string
+	SourcePath           []string
 	ClassPath            string
 	LinkSource           bool
 	AccessLevel          string
@@ -48,7 +48,7 @@ func (command JavadocCommand) GenerateArgumentList() []string {
 	argumentArray = append(argumentArray, "-d", command.DestinationDirectory)
 
 	if len(command.SourcePath) != 0 {
-		argumentArray = append(argumentArray, "-sourcepath", command.SourcePath)
+		argumentArray = append(argumentArray, command.SourcePath...)
 	}
 
 	if len(command.ClassPath) != 0 {
@@ -93,4 +93,9 @@ func (command JavadocCommand) GenerateArgumentList() []string {
 
 	return argumentArray
 
+}
+
+func (command JavadocCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
 }

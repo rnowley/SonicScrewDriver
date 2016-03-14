@@ -6,24 +6,29 @@ import (
 	"os/exec"
 )
 
-type JavadocRunner struct {
+type JavadocBuilder struct {
 	command JavadocCommand
 	project JavaProject
 }
 
-func NewJavadocRunner(command JavadocCommand, project JavaProject) JavadocRunner {
-	return JavadocRunner{command, project}
+func NewJavadocBuilder(command JavadocCommand, project JavaProject) JavadocBuilder {
+	return JavadocBuilder{command, project}
 }
 
-func (runner JavadocRunner) RunProject() error {
-	binary, lookErr := exec.LookPath(runner.command.GetCommandName())
+func (builder JavadocBuilder) BuildDocumentation(verbose bool) error {
+	binary, lookErr := exec.LookPath(builder.command.GetCommandName())
 
 	if lookErr != nil {
 		return lookErr
 	}
 
-	args := runner.command.GenerateArgumentList()
-	fmt.Println(runner.command)
+	args := builder.command.GenerateArgumentList()
+
+	if verbose {
+		fmt.Println("Executing command:")
+		fmt.Println(builder.command)
+		fmt.Println("\nCompiler output:\n")
+	}
 
 	// Create an *exec.Cmd
 	cmd := exec.Command(binary, args...)
@@ -40,6 +45,10 @@ func (runner JavadocRunner) RunProject() error {
 	printError(err)
 	printOutput(cmdOutput.Bytes(), err != nil)
 	printOutput(cmdError.Bytes(), err != nil)
+
+	if verbose {
+		fmt.Println("==========\n")
+	}
 
 	if err != nil {
 		return err
