@@ -10,6 +10,7 @@ import (
 type JavadocCommand struct {
 	CommandName          string
 	DestinationDirectory string
+	SourceDirectory      string
 	SourcePath           []string
 	ClassPath            string
 	LinkSource           bool

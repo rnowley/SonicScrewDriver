@@ -14,6 +14,10 @@ func GetJavaBuildCommand(configuration JavaProject, deprecation bool, verbose bo
 		command.DestinationDirectory = configuration.DestinationDirectory
 	}
 
+	if configuration.SourceDirectory != "" {
+		command.SourceDirectory = configuration.SourceDirectory
+	}
+
 	if len(configuration.ClassPath) != 0 {
 		command.ClassPath = configuration.ClassPath
 	}

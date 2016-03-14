@@ -31,6 +31,8 @@ func GetProjectBuilder(configurationFile []byte, mode string, arguments Argument
 
 }
 
+// getCSharpProjectBuilder is called by the factory function to return a
+// project builder for creating building a CSharp project.
 func getCSharpProjectBuilder(configurationFile []byte, mode string) (ProjectBuilder, error) {
 	var proj csharp.CSharpProject
 	var projectBuilder csharp.CSharpProjectBuilder
@@ -53,6 +55,8 @@ func getCSharpProjectBuilder(configurationFile []byte, mode string) (ProjectBuil
 	return projectBuilder, nil
 }
 
+// getJavaProjectBuilder is called by the factory function to return a
+// project builder for creating building a Java project.
 func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Arguments) (ProjectBuilder, error) {
 	var proj java.JavaProject
 	var projectBuilder java.JavaProjectBuilder
@@ -77,6 +81,8 @@ func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Argu
 	return projectBuilder, nil
 }
 
+// getKotlinProjectBuilder is called by the factory function to return a
+// project builder for creating building a Kotlin project.
 func getKotlinProjectBuilder(configurationFile []byte, mode string, arguments Arguments) (ProjectBuilder, error) {
 	var proj kotlin.KotlinProject
 	var projectBuilder kotlin.KotlinProjectBuilder

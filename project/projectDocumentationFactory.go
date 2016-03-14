@@ -6,6 +6,9 @@ import (
 	"github.com/rnowley/SonicScrewDriver/project/java"
 )
 
+// GetDocumentationBuilder is a factory function that returns an object that implements the
+// DocumentationBuilder interface. The type of this DocumentationBuilder is determined by the
+// configuration file that is passed in.
 func GetDocumentationBuilder(configuration []byte, mode string, arguments Arguments) (DocumentationBuilder, error) {
 	projectLanguage := GetProjectLanguage(configuration)
 	var docBuilder DocumentationBuilder
@@ -20,6 +23,8 @@ func GetDocumentationBuilder(configuration []byte, mode string, arguments Argume
 
 }
 
+// getJavaDocumentationBuilder is called by the factory function to return a
+// documentation builder for creating javadoc documentation.
 func getJavaDocumentationBuilder(configuration []byte, arguments Arguments) (DocumentationBuilder, error) {
 	var proj java.JavaProject
 	var projectDocumenter java.JavadocBuilder
