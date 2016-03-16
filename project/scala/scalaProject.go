@@ -22,6 +22,6 @@ type ScalaProject struct {
 	ClassPath            []string
 	SourceFiles          []string
 	DebuggingInformation []string
-	Encoding string
-	Target string
+	Encoding             string
+	Target               string
 }
