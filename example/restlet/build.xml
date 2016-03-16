@@ -14,14 +14,14 @@
    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
    KIND, either express or implied.  See the License for the
    specific language governing permissions and limitations
-   under the License.    
+   under the License.
 -->
 <project name="hello-ivy" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
     <!-- some variables used -->
     <property name="lib.dir" value="lib" />
     <property name="build.dir" value="build" />
     <property name="src.dir" value="src" />
-    
+
     <!-- paths used for compilation and run  -->
     <path id="lib.path.id">
         <fileset dir="${lib.dir}" />
@@ -30,22 +30,22 @@
         <path refid="lib.path.id" />
         <path location="${build.dir}" />
     </path>
-    
-    <!-- ================================= 
-          target: resolve              
+
+    <!-- =================================
+          target: resolve
          ================================= -->
     <target name="resolve" description="--> retreive dependencies with ivy">
         <ivy:retrieve/>
-    </target>    
-    
-    <!-- ================================= 
-          target: report              
+    </target>
+
+    <!-- =================================
+          target: report
          ================================= -->
     <target name="report" depends="resolve" description="--> generates a report of dependencies">
         <ivy:report todir="${build.dir}"/>
     </target>
 
-    <!-- ================================= 
+    <!-- =================================
           target: run
          ================================= -->
     <target name="run" depends="resolve" description="--> compile and run the project">
@@ -58,8 +58,8 @@
     	</java>
     </target>
 
-    <!-- ================================= 
-          target: clean              
+    <!-- =================================
+          target: clean
          ================================= -->
     <target name="clean" description="--> clean the project">
         <delete includeemptydirs="true">
@@ -70,9 +70,9 @@
         	</fileset>
     	</delete>
     </target>
-	
-    <!-- ================================= 
-          target: clean-cache              
+
+    <!-- =================================
+          target: clean-cache
          ================================= -->
 	<target name="clean-cache" description="--> clean the ivy cache">
 		<ivy:cleancache />

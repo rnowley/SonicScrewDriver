@@ -8,6 +8,7 @@ import (
 	"github.com/rnowley/SonicScrewDriver/project"
 	"io/ioutil"
 	"os"
+	"time"
 )
 
 func main() {
@@ -53,6 +54,7 @@ func main() {
 // BuildProject builds a project of the type determined by the project file, mode and
 // the provided arguments.
 func BuildProject(file []byte, mode string, arguments project.Arguments) error {
+	start := time.Now()
 	projectBuilder, _ := project.GetProjectBuilder(file, mode, arguments)
 
 	err := projectBuilder.ExecutePreBuildTasks(arguments.Verbose)
@@ -73,6 +75,9 @@ func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 	}
 
 	err = projectBuilder.ExecutePostBuildTasks(arguments.Verbose)
+	duration := time.Since(start)
+
+	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())
 
 	if err != nil {
 		return err
@@ -82,6 +87,7 @@ func BuildProject(file []byte, mode string, arguments project.Arguments) error {
 }
 
 func BuildDocumentation(file []byte, mode string, arguments project.Arguments) error {
+	start := time.Now()
 	documentationBuilder, _ := project.GetDocumentationBuilder(file, mode, arguments)
 
 	// -----------
@@ -93,6 +99,8 @@ func BuildDocumentation(file []byte, mode string, arguments project.Arguments) e
 	}
 
 	err := documentationBuilder.BuildDocumentation(arguments.Verbose)
+	duration := time.Since(start)
+	fmt.Printf("The documentation took: %02.f:%02.f:%02.f to generate.\n", duration.Hours(), duration.Minutes(), duration.Seconds())
 
 	if err != nil {
 		return err
@@ -104,6 +112,7 @@ func BuildDocumentation(file []byte, mode string, arguments project.Arguments) e
 // BuildUnitTests builds the unit test project. This operation depends on the build project
 // having been executed previously.
 func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error {
+	start := time.Now()
 
 	// -----------
 	// Build the unit test project
@@ -115,6 +124,9 @@ func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error
 
 	err := BuildProject(file, "build-test", arguments)
 
+	duration := time.Since(start)
+	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())
+
 	if err != nil {
 		return err
 	}
@@ -125,6 +137,8 @@ func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error
 // BuildUnitTests builds the unit test project. This operation depends on the build project
 // having been executed previously.
 func BuildAll(file []byte, mode string, arguments project.Arguments) error {
+	start := time.Now()
+
 	// -----------
 	// Build the project
 	// -----------
@@ -149,6 +163,9 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 	}
 
 	err = BuildProject(file, "build-test", arguments)
+
+	duration := time.Since(start)
+	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())
 
 	if err != nil {
 		return err
