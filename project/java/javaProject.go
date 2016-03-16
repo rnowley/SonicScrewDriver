@@ -6,7 +6,7 @@ package java
 // Version is used for holding the project version number.
 // Description holds a description of the project.
 // Language holds the name of the programming language that the project is written in.
-// The root directory for the project's source code.
+// SourceDirectory holds the root directory for the project's source code.
 // DestinationDirectory contains the directory that build artifacts are going to be placed in.
 // ClassPath holds a list of items that are part of the class path.
 // SourceFiles holds a list of all of the files to be compiled into the project.
@@ -18,9 +18,9 @@ package java
 // be executed.
 // The lint warnings to be enabled for compilation.
 // Sets the source file encoding.
-// Sets the specific version of the Java VM to target.
+// Target sets the specific version of the Java VM to target.
 // TestProject holds information about the tests for this project.
-// Holds information for generating documentation.
+// DocumentationProject holds information for generating documentation.
 type JavaProject struct {
 	Name                 string
 	Version              string
