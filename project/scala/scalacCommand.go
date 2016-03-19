@@ -1,5 +1,7 @@
 package scala
 
+import "strings"
+
 // ScalacCommand provides all of the information to generate
 // a call to the Scala compiler command.
 type ScalacCommand struct {
@@ -8,6 +10,13 @@ type ScalacCommand struct {
 	DestinationDirectory string
 	ClassPath            []string
 	Deprecation          bool
+	Verbose              bool
+	Encoding             string
+	Target               string
+	Optimise             bool
+	DebuggingInformation string
+	NoWarnings           bool
+	SourceFiles []string
 }
 
 func NewDefaultScalacCommand() ScalacCommand {
@@ -39,6 +48,39 @@ func (command ScalacCommand) GenerateArgumentList() []string {
 
 	if command.Deprecation {
 		argumentArray = append(argumentArray, "-deprecation")
+	}
+
+	if command.Verbose {
+		argumentArray = append(argumentArray, "-verbose")
+	}
+
+	if command.Encoding != "" {
+		argumentArray = append(argumentArray, "-encoding", command.Encoding)
+	}
+
+	if command.Target != "" {
+		argumentArray = append(argumentArray, "-target", command.Target)
+	}
+
+	if command.Optimise {
+		argumentArray = append(argumentArray, "-optimise")
+	}
+
+	if len(command.ClassPath) != 0 {
+		argumentArray = append(argumentArray, "-classpath",
+			strings.Join(command.ClassPath, ":"))
+	}
+
+	if command.DebuggingInformation != "" {
+		argumentArray = append(argumentArray, command.DebuggingInformation)
+	}
+
+	if command.NoWarnings {
+		argumentArray = append(argumentArray, "-nowarn")
+	}
+
+	if len(command.SourceFiles) != 0 {
+		argumentArray = append(argumentArray, command.SourceFiles...)
 	}
 
 	return argumentArray

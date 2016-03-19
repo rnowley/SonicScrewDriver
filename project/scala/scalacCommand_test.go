@@ -116,13 +116,23 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	command := NewDefaultScalacCommand()
 	command.DestinationDirectory = "./testbuild/"
 	command.Deprecation = true
+	command.Verbose = true
+	command.Encoding = "utf-8"
+	command.Target = "jvm-1.7"
+	command.Optimise = true
+	command.ClassPath = []string{"./lib/a/a.jar", "./lib/b/b.jar"}
+	command.DebuggingInformation = "-g:source,line"
+	command.NoWarnings = true
+	command.SourceFiles = []string{"./src/Main.scala", "./src/Greeter.scala"}
 
 	// Act
 	argumentList := command.GenerateArgumentList()
 	argumentString := strings.Join(argumentList, " ")
 
 	// Assert
-	const expected = "-d ./testbuild/ -deprecation"
+	const expected = "-d ./testbuild/ -deprecation -verbose -encoding utf-8 " +
+		"-target jvm-1.7 -optimise -classpath ./lib/a/a.jar:./lib/b/b.jar " +
+		"-g:source,line -nowarn ./src/Main.scala ./src/Greeter.scala"
 
 	if argumentString != expected {
 		t.Error(
