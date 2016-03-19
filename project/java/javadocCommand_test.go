@@ -81,15 +81,15 @@ func TestJavadocGetDestinationDirectory(t *testing.T) {
 }
 
 func TestJavadocGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
-	const expected = "-d ./doctest/ -sourcepath " +
-		"./src/a;./src/b -classpath ./lib/y;./lib/x " +
+	const expected = "-d ./doctest/ " +
+		"./src/a ./src/b -classpath ./lib/y;./lib/x " +
 		"-linksource -private -windowtitle \"Test Title\" " +
 		"-Xdoclint:syntax,accessibility -verbose " +
 		"-doctitle \"Test Title\" -header \"Test header\" -bottom \"Test bottom text\""
 
 	command := NewDefaultJavadocCommand()
 	command.DestinationDirectory = "./doctest/"
-	command.SourcePath = "./src/a;./src/b"
+	command.SourcePath = []string{"./src/a", "./src/b"}
 	command.ClassPath = "./lib/y;./lib/x"
 	command.LinkSource = true
 	command.AccessLevel = "private"

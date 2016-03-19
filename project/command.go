@@ -7,7 +7,7 @@ type Command interface {
 	// GetCommandName is a function for returning the name of the command.
 	GetCommandName() string
 
-	// GetDestiantionDirectory is a function for returning the
+	// GetDestinationDirectory is a function for returning the
 	// destination directory part of the command.
 	GetDestinationDirectory() string
 

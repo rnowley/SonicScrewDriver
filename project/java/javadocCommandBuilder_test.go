@@ -1,6 +1,7 @@
 package java
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -68,6 +69,7 @@ func TestGetJavadocBuildCommand(t *testing.T) {
 	// Arrange
 
 	var configuration JavaProject
+	configuration.SourceFiles = []string{"./src/a", "./src/b"}
 
 	var docConfiguration JavaDocumentation
 	docConfiguration.DestinationDirectory = "./doctest/"
@@ -99,13 +101,14 @@ func TestGetJavadocBuildCommand(t *testing.T) {
 		)
 	}
 
-	const expectedSourcePath = "./src/a;./src/b"
+	expectedSourcePath := "./src/a ./src/b"
+	actualSourcePath := strings.Join(commandToTest.SourcePath, " ")
 
-	if commandToTest.SourcePath != expectedSourcePath {
+	if actualSourcePath != expectedSourcePath {
 		t.Error(
 			"For", "TestGetJavadocBuildCommand",
 			"expected", expectedSourcePath, "got",
-			commandToTest.SourcePath,
+			actualSourcePath,
 		)
 	}
 
