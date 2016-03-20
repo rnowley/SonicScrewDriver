@@ -5,18 +5,18 @@ import "strings"
 // ScalacCommand provides all of the information to generate
 // a call to the Scala compiler command.
 type ScalacCommand struct {
-	CommandName          string
-	SourceDirectory      string
-	DestinationDirectory string
 	ClassPath            []string
-	Deprecation          bool
-	Verbose              bool
-	Encoding             string
-	Target               string
-	Optimise             bool
+	CommandName          string
 	DebuggingInformation string
+	Deprecation          bool
+	DestinationDirectory string
+	Encoding             string
 	NoWarnings           bool
-	SourceFiles []string
+	Optimise             bool
+	SourceDirectory      string
+	SourceFiles          []string
+	Target               string
+	Verbose              bool
 }
 
 func NewDefaultScalacCommand() ScalacCommand {

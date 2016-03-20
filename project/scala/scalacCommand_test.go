@@ -143,3 +143,72 @@ func TestGenerateArgumentListForInstanceWithAllFieldsSet(t *testing.T) {
 	}
 
 }
+
+func TestExtractSourceFileListNoSourceFiles(t *testing.T) {
+	// Arrange
+
+	var configuration ScalaProject
+	configuration.SourceFiles = []string{}
+
+	// Act
+	fileList := ExtractSourceFileList(configuration, "./src/")
+
+	// Assert
+	const expectedSourceFileList = ""
+	actualSourceFileList := strings.Join(fileList, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "ExtractSourceFileList",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
+		)
+	}
+
+}
+
+func TestExtractSourceFileListOneSourceFile(t *testing.T) {
+	// Arrange
+
+	var configuration ScalaProject
+	configuration.SourceFiles = []string{"a.scala"}
+
+	// Act
+	fileList := ExtractSourceFileList(configuration, "./src/")
+
+	// Assert
+	const expectedSourceFileList = "./src/a.scala"
+	actualSourceFileList := strings.Join(fileList, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "ExtractSourceFileList",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
+		)
+	}
+
+}
+
+func TestExtractSourceFileListThreeSourceFiles(t *testing.T) {
+	// Arrange
+
+	var configuration ScalaProject
+	configuration.SourceFiles = []string{"a.scala", "b.scala", "c.scala"}
+
+	// Act
+	fileList := ExtractSourceFileList(configuration, "./src/")
+
+	// Assert
+	const expectedSourceFileList = "./src/a.scala ./src/b.scala ./src/c.scala"
+	actualSourceFileList := strings.Join(fileList, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "ExtractSourceFileList",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
+		)
+	}
+
+}
