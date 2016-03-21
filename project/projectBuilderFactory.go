@@ -6,6 +6,7 @@ import (
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
 	"github.com/rnowley/SonicScrewDriver/project/java"
 	"github.com/rnowley/SonicScrewDriver/project/kotlin"
+	"github.com/rnowley/SonicScrewDriver/project/scala"
 )
 
 // GetProjectBuilder is a factory function that returns an object that implements the
@@ -24,6 +25,9 @@ func GetProjectBuilder(configurationFile []byte, mode string, arguments Argument
 		return projectBuilder, nil
 	case "kotlin":
 		projectBuilder, _ = getKotlinProjectBuilder(configurationFile, mode, arguments)
+		return projectBuilder, nil
+	case "scala":
+		projectBuilder, _ = getScalaProjectBuilder(configurationFile, mode, arguments)
 		return projectBuilder, nil
 	default:
 		return projectBuilder, fmt.Errorf("GetProjectBuilder: the %s language is not supported", projectLanguage)
@@ -101,6 +105,28 @@ func getKotlinProjectBuilder(configurationFile []byte, mode string, arguments Ar
 	}
 
 	projectBuilder = kotlin.NewProjectBuilder(command, proj)
+
+	return projectBuilder, nil
+}
+
+// getScalaProjectBuilder is called by the factory function to return a
+// project builder for creating building a Scala project.
+func getScalaProjectBuilder(configurationFile []byte, mode string, arguments Arguments) (ProjectBuilder, error) {
+	var proj scala.ScalaProject
+	var projectBuilder scala.ScalaProjectBuilder
+
+	proj = UnmarshalScalaProject(configurationFile)
+
+	var command scala.ScalacCommand
+
+	switch mode {
+	case "build":
+		command = scala.GetScalacBuildCommand(proj, arguments.Verbose, arguments.Deprecation)
+	default:
+		return projectBuilder, fmt.Errorf("getScalaProjectBuilder: the %s 'mode' is not supported", mode)
+	}
+
+	projectBuilder = scala.NewScalaProjectBuilder(command, proj)
 
 	return projectBuilder, nil
 }
