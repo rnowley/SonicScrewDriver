@@ -1,0 +1,12 @@
+{
+    "name": "HelloWorld",
+    "version": "0.0.1",
+    "Description": "A demo project for testing compiling to scala.",
+    "Language": "scala",
+	"sourceDirectory": "./src/",
+    "sourceFiles": [
+        "main/HelloWorld.scala",
+		"main/Greeter.scala"
+    ],
+    "destinationDirectory": "./build/"
+}
