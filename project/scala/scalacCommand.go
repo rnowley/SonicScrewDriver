@@ -1,6 +1,9 @@
 package scala
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // ScalacCommand provides all of the information to generate
 // a call to the Scala compiler command.
@@ -84,4 +87,9 @@ func (command ScalacCommand) GenerateArgumentList() []string {
 	}
 
 	return argumentArray
+}
+
+func (command ScalacCommand) String() string {
+	arguments := strings.Join(command.GenerateArgumentList(), " ")
+	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
 }
