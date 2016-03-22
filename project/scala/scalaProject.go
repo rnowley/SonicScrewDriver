@@ -20,8 +20,11 @@ type ScalaProject struct {
 	SourceDirectory      string
 	DestinationDirectory string
 	ClassPath            []string
+	JarFile              string
+	MainClass            string
 	NoWarnings           bool
 	Optimise             bool
+	RunArguments         []string
 	SourceFiles          []string
 	DebuggingInformation string
 	Encoding             string

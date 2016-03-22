@@ -8,5 +8,9 @@
         "main/HelloWorld.scala",
 		"main/Greeter.scala"
     ],
+	"MainClass": "HelloWorld",
+	"ClassPath": [
+		"./build/"
+	 ],
     "destinationDirectory": "./build/"
 }

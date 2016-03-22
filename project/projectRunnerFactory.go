@@ -6,6 +6,7 @@ import (
 	"github.com/rnowley/SonicScrewDriver/project/csharp"
 	"github.com/rnowley/SonicScrewDriver/project/java"
 	"github.com/rnowley/SonicScrewDriver/project/kotlin"
+	"github.com/rnowley/SonicScrewDriver/project/scala"
 )
 
 // GetProjectRunner is a factory function that returns an object that implements the
@@ -24,6 +25,9 @@ func GetProjectRunner(configurationFile []byte, mode string, arguments Arguments
 		return projectRunner, nil
 	case "kotlin":
 		projectRunner, _ = getKotlinProjectRunner(configurationFile, mode, arguments)
+		return projectRunner, nil
+	case "scala":
+		projectRunner, _ = getScalaProjectRunner(configurationFile, mode, arguments)
 		return projectRunner, nil
 	default:
 		return projectRunner, fmt.Errorf("GetProjectRunner: the %s language is not supported", projectLanguage)
@@ -96,6 +100,25 @@ func getKotlinProjectRunner(configurationFile []byte, mode string, arguments Arg
 	}
 
 	projectRunner = kotlin.NewKotlinProjectRunner(command, proj)
+
+	return projectRunner, nil
+}
+
+func getScalaProjectRunner(configurationFile []byte, mode string, arguments Arguments) (ProjectRunner, error) {
+	var proj scala.ScalaProject
+	var projectRunner scala.ScalaProjectRunner
+	var command scala.ScalaCommand
+
+	proj = UnmarshalScalaProject(configurationFile)
+
+	switch mode {
+	case "run":
+		command = scala.GetScalaRunCommand(proj)
+	default:
+		return projectRunner, fmt.Errorf("getScalaProjectRunner: the %s 'mode' is not supported", mode)
+	}
+
+	projectRunner = scala.NewScalaProjectRunner(command, proj)
 
 	return projectRunner, nil
 
