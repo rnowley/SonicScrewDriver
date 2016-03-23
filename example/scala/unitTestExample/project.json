@@ -3,14 +3,31 @@
     "version": "0.0.1",
     "Description": "A demo project for testing compiling to scala.",
     "Language": "scala",
-	"sourceDirectory": "./src/",
+	"sourceDirectory": "./src/main/scala/",
     "sourceFiles": [
-        "main/HelloWorld.scala",
-		"main/Greeter.scala"
+        "org/me/hotel/Guest.scala",
+		"org/me/hotel/Hotel.scala",
+		"org/me/hotel/Room.scala"
     ],
-	"MainClass": "HelloWorld",
 	"ClassPath": [
 		"./build/"
 	 ],
-    "destinationDirectory": "./build/"
+    "destinationDirectory": "./build/",
+	"TestProject": {
+		"SourceFiles": [
+			"test/GreeterTest.java"
+		],
+		"DestinationDirectory": "./build/",
+		"SourceDirectory": "./src/",
+		"MainClass": "org.junit.runner.JUnitCore",
+		"ClassPath": [
+			"./lib/junit-4.12.jar",
+			"./lib/hamcrest-core-1.3.jar",
+			"./build/"
+		],
+		"RunArguments": [
+			"GreeterTest"
+		]
+	},
+	}
 }
