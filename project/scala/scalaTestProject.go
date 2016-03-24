@@ -1,9 +1,7 @@
-package java
+package scala
 
-// JavaTests provides the structure of values required
-// for a test project.
+// ScalaTestProject provides the structure of a test project.
 // SourceFiles holds the source files that belong to the test project.
-// TestFrameWork holds the name of the test framework to be used.
 // The base source directory for the test project.
 // SourceDirectory contains the root directory for the test source files.
 // ClassPath holds a list of items that are part of the class path.
@@ -12,9 +10,8 @@ package java
 // The main class to executed.
 // The arguments to be passed to the jar file or class file to
 // be executed.
-type JavaTests struct {
+type ScalaTestProject struct {
 	SourceFiles          []string
-	TestFrameWork        string
 	SourceDirectory      string
 	ClassPath            []string
 	DestinationDirectory string

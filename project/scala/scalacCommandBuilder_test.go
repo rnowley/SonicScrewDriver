@@ -24,6 +24,7 @@ func TestGetScalacBuildCommandDeprecationTrue(t *testing.T) {
 			commandToTest.Deprecation,
 		)
 	}
+
 }
 
 func TestGetScalacBuildCommandDeprecationFalse(t *testing.T) {

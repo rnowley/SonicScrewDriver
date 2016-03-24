@@ -29,4 +29,5 @@ type ScalaProject struct {
 	DebuggingInformation string
 	Encoding             string
 	Target               string
+	TestProject          ScalaTestProject
 }

@@ -1,0 +1,29 @@
+package scala
+
+func GetScalacTestBuildCommand(configuration ScalaProject, deprecation bool,
+	verbose bool) ScalacCommand {
+	command := NewDefaultScalacCommand()
+	command.DestinationDirectory = configuration.TestProject.DestinationDirectory
+
+	classPathCount := len(configuration.ClassPath)
+
+	// Add the current directory to the command's class path.
+	command.ClassPath = append(command.ClassPath, ".")
+
+	// Add the project's class path to the command's class path.
+	for i := 0; i < classPathCount; i++ {
+		command.ClassPath = append(command.ClassPath, configuration.ClassPath[i])
+	}
+
+	classPathCount = len(configuration.TestProject.ClassPath)
+
+	// Add the test project's class path to the command's class path
+	for i := 0; i < classPathCount; i++ {
+		command.ClassPath = append(command.ClassPath, configuration.TestProject.ClassPath[i])
+	}
+
+	command.Deprecation = deprecation
+	command.Verbose = verbose
+
+	return command
+}
