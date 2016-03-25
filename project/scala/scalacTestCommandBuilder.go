@@ -22,8 +22,27 @@ func GetScalacTestBuildCommand(configuration ScalaProject, deprecation bool,
 		command.ClassPath = append(command.ClassPath, configuration.TestProject.ClassPath[i])
 	}
 
+	command.SourceFiles = ExtractTestSourceFileList(configuration,
+		configuration.TestProject.SourceDirectory)
+
 	command.Deprecation = deprecation
 	command.Verbose = verbose
 
 	return command
+}
+
+// ExtractSourceFileList is a function that reads all of the test project source files to be
+// compiled from the configuration file and returns a slice of source files to be
+// compiled using the scalac command. Each source file has had the base path prepended
+// to it when returned from the function.
+func ExtractTestSourceFileList(configuration ScalaProject,
+	sourceDirectory string) []string {
+	fileCount := len(configuration.TestProject.SourceFiles)
+	fileList := make([]string, fileCount)
+
+	for i := 0; i < fileCount; i++ {
+		fileList[i] = sourceDirectory + configuration.TestProject.SourceFiles[i]
+	}
+
+	return fileList
 }

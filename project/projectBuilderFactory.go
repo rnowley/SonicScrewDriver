@@ -48,7 +48,7 @@ func getCSharpProjectBuilder(configurationFile []byte, mode string) (ProjectBuil
 	switch mode {
 	case "build":
 		command = csharp.GetCSharpBuildCommand(proj)
-	case "build-test":
+	case "build-tests":
 		command = csharp.GetCSharpTestBuildCommand(proj)
 	default:
 		return projectBuilder, fmt.Errorf("getCSharpProjectBuilder: the %s 'mode' is not supported", mode)
@@ -74,7 +74,7 @@ func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Argu
 	switch mode {
 	case "build":
 		command = java.GetJavaBuildCommand(proj, arguments.Deprecation, arguments.Verbose)
-	case "build-test":
+	case "build-tests":
 		command = java.GetJavaTestBuildCommand(proj, arguments.Deprecation)
 	default:
 		return projectBuilder, fmt.Errorf("getJavaProjectBuilder: the %s 'mode' is not supported", mode)
@@ -98,7 +98,7 @@ func getKotlinProjectBuilder(configurationFile []byte, mode string, arguments Ar
 	switch mode {
 	case "build":
 		command = kotlin.GetKotlincBuildCommand(proj, arguments.Verbose)
-	case "build-test":
+	case "build-tests":
 		command = kotlin.GetKotlincTestBuildCommand(proj, arguments.Verbose)
 	default:
 		return projectBuilder, fmt.Errorf("getKotlinProjectBuilder: the %s 'mode' is not supported", mode)
@@ -122,8 +122,10 @@ func getScalaProjectBuilder(configurationFile []byte, mode string, arguments Arg
 	switch mode {
 	case "build":
 		command = scala.GetScalacBuildCommand(proj, arguments.Verbose, arguments.Deprecation)
+	case "build-tests":
+		command = scala.GetScalacTestBuildCommand(proj, arguments.Verbose, arguments.Deprecation)
 	default:
-		return projectBuilder, fmt.Errorf("getScalaProjectBuilder: the %s 'mode' is not supported", mode)
+		return projectBuilder, fmt.Errorf("getScalaProjectBuilder: the %s 'mode' is not supported\n", mode)
 	}
 
 	projectBuilder = scala.NewScalaProjectBuilder(command, proj)

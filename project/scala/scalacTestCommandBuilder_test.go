@@ -95,10 +95,11 @@ func TestGetScalacTestBuildCommand(t *testing.T) {
 	configuration.Language = "scala"
 	configuration.DestinationDirectory = "./build/"
 	configuration.ClassPath = []string{"./lib/a.jar", "./lib/b.jar"}
+	configuration.SourceFiles = []string{"a.scala", "b.scala"}
 
 	var testConfiguration ScalaTestProject
 	testConfiguration.DestinationDirectory = "./buildtest/"
-	testConfiguration.SourceDirectory = "./src/test"
+	testConfiguration.SourceDirectory = "./src/test/"
 	testConfiguration.SourceFiles = []string{"testA.scala", "testB.scala"}
 	testConfiguration.ClassPath = []string{"./lib/c.jar", "./build/"}
 	testConfiguration.RunArguments = []string{"arg1", "arg2"}
@@ -113,7 +114,7 @@ func TestGetScalacTestBuildCommand(t *testing.T) {
 
 	if commandToTest.DestinationDirectory != expectedDestinationDirectory {
 		t.Error(
-			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
+			"For", "TestGetScalacTestBuildCommand",
 			"expected", expectedDestinationDirectory, "got",
 			commandToTest.DestinationDirectory,
 		)
@@ -125,9 +126,20 @@ func TestGetScalacTestBuildCommand(t *testing.T) {
 
 	if actualClassPath != expectedClassPath {
 		t.Error(
-			"For", "TestGetJavaTestBuildCommandDeprecationFalse",
+			"For", "TestGetScalacTestBuildCommand",
 			"expected", expectedClassPath, "got",
 			actualClassPath,
+		)
+	}
+
+	const expectedSourceFileList = "./src/test/testA.scala ./src/test/testB.scala"
+	actualSourceFileList := strings.Join(commandToTest.SourceFiles, " ")
+
+	if actualSourceFileList != expectedSourceFileList {
+		t.Error(
+			"For", "TestGetScalacTestBuildCommand",
+			"expected", expectedSourceFileList, "got",
+			actualSourceFileList,
 		)
 	}
 }

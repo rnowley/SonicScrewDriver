@@ -122,7 +122,7 @@ func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error
 		fmt.Println("==========")
 	}
 
-	err := BuildProject(file, "build-test", arguments)
+	err := BuildProject(file, "build-tests", arguments)
 
 	duration := time.Since(start)
 	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())
@@ -162,7 +162,7 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 		fmt.Println("==========")
 	}
 
-	err = BuildProject(file, "build-test", arguments)
+	err = BuildProject(file, "build-tests", arguments)
 
 	duration := time.Since(start)
 	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())

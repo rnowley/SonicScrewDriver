@@ -12,17 +12,17 @@
 	"ClassPath": [
 		"./build/"
 	 ],
-    "destinationDirectory": "./build/",
+    "DestinationDirectory": "./build/",
 	"TestProject": {
 		"SourceFiles": [
 			"org/me/hotel/GuestTest.scala",
 			"org/me/hotel/HotelTest.scala",
 			"org/me/hotel/MySuites.scala",
-			"org/me/hotel/RoomTests.scala",
+			"org/me/hotel/RoomTest.scala",
 			"org/me/hotel/UnitTest.scala"
 		],
 		"DestinationDirectory": "./build/",
-		"SourceDirectory": "./src/test/scala",
+		"SourceDirectory": "./src/test/scala/",
 		"MainClass": "scalatest_2.11-2.2.6.jar",
 		"ClassPath": [
 			"./lib/scalatest_2.11-2.2.6.jar",
