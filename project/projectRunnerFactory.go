@@ -46,9 +46,9 @@ func getCSharpProjectRunner(configurationFile []byte, mode string, arguments Arg
 	var command csharp.MonoCommand
 
 	switch mode {
-	case "run":
+	case Run:
 		command = csharp.GetCSharpRunCommand(proj)
-	case "run-tests":
+	case RunTests:
 		command = csharp.GetCSharpRunTestCommand(proj)
 	default:
 		return projectRunner, fmt.Errorf("getCSharpProjectRunner: the %s 'mode' is not supported", mode)
@@ -70,9 +70,9 @@ func getJavaProjectRunner(configurationFile []byte, mode string, arguments Argum
 	var command java.JavaCommand
 
 	switch mode {
-	case "run":
+	case Run:
 		command = java.GetJavaRunCommand(proj)
-	case "run-tests":
+	case RunTests:
 		command = java.GetJavaRunTestCommand(proj)
 	default:
 		return projectRunner, fmt.Errorf("getJavaProjectRunner: the %s 'mode' is not supported", mode)
@@ -91,9 +91,9 @@ func getKotlinProjectRunner(configurationFile []byte, mode string, arguments Arg
 	proj = UnmarshalKotlinProject(configurationFile)
 
 	switch mode {
-	case "run":
+	case Run:
 		command = kotlin.GetKotlinRunCommand(proj)
-	case "run-tests":
+	case RunTests:
 		command = kotlin.GetKotlinRunTestCommand(proj)
 	default:
 		return projectRunner, fmt.Errorf("getKotlinProjectRunner: the %s 'mode' is not supported", mode)
@@ -112,7 +112,7 @@ func getScalaProjectRunner(configurationFile []byte, mode string, arguments Argu
 	proj = UnmarshalScalaProject(configurationFile)
 
 	switch mode {
-	case "run":
+	case Run:
 		command = scala.GetScalaRunCommand(proj)
 	default:
 		return projectRunner, fmt.Errorf("getScalaProjectRunner: the %s 'mode' is not supported", mode)

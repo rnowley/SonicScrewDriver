@@ -9,6 +9,15 @@ import (
 	"github.com/rnowley/SonicScrewDriver/project/scala"
 )
 
+const (
+	Build = "build"
+	BuildAll = "build-all"
+	BuildTests = "build-tests"
+	BuildDocs = "docs"
+	Run = "run"
+	RunTests = "run-tests"
+)
+
 // GetProjectLanguage is a function for retrieving the value that
 // determines the programming language that the project is written
 // in.

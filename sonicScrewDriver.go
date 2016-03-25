@@ -27,17 +27,17 @@ func main() {
 	}
 
 	switch arguments.Mode {
-	case "build":
+	case project.Build:
 		err = BuildProject(file, arguments.Mode, arguments)
-	case "build-tests":
+	case project.BuildTests:
 		err = BuildUnitTests(file, arguments.Mode, arguments)
-	case "build-all":
+	case project.BuildAll:
 		err = BuildAll(file, arguments.Mode, arguments)
-	case "run":
+	case project.Run:
 		err = RunProject(file, arguments.Mode, arguments)
-	case "run-tests":
+	case project.RunTests:
 		err = RunUnitTests(file, arguments.Mode, arguments)
-	case "docs":
+	case project.BuildDocs:
 		err = BuildDocumentation(file, arguments.Mode, arguments)
 	default:
 		fmt.Printf("Invalid mode: %s.", arguments.Mode)
@@ -122,7 +122,7 @@ func BuildUnitTests(file []byte, mode string, arguments project.Arguments) error
 		fmt.Println("==========")
 	}
 
-	err := BuildProject(file, "build-tests", arguments)
+	err := BuildProject(file, project.BuildTests, arguments)
 
 	duration := time.Since(start)
 	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())
@@ -147,7 +147,7 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 		fmt.Println("==========\n")
 	}
 
-	err := BuildProject(file, "build", arguments)
+	err := BuildProject(file, project.Build, arguments)
 
 	if err != nil {
 		return err
@@ -162,7 +162,7 @@ func BuildAll(file []byte, mode string, arguments project.Arguments) error {
 		fmt.Println("==========")
 	}
 
-	err = BuildProject(file, "build-tests", arguments)
+	err = BuildProject(file, project.BuildTests, arguments)
 
 	duration := time.Since(start)
 	fmt.Printf("The build took: %02.f:%02.f:%02.f\n", duration.Hours(), duration.Minutes(), duration.Seconds())
