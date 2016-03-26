@@ -8,11 +8,11 @@ import (
 // ScalaCommand provides a representation of a call to the Scala
 // command.
 type ScalaCommand struct {
-	CommandName  string
-	ClassPath    []string
-	JarFile      string
-	MainClass    string
-	RunArguments []string
+	CommandName            string
+	ClassPath              []string
+	JarFile                string
+	MainClass              string
+	RunArguments           []string
 }
 
 // NewDefaultScalaCommand returns a ScalaCommand with some default values set.
@@ -47,7 +47,7 @@ func (command ScalaCommand) GenerateArgumentList() []string {
 	}
 
 	if len(command.RunArguments) != 0 {
-		argumentArray = append(argumentArray, strings.Join(command.RunArguments, " "))
+		argumentArray = append(argumentArray, command.RunArguments...)
 	}
 
 	return argumentArray

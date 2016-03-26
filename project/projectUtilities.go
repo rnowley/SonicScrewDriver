@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	Build = "build"
-	BuildAll = "build-all"
+	Build      = "build"
+	BuildAll   = "build-all"
 	BuildTests = "build-tests"
-	BuildDocs = "docs"
-	Run = "run"
-	RunTests = "run-tests"
+	BuildDocs  = "docs"
+	Run        = "run"
+	RunTests   = "run-tests"
 )
 
 // GetProjectLanguage is a function for retrieving the value that

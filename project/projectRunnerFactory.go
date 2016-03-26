@@ -114,6 +114,8 @@ func getScalaProjectRunner(configurationFile []byte, mode string, arguments Argu
 	switch mode {
 	case Run:
 		command = scala.GetScalaRunCommand(proj)
+	case RunTests:
+		command = scala.GetScalaRunTestCommand(proj)
 	default:
 		return projectRunner, fmt.Errorf("getScalaProjectRunner: the %s 'mode' is not supported", mode)
 	}
