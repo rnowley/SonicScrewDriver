@@ -38,6 +38,7 @@ type JavaProject struct {
 	LintWarnings         []string
 	Encoding             string
 	Target               string
+	Resources            []Resource
 	TestProject          JavaTests
 	DocumentationProject JavaDocumentation
 }
