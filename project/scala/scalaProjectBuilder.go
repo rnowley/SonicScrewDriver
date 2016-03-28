@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/rnowley/SonicScrewDriver/utilities"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 // ScalaProjectBuilder represents a class for building a Scala project.
@@ -109,6 +111,50 @@ func (builder ScalaProjectBuilder) BuildProject(verbose bool) error {
 // ExecutePostBuildTasks performs any tasks that need to be carried out after a
 // successful build.
 func (builder ScalaProjectBuilder) ExecutePostBuildTasks(verbose bool) error {
+
+	if verbose {
+		fmt.Println("==========")
+		fmt.Println("Post-build tasks")
+		fmt.Println("==========\n")
+	}
+
+	builder.copyResources(verbose)
+
+	if verbose {
+		fmt.Println("\n==========")
+	}
+
+	return nil
+}
+
+// copyResources copies the required resources to the destination directory for the build.
+func (builder ScalaProjectBuilder) copyResources(verbose bool) error {
+
+	if verbose {
+		fmt.Println("----------")
+		fmt.Println("Task: Copy resources.")
+		fmt.Println("----------\n")
+	}
+
+	resourceCount := len(builder.project.Resources)
+
+	if resourceCount == 0 {
+		return nil
+	}
+
+	for i := 0; i < resourceCount; i++ {
+		destinationDirectory := filepath.Dir(builder.project.Resources[i].Destination)
+
+		utilities.EnsurePathExists(fmt.Sprintf("%s%s", builder.command.GetDestinationDirectory(), destinationDirectory))
+		utilities.CopyFile(fmt.Sprintf("%s%s", builder.command.DestinationDirectory, builder.project.Resources[i].Destination), fmt.Sprintf("%s%s", builder.command.SourceDirectory, builder.project.Resources[i].Source))
+
+		if verbose {
+			fmt.Printf("Copying %s%s to %s%s", builder.command.SourceDirectory,
+				builder.project.Resources[i].Source, builder.command.DestinationDirectory,
+				builder.project.Resources[i].Destination)
+		}
+	}
+
 	return nil
 }
 

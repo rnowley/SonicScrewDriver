@@ -1,5 +1,7 @@
 package scala
 
+import "github.com/rnowley/SonicScrewDriver/project/common"
+
 // ScalaProject is a struct for holding the information required for
 // building or running a Scala project.
 // Name is the name of the project.
@@ -26,6 +28,7 @@ type ScalaProject struct {
 	Optimise             bool
 	RunArguments         []string
 	SourceFiles          []string
+	Resources            []common.Resource
 	DebuggingInformation string
 	Encoding             string
 	Target               string
