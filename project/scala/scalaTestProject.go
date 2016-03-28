@@ -11,11 +11,11 @@ package scala
 // The arguments to be passed to the jar file or class file to
 // be executed.
 type ScalaTestProject struct {
-	SourceFiles            []string
-	SourceDirectory        string
-	ClassPath              []string
-	DestinationDirectory   string
-	JarFile                string
-	MainClass              string
-	RunArguments           []string
+	SourceFiles          []string
+	SourceDirectory      string
+	ClassPath            []string
+	DestinationDirectory string
+	JarFile              string
+	MainClass            string
+	RunArguments         []string
 }
