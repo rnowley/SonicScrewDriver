@@ -1,5 +1,7 @@
 package kotlin
 
+import "github.com/rnowley/SonicScrewDriver/project/common"
+
 // KotlinProject is a struct for holding the information required for
 // building or running a Kotlin Project.
 type KotlinProject struct {
@@ -14,6 +16,7 @@ type KotlinProject struct {
 	KotlinHome           string
 	ClassPath            []string
 	SourceFiles          []string
+	Resources            []common.Resource
 	BuildTarget          string
 	RunArguments         []string
 	TestProject          KotlinTests
