@@ -9,6 +9,7 @@ The programming languages supported by this tool are:
 * Kotlin
 * C#
 
+Other languages will be added depending on demand
 Currently this tool has been written to run on linux. Support for other operating systems will depend on demand.
 
 ## Install
