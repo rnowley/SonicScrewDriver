@@ -27,3 +27,19 @@ to retrieve the dependencies then run
 go install sonicScrewDriver.go
 ```
 to install the tool.
+
+## Usage
+```
+sonicScrewDriver {OPTIONS} mode
+
+The available options are:
+  -- verbose, This is used to display detailed output of the build process, it is defaulted to off.
+
+The available modes are:
+  build: Build the project.
+  build-all: Build the project and the init tests.
+  build-tests: Build unit tests.
+  docs: Generate project documentation
+  run: Run the project.
+  run-tests: Run unit tests.
+```
