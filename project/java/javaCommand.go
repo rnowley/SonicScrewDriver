@@ -46,8 +46,14 @@ func (c JavaCommand) GenerateArgumentList() []string {
 		argumentArray = append(argumentArray, c.MainClass)
 	}
 
-	if len(c.RunArguments) != 0 {
-		argumentArray = append(argumentArray, strings.Join(c.RunArguments, " "))
+	argumentCount := len(c.RunArguments)
+
+	if argumentCount != 0 {
+
+		for i := 0; i < argumentCount; i++ {
+			argumentArray = append(argumentArray, c.RunArguments[i])
+		}
+
 	}
 
 	return argumentArray

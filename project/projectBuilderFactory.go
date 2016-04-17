@@ -69,8 +69,6 @@ func getJavaProjectBuilder(configurationFile []byte, mode string, arguments Argu
 
 	var command java.JavacCommand
 
-	fmt.Println("Verbose: %s", arguments.Verbose)
-
 	switch mode {
 	case Build:
 		command = java.GetJavaBuildCommand(proj, arguments.Deprecation, arguments.Verbose)
