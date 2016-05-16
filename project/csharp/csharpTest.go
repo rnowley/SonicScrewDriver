@@ -16,6 +16,9 @@ type CSharpTests struct {
 
 	References []Reference
 
+	// The list of resources that are required by the built artifiact.
+	Resources []Resource
+
 	LibraryPath  []string
 	PackageList  []string
 	TestRunner   string

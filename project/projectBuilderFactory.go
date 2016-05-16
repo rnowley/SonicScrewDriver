@@ -48,13 +48,13 @@ func getCSharpProjectBuilder(configurationFile []byte, mode string) (ProjectBuil
 	switch mode {
 	case Build:
 		command = csharp.GetCSharpBuildCommand(proj)
+		projectBuilder = csharp.New(command, proj)
 	case BuildTests:
 		command = csharp.GetCSharpTestBuildCommand(proj)
+		projectBuilder = csharp.NewTest(command, proj)
 	default:
 		return projectBuilder, fmt.Errorf("getCSharpProjectBuilder: the %s 'mode' is not supported", mode)
 	}
-
-	projectBuilder = csharp.New(command, proj)
 
 	return projectBuilder, nil
 }

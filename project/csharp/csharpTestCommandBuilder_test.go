@@ -37,6 +37,10 @@ func TestGetCSharpTestBuildCommand(t *testing.T) {
 	testConfiguration.PackageList = []string{"package3", "package4"}
 	testConfiguration.RunArguments = []string{"arg3", "arg4"}
 	testConfiguration.LibraryPath = []string{"./lib/Library.a/", "./lib/Library.b/"}
+	testConfiguration.Resources = []Resource{
+		Resource{Source: "./lib/nunit3-console.exe", Destination: "./buildtest/nunit3-console.exe"},
+		Resource{Source: "./build/library.dll", Destination: "./buildtest/library.dll"},
+	}
 
 	configuration.TestProject = testConfiguration
 

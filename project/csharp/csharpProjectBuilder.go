@@ -13,12 +13,30 @@ import (
 // CSharpProjectBuilder represents a class for building a CSharp project.
 type CSharpProjectBuilder struct {
 	command CSharpCommand
-	project CSharpProject
+	resources []Resource
 }
 
 // New creates a new instance of a CSharpProjectBuilder.
 func New(command CSharpCommand, project CSharpProject) CSharpProjectBuilder {
-	return CSharpProjectBuilder{command, project}
+	return CSharpProjectBuilder{command, project.Resources}
+}
+
+// New creates a new instance of a CSharpProjectBuilder.
+func NewTest(command CSharpCommand, project CSharpProject) CSharpProjectBuilder {
+	resourceCount := len(project.Resources)
+	resourceList := make([]Resource, 0)
+
+	for i := 0; i < resourceCount; i++ {
+		resourceList = append(resourceList, project.Resources[i])
+	}
+
+	resourceCount = len(project.TestProject.Resources)
+
+	for i := 0; i < resourceCount; i++ {
+		resourceList = append(resourceList, project.TestProject.Resources[i])
+	}
+
+	return CSharpProjectBuilder{command, resourceList}
 }
 
 // ExecutePreBuildTasks is used for executing any actions that need to be
@@ -177,22 +195,23 @@ func (builder CSharpProjectBuilder) copyResources(verbose bool) error {
 		fmt.Println("----------\n")
 	}
 
-	resourceCount := len(builder.project.Resources)
+	resourceCount := len(builder.resources)
 
 	if resourceCount == 0 {
 		return nil
 	}
 
 	for i := 0; i < resourceCount; i++ {
-		destinationDirectory := filepath.Dir(builder.project.Resources[i].Destination)
+		destinationDirectory := filepath.Dir(builder.resources[i].Destination)
 
-		utilities.EnsurePathExists(fmt.Sprintf("%s%s", builder.command.GetDestinationDirectory(), destinationDirectory))
-		utilities.CopyFile(fmt.Sprintf("%s%s", builder.command.DestinationDirectory, builder.project.Resources[i].Destination), fmt.Sprintf("%s%s", builder.command.SourceDirectory, builder.project.Resources[i].Source))
+		utilities.EnsurePathExists(fmt.Sprintf("%s%s", builder.command.GetDestinationDirectory(),
+			destinationDirectory))
+		utilities.CopyFile(fmt.Sprintf("%s%s", builder.command.DestinationDirectory,
+			builder.resources[i].Destination), fmt.Sprintf("%s", builder.resources[i].Source))
 
 		if verbose {
-			fmt.Printf("Copying %s%s to %s%s", builder.command.SourceDirectory,
-				builder.project.Resources[i].Source, builder.command.DestinationDirectory,
-				builder.project.Resources[i].Destination)
+			fmt.Printf("Copying %s to %s%s\n", builder.resources[i].Source, builder.command.DestinationDirectory,
+				builder.resources[i].Destination)
 		}
 	}
 
