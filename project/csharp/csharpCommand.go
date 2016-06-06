@@ -70,6 +70,10 @@ func (c CSharpCommand) GenerateArgumentList() []string {
 		argumentArray = append(argumentArray, c.References)
 	}
 
+	if c.PackageList != "" {
+		argumentArray = append(argumentArray, c.PackageList)
+	}
+
 	if len(c.SourceFiles) != 0 {
 		argumentArray = append(argumentArray, c.SourceFiles...)
 	}
