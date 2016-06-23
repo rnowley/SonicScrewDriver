@@ -33,8 +33,14 @@ func (command MonoCommand) GenerateArgumentList() []string {
 
 	argumentArray = append(argumentArray, command.ExecutableName)
 
-	if len(command.RunArguments) != 0 {
-		argumentArray = append(argumentArray, strings.Join(command.RunArguments, " "))
+	argumentCount := len(command.RunArguments)
+
+	if argumentCount != 0 {
+
+		for i := 0; i < argumentCount; i++ {
+			argumentArray = append(argumentArray, command.RunArguments[i])
+		}
+
 	}
 
 	return argumentArray
