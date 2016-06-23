@@ -17,8 +17,8 @@
     ],
     "resources": [
         {
-            "source": "view/index.html",
-            "destination": "view/index.html"
+            "source": "src/view/index.html",
+            "destination": "build/view/index.html"
         }
     ],
     "buildType": "exe",

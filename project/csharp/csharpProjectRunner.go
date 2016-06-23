@@ -1,9 +1,11 @@
 package csharp
 
 import (
-	"bytes"
+	//"bytes"
 	"fmt"
+	"os"
 	"os/exec"
+	"syscall"
 )
 
 type CSharpProjectRunner struct {
@@ -22,27 +24,14 @@ func (runner CSharpProjectRunner) RunProject() error {
 		return lookErr
 	}
 
+	env := os.Environ()
+
 	args := runner.command.GenerateArgumentList()
 	fmt.Println(runner.command)
 
-	// Create an *exec.Cmd
-	cmd := exec.Command(binary, args...)
-
-	// Stdout buffer
-	cmdOutput := &bytes.Buffer{}
-	cmdError := &bytes.Buffer{}
-	// Attach buffer to command
-	cmd.Stdout = cmdOutput
-	cmd.Stderr = cmdError
-
-	// Execute command
-	err := cmd.Run() // will wait for command to return
-	printError(err)
-	printOutput(cmdOutput.Bytes(), err != nil)
-	printOutput(cmdError.Bytes(), err != nil)
-
-	if err != nil {
-		return err
+	execErr := syscall.Exec(binary, args, env)
+	if execErr != nil {
+	panic(execErr)
 	}
 
 	return nil

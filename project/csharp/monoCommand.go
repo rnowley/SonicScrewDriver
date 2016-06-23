@@ -31,6 +31,8 @@ func (command MonoCommand) GetCommandName() string {
 func (command MonoCommand) GenerateArgumentList() []string {
 	argumentArray := make([]string, 0)
 
+	argumentArray = append(argumentArray, command.CommandName)
+
 	argumentArray = append(argumentArray, command.ExecutableName)
 
 	argumentCount := len(command.RunArguments)
@@ -48,5 +50,5 @@ func (command MonoCommand) GenerateArgumentList() []string {
 
 func (command MonoCommand) String() string {
 	arguments := strings.Join(command.GenerateArgumentList(), " ")
-	return fmt.Sprintf("%s %s", command.GetCommandName(), arguments)
+	return fmt.Sprintf("%s", arguments)
 }
